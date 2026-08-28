@@ -3,43 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vanguard Studio | Experiências Digitais de Alto Impacto</title>
-  <meta name="description" content="Transformamos a presença digital do seu negócio com design futurista, desenvolvimento de alta performance e animações 3D interativas.">
+  <title>Lumière Beauty Studio | Extensão de Cílios, Maquiagem & Estética</title>
+  <meta name="description" content="Studio especializado em extensão de cílios, maquiagem profissional, design de sobrancelhas e estética avançada. Agende seu horário!">
 
-  <!-- Fontes do Google (Plus Jakarta Sans para visual moderno e corporativo) -->
+  <!-- Tipografia Luxuosa (Playfair Display para títulos + Plus Jakarta Sans para corpo) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons (CDN Leve) -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     /* ==========================================================================
-       1. VARIÁVEIS CSS & RESET
+       1. VARIÁVEIS CSS (PALETA ROSA, BRANCO & DOURADO ELEGANTE)
        ========================================================================== */
     :root {
-      --bg-dark: #07090e;
-      --bg-card: rgba(18, 22, 33, 0.65);
-      --bg-card-hover: rgba(28, 34, 50, 0.85);
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(99, 102, 241, 0.4);
+      --bg-light: #fffafb;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --bg-card-hover: #ffffff;
       
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --secondary: #06b6d4;
-      --accent: #d946ef;
+      --rose-primary: #e88ca5;
+      --rose-deep: #d46b85;
+      --rose-soft: #fcebf0;
+      --rose-glow: rgba(232, 140, 165, 0.25);
       
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --gold-accent: #d4af37;
+      --gold-light: #f3e5ab;
       
-      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --text-main: #2d2426;
+      --text-muted: #6e5d62;
+      --border-color: rgba(232, 140, 165, 0.2);
       
-      --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      --font-title: 'Playfair Display', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      
       --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      
-      --radius-sm: 8px;
       --radius-md: 16px;
       --radius-lg: 24px;
       --radius-full: 9999px;
@@ -53,156 +52,109 @@
 
     html {
       scroll-behavior: smooth;
-      color-scheme: dark;
     }
 
     body {
-      background-color: var(--bg-dark);
+      background-color: var(--bg-light);
       color: var(--text-main);
-      font-family: var(--font-family);
+      font-family: var(--font-body);
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Ocultar barra de rolagem mantendo funcionalidade */
-    body::-webkit-scrollbar {
-      width: 8px;
-    }
-    body::-webkit-scrollbar-track {
-      background: var(--bg-dark);
-    }
-    body::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: var(--radius-full);
-    }
-    body::-webkit-scrollbar-thumb:hover {
-      background: var(--primary);
-    }
+    /* Barra de rolagem delicada */
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: var(--bg-light); }
+    body::-webkit-scrollbar-thumb { background: var(--rose-primary); border-radius: 10px; }
 
     /* ==========================================================================
-       2. ELEMENTOS DE BACKGROUND & CURSOR GLOW
+       2. ELEMENTOS DE BACKGROUND & BRILHO SEGUINDO CURSOR
        ========================================================================== */
     .cursor-glow {
       position: fixed;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.05) 50%, transparent 70%);
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(232, 140, 165, 0.2) 0%, rgba(243, 229, 171, 0.1) 50%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 9999;
-      transition: transform 0.05s linear;
       display: none;
     }
 
-    @media (pointer: fine) {
-      .cursor-glow { display: block; }
-    }
+    @media (pointer: fine) { .cursor-glow { display: block; } }
 
-    .bg-grid {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 60px 60px;
-      z-index: -2;
-      pointer-events: none;
-    }
-
-    .bg-glow-orb {
+    .bg-orb {
       position: fixed;
       border-radius: 50%;
-      filter: blur(120px);
+      filter: blur(100px);
       z-index: -1;
+      opacity: 0.6;
       pointer-events: none;
-      opacity: 0.5;
-      animation: floatOrb 20s infinite alternate ease-in-out;
+      animation: floatOrb 18s infinite alternate ease-in-out;
     }
 
     .orb-1 {
-      top: -10%;
-      left: -10%;
-      width: 50vw;
-      height: 50vw;
-      background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+      top: -10%; right: -5%; width: 50vw; height: 50vw;
+      background: radial-gradient(circle, var(--rose-soft) 0%, transparent 70%);
     }
 
     .orb-2 {
-      bottom: -10%;
-      right: -10%;
-      width: 40vw;
-      height: 40vw;
-      background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
-      animation-delay: -10s;
+      bottom: -10%; left: -5%; width: 45vw; height: 45vw;
+      background: radial-gradient(circle, #f8e1e7 0%, transparent 70%);
+      animation-delay: -9s;
     }
 
     @keyframes floatOrb {
       0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(80px, 50px) scale(1.1); }
+      100% { transform: translate(-40px, 40px) scale(1.08); }
     }
 
     /* ==========================================================================
-       3. TYPOGRAPHY & BUTTONS
+       3. ESTRUTURA, BOTÕES E TIPOGRAFIA
        ========================================================================== */
     .container {
       width: 100%;
-      max-width: 1280px;
+      max-width: 1240px;
       margin: 0 auto;
       padding: 0 1.5rem;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, var(--primary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .gradient-accent-text {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 4rem auto;
     }
 
     .tag {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.4rem 1rem;
+      padding: 0.4rem 1.2rem;
       border-radius: var(--radius-full);
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      color: #a5b4fc;
+      background: var(--rose-soft);
+      border: 1px solid var(--border-color);
+      color: var(--rose-deep);
       font-size: 0.85rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       margin-bottom: 1rem;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 4rem auto;
     }
 
     .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
+      font-family: var(--font-title);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text-main);
       line-height: 1.2;
       margin-bottom: 1rem;
-      letter-spacing: -0.02em;
     }
 
     .section-subtitle {
-      font-size: 1.125rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
-      font-weight: 400;
     }
 
     .btn {
@@ -210,77 +162,55 @@
       align-items: center;
       justify-content: center;
       gap: 0.75rem;
-      padding: 0.875rem 2rem;
+      padding: 0.9rem 2.2rem;
       border-radius: var(--radius-full);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       text-decoration: none;
       transition: var(--transition-smooth);
       cursor: pointer;
       border: none;
-      outline: none;
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
+      box-shadow: 0 8px 20px var(--rose-glow);
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    .btn-rose {
+      background: linear-gradient(135deg, var(--rose-primary), var(--rose-deep));
       color: #ffffff;
-      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
     }
 
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(135deg, var(--secondary), var(--primary));
-      z-index: -1;
-      opacity: 0;
-      transition: var(--transition-fast);
-    }
-
-    .btn-primary:hover {
+    .btn-rose:hover {
       transform: translateY(-3px);
-      box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.6);
+      box-shadow: 0 12px 28px rgba(212, 107, 133, 0.4);
     }
 
-    .btn-primary:hover::before {
-      opacity: 1;
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.8);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
     }
 
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
+    .btn-outline:hover {
+      background: var(--rose-soft);
       transform: translateY(-3px);
     }
 
     /* ==========================================================================
-       4. HEADER & NAVBAR
+       4. HEADER / NAVBAR
        ========================================================================== */
     .header {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
+      top: 0; left: 0; width: 100%;
       z-index: 1000;
       transition: var(--transition-smooth);
-      padding: 1.5rem 0;
+      padding: 1.2rem 0;
     }
 
     .header.scrolled {
       padding: 0.8rem 0;
-      background: rgba(7, 9, 14, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 250, 251, 0.85);
+      backdrop-filter: blur(15px);
       border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
     }
 
     .nav-container {
@@ -290,31 +220,20 @@
     }
 
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 1.35rem;
-      font-weight: 800;
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      font-weight: 700;
       color: var(--text-main);
       text-decoration: none;
-      letter-spacing: -0.03em;
-    }
-
-    .logo-icon {
-      width: 38px;
-      height: 38px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      border-radius: 10px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: white;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      gap: 0.5rem;
     }
+
+    .logo span { color: var(--rose-deep); }
 
     .nav-links {
       display: flex;
-      align-items: center;
       gap: 2rem;
       list-style: none;
     }
@@ -324,29 +243,10 @@
       text-decoration: none;
       font-size: 0.95rem;
       font-weight: 500;
-      transition: var(--transition-fast);
-      position: relative;
+      transition: var(--transition-smooth);
     }
 
-    .nav-link:hover {
-      color: var(--text-main);
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: var(--primary);
-      transition: var(--transition-fast);
-      border-radius: 2px;
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
+    .nav-link:hover { color: var(--rose-deep); }
 
     .mobile-toggle {
       display: none;
@@ -354,186 +254,118 @@
       border: none;
       color: var(--text-main);
       cursor: pointer;
-      padding: 0.5rem;
     }
 
-    /* Mobile Menu Overlay */
+    /* Menu Mobile */
     .mobile-menu {
       position: fixed;
-      top: 0;
-      right: -100%;
-      width: 80%;
-      max-width: 380px;
-      height: 100vh;
-      background: rgba(12, 16, 26, 0.98);
-      backdrop-filter: blur(20px);
-      z-index: 1001;
-      padding: 6rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      transition: right 0.4s ease-in-out;
-      border-left: 1px solid var(--border-color);
+      top: 0; right: -100%; width: 80%; max-width: 350px; height: 100vh;
+      background: #ffffff; z-index: 1001; padding: 5rem 2rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
+      transition: right 0.4s ease; border-left: 1px solid var(--border-color);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
     }
-
-    .mobile-menu.active {
-      right: 0;
+    .mobile-menu.active { right: 0; }
+    .mobile-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(3px);
+      z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s;
     }
-
-    .mobile-menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: var(--transition-fast);
-    }
-
-    .mobile-menu-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .mobile-overlay.active { opacity: 1; pointer-events: auto; }
 
     /* ==========================================================================
        5. HERO SECTION
        ========================================================================== */
     .hero {
-      padding: 11rem 0 6rem 0;
+      padding: 10rem 0 6rem 0;
       min-height: 100vh;
       display: flex;
       align-items: center;
-      position: relative;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 3.5rem;
       align-items: center;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
     }
 
     .hero-title {
+      font-family: var(--font-title);
       font-size: clamp(2.5rem, 5vw, 4.2rem);
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.03em;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
     }
 
-    .hero-description {
-      font-size: 1.2rem;
+    .hero-title em {
+      font-style: italic;
+      color: var(--rose-deep);
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
       color: var(--text-muted);
       margin-bottom: 2.5rem;
-      max-width: 580px;
-      font-weight: 400;
+      max-width: 520px;
     }
 
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      flex-wrap: wrap;
-    }
-
-    /* Hero Visual 3D Composition */
+    /* Composição 3D Hero */
     .hero-visual {
       position: relative;
       perspective: 1000px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
     .hero-card-3d {
-      width: 100%;
-      max-width: 480px;
-      border-radius: var(--radius-lg);
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      padding: 1rem;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
-      transform-style: preserve-3d;
-      transition: transform 0.1s ease-out;
       position: relative;
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      background: #ffffff;
+      box-shadow: 0 25px 50px -12px rgba(232, 140, 165, 0.25);
+      border: 1px solid var(--border-color);
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease-out;
     }
 
-    .hero-img-wrapper {
-      position: relative;
+    .hero-img-box {
       border-radius: var(--radius-md);
       overflow: hidden;
-      aspect-ratio: 4/3;
+      aspect-ratio: 4/5;
     }
 
-    .hero-img {
+    .hero-img-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
     }
 
-    /* Badges Flutuantes */
-    .floating-badge {
+    .badge-float {
       position: absolute;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      padding: 0.8rem 1.2rem;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      padding: 0.9rem 1.4rem;
       border-radius: var(--radius-md);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.06);
       display: flex;
       align-items: center;
       gap: 0.8rem;
-      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3);
       z-index: 3;
-      transform: translateZ(40px);
+      transform: translateZ(30px);
       animation: floatBadge 4s infinite alternate ease-in-out;
     }
 
-    .badge-1 {
-      top: 10%;
-      left: -8%;
-    }
-
-    .badge-2 {
-      bottom: 8%;
-      right: -8%;
-      animation-delay: -2s;
-    }
-
-    .badge-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(99, 102, 241, 0.2);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .badge-1 { top: 12%; left: -10%; }
+    .badge-2 { bottom: 10%; right: -8%; animation-delay: -2s; }
 
     @keyframes floatBadge {
-      0% { transform: translateZ(40px) translateY(0); }
-      100% { transform: translateZ(40px) translateY(-12px); }
+      0% { transform: translateZ(30px) translateY(0); }
+      100% { transform: translateZ(30px) translateY(-10px); }
     }
 
     /* ==========================================================================
-       6. SOBRE / ABOUT SECTION
+       6. SOBRE O STUDIO
        ========================================================================== */
-    .about {
-      padding: 8rem 0;
-      position: relative;
-    }
+    .about { padding: 7rem 0; }
 
     .about-grid {
       display: grid;
@@ -542,56 +374,29 @@
       align-items: center;
     }
 
-    .about-visual {
-      position: relative;
-    }
-
-    .about-image-container {
+    .about-img-frame {
       position: relative;
       border-radius: var(--radius-lg);
       overflow: hidden;
       border: 1px solid var(--border-color);
-      aspect-ratio: 4/3;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
     }
 
-    .about-image {
+    .about-img-frame img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    .about-feature-list {
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .about-feature-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .about-feature-icon {
-      background: rgba(6, 182, 212, 0.1);
-      color: var(--secondary);
-      padding: 0.5rem;
-      border-radius: var(--radius-sm);
-      margin-top: 0.2rem;
+      display: block;
     }
 
     /* ==========================================================================
-       7. SERVICES SECTION (CARDS 3D WITH HOVER LIGHT)
+       7. SERVIÇOS (CARDS COM ILUMINAÇÃO REATIVA)
        ========================================================================== */
-    .services {
-      padding: 8rem 0;
-      position: relative;
-    }
+    .services { padding: 7rem 0; background: rgba(252, 235, 240, 0.3); }
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
     }
 
@@ -599,233 +404,121 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 2.5rem 2rem;
+      padding: 2.2rem;
       position: relative;
       overflow: hidden;
       transition: var(--transition-smooth);
-      transform-style: preserve-3d;
-      perspective: 1000px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.02);
     }
 
-    /* Efeito de Luz Seguindo o Cursor */
     .service-card::before {
       content: '';
       position: absolute;
-      top: var(--mouse-y, 0);
-      left: var(--mouse-x, 0);
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      top: var(--mouse-y, 0); left: var(--mouse-x, 0);
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(232, 140, 165, 0.2) 0%, transparent 70%);
       transform: translate(-50%, -50%);
       pointer-events: none;
-      transition: opacity 0.3s;
       opacity: 0;
+      transition: opacity 0.3s;
     }
 
-    .service-card:hover::before {
-      opacity: 1;
-    }
+    .service-card:hover::before { opacity: 1; }
 
     .service-card:hover {
-      border-color: var(--border-glow);
-      transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      transform: translateY(-8px);
+      background: #ffffff;
+      box-shadow: 0 20px 40px rgba(232, 140, 165, 0.2);
     }
 
-    .service-icon {
-      width: 60px;
-      height: 60px;
+    .service-img-preview {
+      width: 100%;
+      height: 200px;
       border-radius: var(--radius-md);
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      object-fit: cover;
       margin-bottom: 1.5rem;
-      transition: var(--transition-smooth);
-    }
-
-    .service-card:hover .service-icon {
-      background: var(--primary);
-      color: #ffffff;
-      transform: translateZ(20px) scale(1.05);
     }
 
     .service-title {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-    }
-
-    .service-description {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .service-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: var(--transition-fast);
-    }
-
-    .service-link:hover {
-      gap: 0.8rem;
-      color: var(--secondary);
+      font-family: var(--font-title);
+      font-size: 1.4rem;
+      margin-bottom: 0.6rem;
     }
 
     /* ==========================================================================
-       8. DIFFERENTIALS / POR QUE NÓS
+       8. GALERIA / PORTFÓLIO DE RESULTADOS
        ========================================================================== */
-    .differentials {
-      padding: 8rem 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.4) 50%, transparent 100%);
-    }
+    .gallery { padding: 7rem 0; }
 
-    .diff-grid {
+    .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.8rem;
     }
 
-    .diff-card {
-      padding: 2rem;
-      border-radius: var(--radius-md);
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-color);
-      transition: var(--transition-fast);
-    }
-
-    .diff-card:hover {
-      background: rgba(255, 255, 255, 0.04);
-      transform: translateY(-4px);
-    }
-
-    .diff-number {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: rgba(255, 255, 255, 0.15);
-      margin-bottom: 1rem;
-    }
-
-    .diff-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    /* ==========================================================================
-       9. PORTFOLIO / GALERIA
-       ========================================================================== */
-    .portfolio {
-      padding: 8rem 0;
-    }
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-    }
-
-    .portfolio-item {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
+    .gallery-item {
       position: relative;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      aspect-ratio: 16/10;
-      group: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     }
 
-    .portfolio-img {
+    .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.6s ease;
     }
 
-    .portfolio-overlay {
+    .gallery-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(7, 9, 14, 0.95) 0%, rgba(7, 9, 14, 0.2) 60%, transparent 100%);
+      background: linear-gradient(to top, rgba(45, 36, 38, 0.8) 0%, transparent 60%);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 2rem;
+      padding: 1.8rem;
+      color: #ffffff;
       opacity: 0;
       transition: opacity 0.4s ease;
     }
 
-    .portfolio-item:hover .portfolio-img {
-      transform: scale(1.08);
-    }
-
-    .portfolio-item:hover .portfolio-overlay {
-      opacity: 1;
-    }
-
-    .portfolio-tag {
-      font-size: 0.8rem;
-      color: var(--secondary);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.3rem;
-    }
-
-    .portfolio-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
+    .gallery-item:hover img { transform: scale(1.08); }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
 
     /* ==========================================================================
-       10. STATS SECTION (COUNTER)
+       9. ESTATÍSTICAS
        ========================================================================== */
     .stats {
-      padding: 6rem 0;
+      padding: 5rem 0;
+      background: linear-gradient(135deg, var(--rose-soft), #ffffff);
       border-top: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
-      background: rgba(18, 22, 33, 0.3);
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 3rem;
+      gap: 2rem;
       text-align: center;
     }
 
     .stat-number {
-      font-size: clamp(2.5rem, 4vw, 3.8rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.3rem;
-    }
-
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      font-weight: 500;
+      font-family: var(--font-title);
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--rose-deep);
     }
 
     /* ==========================================================================
-       11. TESTIMONIALS SECTION
+       10. DEPOIMENTOS
        ========================================================================== */
-    .testimonials {
-      padding: 8rem 0;
-    }
+    .testimonials { padding: 7rem 0; }
 
     .testimonials-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
     }
 
@@ -834,467 +527,177 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: var(--transition-smooth);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.02);
     }
 
-    .testimonial-card:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-5px);
-    }
-
-    .stars {
-      color: #f59e0b;
-      display: flex;
-      gap: 0.2rem;
-      margin-bottom: 1rem;
-    }
-
-    .testimonial-text {
-      color: #e2e8f0;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-      font-style: italic;
-    }
-
-    .testimonial-user {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .user-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .user-name {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .user-role {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
+    .stars { color: var(--gold-accent); margin-bottom: 1rem; }
 
     /* ==========================================================================
-       12. FAQ ACCORDION
+       11. FAQ ACCORDION
        ========================================================================== */
-    .faq {
-      padding: 8rem 0;
-    }
+    .faq { padding: 6rem 0; background: rgba(252, 235, 240, 0.2); }
 
-    .faq-container {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .faq-container { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
 
     .faq-item {
-      background: var(--bg-card);
+      background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       overflow: hidden;
-      transition: var(--transition-fast);
     }
 
-    .faq-button {
-      width: 100%;
-      padding: 1.5rem 1.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: none;
-      border: none;
-      color: var(--text-main);
-      font-size: 1.1rem;
-      font-weight: 600;
-      text-align: left;
+    .faq-btn {
+      width: 100%; padding: 1.3rem 1.5rem; text-align: left;
+      background: none; border: none; font-size: 1.05rem; font-weight: 600;
+      color: var(--text-main); display: flex; justify-content: space-between; align-items: center;
       cursor: pointer;
-      gap: 1rem;
     }
 
-    .faq-icon {
-      transition: transform 0.3s ease;
-      color: var(--primary);
+    .faq-content {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 1.5rem; color: var(--text-muted); font-size: 0.95rem;
     }
 
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
-      padding: 0 1.8rem;
-      color: var(--text-muted);
-      font-size: 0.98rem;
-      line-height: 1.6;
-    }
-
-    .faq-item.active {
-      border-color: var(--border-glow);
-    }
-
-    .faq-item.active .faq-icon {
-      transform: rotate(180deg);
-    }
-
-    .faq-item.active .faq-answer {
-      max-height: 200px;
-      padding: 0 1.8rem 1.5rem 1.8rem;
-    }
+    .faq-item.active .faq-content { max-height: 150px; padding: 0 1.5rem 1.3rem 1.5rem; }
 
     /* ==========================================================================
-       13. CTA SECTION
+       12. CTA & CONTATO
        ========================================================================== */
-    .cta {
-      padding: 6rem 0;
-    }
+    .cta { padding: 6rem 0; text-align: center; }
 
     .cta-box {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.15));
-      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: linear-gradient(135deg, var(--rose-soft), #ffffff);
+      border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 4rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 40px var(--rose-glow);
     }
 
-    .cta-title {
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
-      font-weight: 800;
-      margin-bottom: 1rem;
-    }
-
-    .cta-desc {
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 2rem auto;
-      font-size: 1.1rem;
-    }
-
-    /* ==========================================================================
-       14. CONTACT SECTION
-       ========================================================================== */
-    .contact {
-      padding: 8rem 0;
-    }
+    .contact { padding: 6rem 0; }
 
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
-      gap: 4rem;
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .contact-card {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      padding: 1.5rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-    }
-
-    .contact-card-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: var(--radius-sm);
-      background: rgba(99, 102, 241, 0.1);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .contact-form {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-label {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-main);
+      gap: 3.5rem;
     }
 
     .form-input, .form-textarea {
-      width: 100%;
-      padding: 0.9rem 1.2rem;
-      background: rgba(7, 9, 14, 0.6);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      color: var(--text-main);
-      font-family: inherit;
-      font-size: 0.95rem;
-      transition: var(--transition-fast);
-      outline: none;
+      width: 100%; padding: 0.9rem 1.2rem;
+      background: #ffffff; border: 1px solid var(--border-color);
+      border-radius: var(--radius-md); margin-top: 0.4rem;
+      font-family: inherit; font-size: 0.95rem; outline: none;
     }
 
-    .form-input:focus, .form-textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--rose-deep); }
 
     /* ==========================================================================
-       15. FOOTER
+       13. FOOTER
        ========================================================================== */
     .footer {
-      padding: 5rem 0 2rem 0;
+      padding: 4rem 0 2rem 0;
+      background: #fdf6f8;
       border-top: 1px solid var(--border-color);
-      background: rgba(4, 6, 10, 0.8);
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 2fr repeat(3, 1fr);
+      grid-template-columns: 2fr repeat(2, 1fr);
       gap: 3rem;
-      margin-bottom: 4rem;
+      margin-bottom: 3rem;
     }
 
-    .footer-brand p {
-      color: var(--text-muted);
-      margin-top: 1rem;
-      max-width: 300px;
-      font-size: 0.95rem;
-    }
-
-    .footer-title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 1.2rem;
-      color: var(--text-main);
-    }
-
-    .footer-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .footer-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: var(--transition-fast);
-    }
-
-    .footer-link:hover {
-      color: var(--text-main);
-    }
-
-    .footer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border-color);
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .social-link {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-main);
-      text-decoration: none;
-      transition: var(--transition-fast);
-    }
-
-    .social-link:hover {
-      background: var(--primary);
-      transform: translateY(-3px);
-    }
-
-    /* ==========================================================================
-       16. ANIMATIONS ON SCROLL (INTERSECTION OBSERVER)
-       ========================================================================== */
+    /* Animações de Entrada Scroll */
     .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
+    .reveal.active { opacity: 1; transform: translateY(0); }
 
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ==========================================================================
-       17. RESPONSIVIDADE (MEDIA QUERIES)
-       ========================================================================== */
-    @media (max-width: 1024px) {
-      .hero-grid, .about-grid, .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-
-      .hero-visual {
-        order: -1;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav-links, .nav-cta {
-        display: none;
-      }
-
-      .mobile-toggle {
-        display: block;
-      }
-
-      .hero-title {
-        font-size: 2.5rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .floating-badge {
-        display: none; /* Simplifica visual no mobile para performance */
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        gap: 1.5rem;
-        text-align: center;
-      }
+    /* Responsividade */
+    @media (max-width: 992px) {
+      .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .nav-links { display: none; }
+      .mobile-toggle { display: block; }
+      .footer-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Glow do Cursor (Apenas Desktop) -->
+  <!-- Glow do Cursor -->
   <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
 
-  <!-- Background Animado Fixo -->
-  <div class="bg-grid"></div>
-  <div class="bg-glow-orb orb-1"></div>
-  <div class="bg-glow-orb orb-2"></div>
-
-  <!-- HEADER / NAVBAR -->
+  <!-- HEADER -->
   <header class="header" id="header">
     <div class="container nav-container">
-      <a href="#" class="logo">
-        <div class="logo-icon">
-          <i data-lucide="zap"></i>
-        </div>
-        Vanguard
-      </a>
+      <a href="#" class="logo">Lumière <span>Studio</span></a>
 
       <ul class="nav-links">
         <li><a href="#about" class="nav-link">Sobre</a></li>
-        <li><a href="#services" class="nav-link">Serviços</a></li>
-        <li><a href="#portfolio" class="nav-link">Portfólio</a></li>
+        <li><a href="#services" class="nav-link">Procedimentos</a></li>
+        <li><a href="#gallery" class="nav-link">Resultados</a></li>
         <li><a href="#testimonials" class="nav-link">Depoimentos</a></li>
-        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li><a href="#faq" class="nav-link">Dúvidas</a></li>
       </ul>
 
-      <a href="#contact" class="btn btn-primary nav-cta">Fale Conosco</a>
+      <a href="#contact" class="btn btn-rose">Agendar Horário</a>
 
-      <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Abrir Menu">
+      <button class="mobile-toggle" id="mobileBtn" aria-label="Abrir Menu">
         <i data-lucide="menu"></i>
       </button>
     </div>
   </header>
 
-  <!-- Menu Mobile -->
-  <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+  <!-- Mobile Menu -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
   <nav class="mobile-menu" id="mobileMenu">
     <a href="#about" class="nav-link mobile-link">Sobre</a>
-    <a href="#services" class="nav-link mobile-link">Serviços</a>
-    <a href="#portfolio" class="nav-link mobile-link">Portfólio</a>
+    <a href="#services" class="nav-link mobile-link">Procedimentos</a>
+    <a href="#gallery" class="nav-link mobile-link">Resultados</a>
     <a href="#testimonials" class="nav-link mobile-link">Depoimentos</a>
-    <a href="#faq" class="nav-link mobile-link">FAQ</a>
-    <a href="#contact" class="btn btn-primary mobile-link" style="margin-top: 1rem;">Fale Conosco</a>
+    <a href="#faq" class="nav-link mobile-link">Dúvidas</a>
+    <a href="#contact" class="btn btn-rose mobile-link" style="margin-top: 1rem;">Agendar Horário</a>
   </nav>
 
   <!-- HERO SECTION -->
-  <section class="hero" id="hero">
+  <section class="hero">
     <div class="container hero-grid">
       <div class="hero-content reveal">
         <div class="tag">
-          <i data-lucide="sparkles" style="width: 14px; height: 14px;"></i>
-          Inovação Digital de Alta Performance
+          <i data-lucide="sparkles" style="width: 14px; color: var(--rose-deep);"></i>
+          Realce Sua Beleza Natural
         </div>
-        <h1 class="hero-title">Seu negócio merece ser <span class="gradient-accent-text">visto e lembrado.</span></h1>
-        <p class="hero-description">Transformamos a presença digital da sua empresa em uma experiência memorável que transmite profissionalismo imediato, autoridade e impulsiona conversões reais.</p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">
-            Iniciar Projeto
-            <i data-lucide="arrow-right"></i>
-          </a>
-          <a href="#portfolio" class="btn btn-secondary">Ver Trabalhos</a>
+        <h1 class="hero-title">Olhar marcante, presença <em>inesquecível.</em></h1>
+        <p class="hero-desc">Especialistas em extensão de cílios, maquiagem profissional e estética facial sob medida para elevar sua autoestima com sofisticação.</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="#contact" class="btn btn-rose">Agendar no WhatsApp <i data-lucide="arrow-right"></i></a>
+          <a href="#gallery" class="btn btn-outline">Ver Trabalhos</a>
         </div>
       </div>
 
-      <!-- Hero Visual 3D -->
+      <!-- Card 3D com Fotos de Cílios/Maquiagem Realista -->
       <div class="hero-visual reveal">
         <div class="hero-card-3d" id="heroCard">
-          <div class="hero-img-wrapper">
-            <!-- Imagem Realista/Natural do Unsplash -->
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Equipe de tecnologia e design colaborando em projeto moderno" class="hero-img" />
+          <div class="hero-img-box">
+            <!-- Foto real de aplicação / resultado de extensão de cílios -->
+            <img src="https://images.unsplash.com/photo-1583001809873-a1284d5f395f?auto=format&fit=crop&w=800&q=80" alt="Aplicação profissional de extensão de cílios de alta qualidade" />
           </div>
 
-          <!-- Badges Flutuantes em 3D -->
-          <div class="floating-badge badge-1">
-            <div class="badge-icon"><i data-lucide="trending-up"></i></div>
+          <div class="badge-float badge-1">
+            <i data-lucide="heart" style="color: var(--rose-deep);"></i>
             <div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">Crescimento Médio</div>
-              <div style="font-size: 0.95rem; font-weight: 700;">+240% ao Ano</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Satisfação</div>
+              <div style="font-weight: 700; font-size: 0.9rem;">+2.500 Clientes</div>
             </div>
           </div>
 
-          <div class="floating-badge badge-2">
-            <div class="badge-icon" style="background: rgba(6, 182, 212, 0.2); color: var(--secondary);"><i data-lucide="shield-check"></i></div>
+          <div class="badge-float badge-2">
+            <i data-lucide="star" style="color: var(--gold-accent);"></i>
             <div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">Garantia de Qualidade</div>
-              <div style="font-size: 0.95rem; font-weight: 700;">100% Satisfação</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Avaliação</div>
+              <div style="font-weight: 700; font-size: 0.9rem;">5.0 Estrelas</div>
             </div>
           </div>
         </div>
@@ -1302,167 +705,115 @@
     </div>
   </section>
 
-  <!-- SOBRE A EMPRESA -->
+  <!-- SOBRE O STUDIO -->
   <section class="about" id="about">
     <div class="container about-grid">
-      <div class="about-visual reveal">
-        <div class="about-image-container">
-          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" alt="Reunião de estratégia da agência Vanguard" class="about-image" loading="lazy">
-        </div>
+      <div class="about-img-frame reveal">
+        <!-- Foto real de maquiagem / ambiente estético -->
+        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="Maquiadora profissional produzindo cliente" loading="lazy">
       </div>
-      <div class="about-content reveal">
-        <div class="tag">Sobre Nós</div>
-        <h2 class="section-title">Engenharia de precisão para a sua marca</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Não criamos apenas sites; desenvolvemos ativos digitais estratégicos. Nossa abordagem une estética futurista, psicologia de conversão e tecnologia de ponta para posicionar sua empresa no topo do mercado.</p>
-        
-        <div class="about-feature-list">
-          <div class="about-feature-item">
-            <div class="about-feature-icon"><i data-lucide="check"></i></div>
-            <div>
-              <h4 style="font-weight: 700;">Design Sob Medida</h4>
-              <p style="font-size: 0.9rem; color: var(--text-muted);">Nada de templates genéricos. Cada linha de código é construída para suas necessidades.</p>
-            </div>
-          </div>
-          <div class="about-feature-item">
-            <div class="about-feature-icon"><i data-lucide="check"></i></div>
-            <div>
-              <h4 style="font-weight: 700;">Velocidade Extrema</h4>
-              <p style="font-size: 0.9rem; color: var(--text-muted);">Carregamento instantâneo otimizado para SEO e máxima retenção de visitantes.</p>
-            </div>
-          </div>
-        </div>
+      <div class="reveal">
+        <div class="tag">Sobre o Lumière Studio</div>
+        <h2 class="section-title">A arte de destacar o seu melhor</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">No Lumière Studio, acreditamos que a beleza está nos detalhes. Cada atendimento é único e personalizado, combinando técnicas avançadas de isolamento de cílios, visagismo em maquiagem e produtos de alta durabilidade.</p>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Nosso ambiente foi projetado para oferecer uma experiência relaxante, luxuosa e acolhedora do momento em que você chega até a revelação do resultado final.</p>
+        <a href="#contact" class="btn btn-rose">Conheça Nossas Especialistas</a>
       </div>
     </div>
   </section>
 
-  <!-- SERVIÇOS (CARDS INTERATIVOS 3D) -->
+  <!-- PROCEDIMENTOS / SERVIÇOS -->
   <section class="services" id="services">
     <div class="container">
       <div class="section-header reveal">
-        <div class="tag">Especialidades</div>
-        <h2 class="section-title">Soluções digitais de classe mundial</h2>
-        <p class="section-subtitle">Tudo o que sua empresa precisa para dominar o ambiente digital com elegância e eficiência.</p>
+        <div class="tag">Nossos Procedimentos</div>
+        <h2 class="section-title">Especialidades exclusivas</h2>
+        <p class="section-subtitle">Técnicas modernas desenvolvidas para valorizar os traços do seu rosto com naturalidade.</p>
       </div>
 
       <div class="services-grid">
-        <!-- Card 1 -->
+        <!-- Serviço 1: Cílios -->
         <div class="service-card reveal">
-          <div class="service-icon"><i data-lucide="layout"></i></div>
-          <h3 class="service-title">Web Design Premium</h3>
-          <p class="service-description">Interfaces modernas e intuitivas, desenvolvidas com as melhores práticas de UX/UI para engajar seu público do primeiro ao último clique.</p>
-          <a href="#contact" class="service-link">Saiba Mais <i data-lucide="arrow-right" style="width: 16px;"></i></a>
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=600&q=80" alt="Extensão de Cílios Volume Russo e Fio a Fio" class="service-img-preview" />
+          <h3 class="service-title">Extensão de Cílios</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Técnicas de Fio a Fio, Volume Russo e Lash Lifting com acoplagem perfeita, sem pesar nos olhos e com durabilidade prolongada.</p>
+          <a href="#contact" style="color: var(--rose-deep); text-decoration: none; font-weight: 600;">Saiba mais &rarr;</a>
         </div>
 
-        <!-- Card 2 -->
+        <!-- Serviço 2: Maquiagem -->
         <div class="service-card reveal">
-          <div class="service-icon" style="background: rgba(6, 182, 212, 0.1); color: var(--secondary);"><i data-lucide="code-2"></i></div>
-          <h3 class="service-title">Desenvolvimento Web</h3>
-          <p class="service-description">Sistemas rápidos, limpos e otimizados para qualquer dispositivo. Aplicações prontas para escalar seu negócio com segurança.</p>
-          <a href="#contact" class="service-link">Saiba Mais <i data-lucide="arrow-right" style="width: 16px;"></i></a>
+          <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80" alt="Maquiagem Profissional para Noivas e Eventos" class="service-img-preview" />
+          <h3 class="service-title">Maquiagem Profissional</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Produção social, festas, formaturas e Dia da Noiva. Pele blindada de alta resistência com acabamento glow radiante.</p>
+          <a href="#contact" style="color: var(--rose-deep); text-decoration: none; font-weight: 600;">Saiba mais &rarr;</a>
         </div>
 
-        <!-- Card 3 -->
+        <!-- Serviço 3: Sobrancelhas & Estética -->
         <div class="service-card reveal">
-          <div class="service-icon" style="background: rgba(217, 70, 239, 0.1); color: var(--accent);"><i data-lucide="line-chart"></i></div>
-          <h3 class="service-title">Otimização & SEO</h3>
-          <p class="service-description">Posicione sua empresa nos primeiros resultados do Google e garanta que seus potenciais clientes encontrem você facilmente.</p>
-          <a href="#contact" class="service-link">Saiba Mais <i data-lucide="arrow-right" style="width: 16px;"></i></a>
+          <img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=600&q=80" alt="Design de Sobrancelhas e Brow Lamination" class="service-img-preview" />
+          <h3 class="service-title">Design & Brow Lamination</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Mapeamento facial com visagismo, Henna orgânica, Brow Lamination e alinhamento de fios para um olhar harmônico.</p>
+          <a href="#contact" style="color: var(--rose-deep); text-decoration: none; font-weight: 600;">Saiba mais &rarr;</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- DIFERENCIAIS -->
-  <section class="differentials">
+  <!-- GALERIA / PORTFÓLIO DE RESULTADOS -->
+  <section class="gallery" id="gallery">
     <div class="container">
       <div class="section-header reveal">
-        <div class="tag">Diferenciais</div>
-        <h2 class="section-title">Por que escolher a Vanguard?</h2>
+        <div class="tag">Resultados Reais</div>
+        <h2 class="section-title">Galeria de Transformações</h2>
+        <p class="section-subtitle">Confira o acabamento delicado e a precisão em nossos atendimentos diários.</p>
       </div>
 
-      <div class="diff-grid">
-        <div class="diff-card reveal">
-          <div class="diff-number">01</div>
-          <h3 class="diff-title">Estética Futurista</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Visual único que destaca sua marca da concorrência tradicional.</p>
-        </div>
-        <div class="diff-card reveal">
-          <div class="diff-number">02</div>
-          <h3 class="diff-title">Foco em Conversão</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Layouts projetados estrategicamente para transformar visitas em vendas.</p>
-        </div>
-        <div class="diff-card reveal">
-          <div class="diff-number">03</div>
-          <h3 class="diff-title">Suporte Dedicado</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Acompanhamento contínuo para garantir que tudo funcione perfeitamente.</p>
-        </div>
-        <div class="diff-card reveal">
-          <div class="diff-number">04</div>
-          <h3 class="diff-title">Arquitetura Leve</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Código otimizado para carregar instantaneamente, até em conexões 3G.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PORTFÓLIO / GALERIA -->
-  <section class="portfolio" id="portfolio">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="tag">Portfólio</div>
-        <h2 class="section-title">Projetos em Destaque</h2>
-        <p class="section-subtitle">Conheça alguns dos trabalhos que transformaram o posicionamento de nossos clientes.</p>
-      </div>
-
-      <div class="portfolio-grid">
-        <div class="portfolio-item reveal">
-          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Dashboard Financeiro SaaS" class="portfolio-img" loading="lazy">
-          <div class="portfolio-overlay">
-            <span class="portfolio-tag">Fintech / SaaS</span>
-            <h3 class="portfolio-title">Plataforma Nexus Analytics</h3>
-            <p style="font-size: 0.85rem; color: #cbd5e1;">Design de interface interativa e dashboard em tempo real.</p>
+      <div class="gallery-grid">
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1583001809873-a1284d5f395f?auto=format&fit=crop&w=600&q=80" alt="Efeito Extensão Cílios Detalhe" loading="lazy">
+          <div class="gallery-overlay">
+            <h4>Volume Híbrido</h4>
+            <p style="font-size: 0.85rem;">Olhar marcante com curvatura personalizável.</p>
           </div>
         </div>
 
-        <div class="portfolio-item reveal">
-          <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" alt="Plataforma de E-commerce de Luxo" class="portfolio-img" loading="lazy">
-          <div class="portfolio-overlay">
-            <span class="portfolio-tag">E-commerce Premium</span>
-            <h3 class="portfolio-title">Aura Luxury Store</h3>
-            <p style="font-size: 0.85rem; color: #cbd5e1;">Experiência de compra imersiva com animações 3D.</p>
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=600&q=80" alt="Maquiagem Profissional Perto do Rosto" loading="lazy">
+          <div class="gallery-overlay">
+            <h4>Make Social Glow</h4>
+            <p style="font-size: 0.85rem;">Pele técnica blindada e esfumado clássico.</p>
           </div>
         </div>
 
-        <div class="portfolio-item reveal">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Aplicativo Mobile Corporativo" class="portfolio-img" loading="lazy">
-          <div class="portfolio-overlay">
-            <span class="portfolio-tag">Mobile App</span>
-            <h3 class="portfolio-title">Vanguard Mobile Platform</h3>
-            <p style="font-size: 0.85rem; color: #cbd5e1;">Aplicativo corporativo com performance nativa.</p>
+        <div class="gallery-item reveal">
+          <img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=600&q=80" alt="Procedimento Estético de Cuidados Faciais" loading="lazy">
+          <div class="gallery-overlay">
+            <h4>Lash Lifting & Nutrição</h4>
+            <p style="font-size: 0.85rem;">Curvatura natural dos próprios fios.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ESTATÍSTICAS (COM CONTADOR ANIMADO) -->
+  <!-- ESTATÍSTICAS -->
   <section class="stats">
     <div class="container stats-grid">
       <div class="reveal">
-        <div class="stat-number gradient-accent-text" data-target="250">+0</div>
-        <div class="stat-label">Projetos Entregues</div>
+        <div class="stat-number" data-target="3500">+0</div>
+        <div style="color: var(--text-muted); font-size: 0.9rem;">Cílios Aplicados</div>
       </div>
       <div class="reveal">
-        <div class="stat-number gradient-accent-text" data-target="98">%0</div>
-        <div class="stat-label">Satisfação dos Clientes</div>
+        <div class="stat-number" data-target="1200">+0</div>
+        <div style="color: var(--text-muted); font-size: 0.9rem;">Makes Realizadas</div>
       </div>
       <div class="reveal">
-        <div class="stat-number gradient-accent-text" data-target="15">+0</div>
-        <div class="stat-label">Prêmios de Design</div>
+        <div class="stat-number" data-target="100">%0</div>
+        <div style="color: var(--text-muted); font-size: 0.9rem;">Biossegurança & Higiene</div>
       </div>
       <div class="reveal">
-        <div class="stat-number gradient-accent-text" data-target="24">0h</div>
-        <div class="stat-label">Tempo Médio de Suporte</div>
+        <div class="stat-number" data-target="5">0.0</div>
+        <div style="color: var(--text-muted); font-size: 0.9rem;">Nota das Clientes no Google</div>
       </div>
     </div>
   </section>
@@ -1472,107 +823,83 @@
     <div class="container">
       <div class="section-header reveal">
         <div class="tag">Depoimentos</div>
-        <h2 class="section-title">O que nossos clientes dizem</h2>
+        <h2 class="section-title">O carinho de quem se ama aqui</h2>
       </div>
 
       <div class="testimonials-grid">
         <div class="testimonial-card reveal">
-          <div>
-            <div class="stars">★★★★★</div>
-            <p class="testimonial-text">"O novo site superou todas as nossas expectativas. O design futurista deu uma autoridade imediata à nossa empresa frente aos investidores."</p>
-          </div>
-          <div class="testimonial-user">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Mariana Silva" class="user-avatar" loading="lazy">
-            <div>
-              <div class="user-name">Mariana Silva</div>
-              <div class="user-role">CEO, TechFlow Solutions</div>
-            </div>
-          </div>
+          <div class="stars">★★★★★</div>
+          <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.2rem;">"A extensão de cílios mais leve e confortável que já fiz na vida! Não sinto nada pesar e acordo pronta todos os dias. Recomendo de olhos fechados."</p>
+          <div style="font-weight: 700;">Juliana Paes</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Cliente Lash Frequente</div>
         </div>
 
         <div class="testimonial-card reveal">
-          <div>
-            <div class="stars">★★★★★</div>
-            <p class="testimonial-text">"Profissionalismo impecável. A velocidade de carregamento e o cuidado com as animações 3D deixaram nossos clientes impressionados."</p>
-          </div>
-          <div class="testimonial-user">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Ricardo Mendes" class="user-avatar" loading="lazy">
-            <div>
-              <div class="user-name">Ricardo Mendes</div>
-              <div class="user-role">Diretor de Marketing, Innova</div>
-            </div>
-          </div>
+          <div class="stars">★★★★★</div>
+          <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.2rem;">"Fiz minha make de noiva no Lumière e durou a festa inteira impecável, mesmo depois de chorar horrores na cerimônia! Atendimento maravilhoso."</p>
+          <div style="font-weight: 700;">Beatriz Lins</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Noiva Lumière</div>
         </div>
 
         <div class="testimonial-card reveal">
-          <div>
-            <div class="stars">★★★★★</div>
-            <p class="testimonial-text">"Resultado incrível! Conseguimos aumentar nossas conversões em mais de 180% nas primeiras semanas após o lançamento."</p>
-          </div>
-          <div class="testimonial-user">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" alt="Camila Torres" class="user-avatar" loading="lazy">
-            <div>
-              <div class="user-name">Camila Torres</div>
-              <div class="user-role">Fundadora, Studio Luxe</div>
-            </div>
-          </div>
+          <div class="stars">★★★★★</div>
+          <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.2rem;">"O estúdio é lindo, cheiroso e super limpo. As meninas são extremamente atenciosas e o resultado da Brow Lamination ficou perfeito!"</p>
+          <div style="font-weight: 700;">Carolina Rossi</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Cliente Sobrancelhas</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ (ACCORDION) -->
+  <!-- FAQ -->
   <section class="faq" id="faq">
     <div class="container">
       <div class="section-header reveal">
-        <div class="tag">Dúvidas</div>
-        <h2 class="section-title">Perguntas Frequentes</h2>
+        <div class="tag">Dúvidas Frequentes</div>
+        <h2 class="section-title">Perguntas comuns</h2>
       </div>
 
       <div class="faq-container">
         <div class="faq-item reveal">
-          <button class="faq-button">
-            Quanto tempo leva para desenvolver um site?
-            <i data-lucide="chevron-down" class="faq-icon"></i>
+          <button class="faq-btn">
+            Quanto tempo dura a extensão de cílios?
+            <i data-lucide="chevron-down"></i>
           </button>
-          <div class="faq-answer">
-            O tempo médio varia de 2 a 4 semanas, dependendo da complexidade do projeto e dos recursos solicitados. Garantimos prazos ágeis sem comprometer a qualidade.
+          <div class="faq-content">
+            A extensão acompanha o ciclo natural de crescimento dos seus fios. Recomendamos a manutenção entre 15 a 21 dias para manter o volume perfeito.
           </div>
         </div>
 
         <div class="faq-item reveal">
-          <button class="faq-button">
-            O site funcionará bem em celulares e tablets?
-            <i data-lucide="chevron-down" class="faq-icon"></i>
+          <button class="faq-btn">
+            A extensão de cílios prejudica meus fios naturais?
+            <i data-lucide="chevron-down"></i>
           </button>
-          <div class="faq-answer">
-            Com certeza. Todos os nossos projetos são desenvolvidos com a filosofia "Mobile-First", garantindo que a experiência seja perfeita e fluida em qualquer tamanho de tela.
+          <div class="faq-content">
+            Não! Utilizamos isolamento correto, peso adequado para cada fio natural e cola hipoalergênica certificada. Seus fios continuam saudáveis.
           </div>
         </div>
 
         <div class="faq-item reveal">
-          <button class="faq-button">
-            O site pode ser hospedado no GitHub Pages?
-            <i data-lucide="chevron-down" class="faq-icon"></i>
+          <button class="faq-btn">
+            Como funciona o agendamento?
+            <i data-lucide="chevron-down"></i>
           </button>
-          <div class="faq-answer">
-            Sim! Toda a nossa estrutura é otimizada para funcionar de forma 100% gratuita, rápida e segura em servidores estáticos como o GitHub Pages, Vercel ou Netlify.
+          <div class="faq-content">
+            Você pode clicar no botão de agendamento aqui no site para conversar direto pelo nosso WhatsApp, escolher o procedimento e selecionar o melhor horário disponível.
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CALL TO ACTION (CTA) -->
+  <!-- CALL TO ACTION -->
   <section class="cta">
     <div class="container">
       <div class="cta-box reveal">
-        <h2 class="cta-title">Pronto para transformar sua presença digital?</h2>
-        <p class="cta-desc">Eleve o nível do seu negócio hoje mesmo com uma plataforma moderna, rápida e extremamente atraente.</p>
-        <a href="#contact" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
-          Solicitar Proposta Agora
-          <i data-lucide="arrow-right"></i>
-        </a>
+        <h2 class="section-title">Sua jornada de beleza começa aqui</h2>
+        <p style="color: var(--text-muted); max-width: 550px; margin: 0 auto 2rem auto;">Agende seu atendimento exclusivo e garanta um momento relaxante pensado especialmente para você.</p>
+        <a href="#contact" class="btn btn-rose">Agendar Meu Horário Agora</a>
       </div>
     </div>
   </section>
@@ -1581,230 +908,166 @@
   <section class="contact" id="contact">
     <div class="container">
       <div class="section-header reveal">
-        <div class="tag">Contato</div>
-        <h2 class="section-title">Vamos criar algo incrível juntos</h2>
+        <div class="tag">Atendimento</div>
+        <h2 class="section-title">Entre em contato</h2>
       </div>
 
       <div class="contact-grid">
-        <div class="contact-info reveal">
-          <div class="contact-card">
-            <div class="contact-card-icon"><i data-lucide="mail"></i></div>
-            <div>
-              <div style="font-size: 0.85rem; color: var(--text-muted);">Envie um e-mail</div>
-              <div style="font-weight: 700;">contato@vanguardstudio.com</div>
-            </div>
+        <div class="reveal">
+          <div style="margin-bottom: 2rem;">
+            <h4 style="font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 0.5rem;">Localização do Studio</h4>
+            <p style="color: var(--text-muted);">Av. Paulista, 1000 - Sala 82, Jardins, São Paulo - SP</p>
           </div>
-
-          <div class="contact-card">
-            <div class="contact-card-icon" style="background: rgba(6, 182, 212, 0.1); color: var(--secondary);"><i data-lucide="phone"></i></div>
-            <div>
-              <div style="font-size: 0.85rem; color: var(--text-muted);">Atendimento WhatsApp</div>
-              <div style="font-weight: 700;">+55 (11) 99999-8888</div>
-            </div>
+          <div style="margin-bottom: 2rem;">
+            <h4 style="font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 0.5rem;">Horário de Funcionamento</h4>
+            <p style="color: var(--text-muted);">Terça a Sábado: 09h às 19h<br>Domingo e Segunda: Fechado</p>
           </div>
-
-          <div class="contact-card">
-            <div class="contact-card-icon" style="background: rgba(217, 70, 239, 0.1); color: var(--accent);"><i data-lucide="map-pin"></i></div>
-            <div>
-              <div style="font-size: 0.85rem; color: var(--text-muted);">Localização</div>
-              <div style="font-weight: 700;">São Paulo, SP - Atendimento Global</div>
-            </div>
+          <div>
+            <h4 style="font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 0.5rem;">WhatsApp Direct</h4>
+            <p style="color: var(--rose-deep); font-weight: 700;">+55 (11) 98765-4321</p>
           </div>
         </div>
 
-        <form class="contact-form reveal" onsubmit="event.preventDefault(); alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');">
-          <div class="form-group">
-            <label class="form-label" for="name">Seu Nome</label>
-            <input type="text" id="name" class="form-input" placeholder="Ex: João Silva" required>
+        <form class="reveal" style="background: #ffffff; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color);" onsubmit="event.preventDefault(); alert('Solicitação enviada com sucesso! Responderemos no seu WhatsApp.');">
+          <div style="margin-bottom: 1rem;">
+            <label style="font-size: 0.85rem; font-weight: 600;">Seu Nome</label>
+            <input type="text" class="form-input" placeholder="Ex: Maria Oliveira" required>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="email">Seu E-mail</label>
-            <input type="email" id="email" class="form-input" placeholder="joao@empresa.com" required>
+          <div style="margin-bottom: 1rem;">
+            <label style="font-size: 0.85rem; font-weight: 600;">Seu WhatsApp</label>
+            <input type="tel" class="form-input" placeholder="(11) 99999-9999" required>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="message">Mensagem</label>
-            <textarea id="message" rows="4" class="form-textarea" placeholder="Conte-nos um pouco sobre o seu projeto..." required></textarea>
+          <div style="margin-bottom: 1.5rem;">
+            <label style="font-size: 0.85rem; font-weight: 600;">Procedimento Desejado</label>
+            <input type="text" class="form-input" placeholder="Ex: Extensão de Cílios Volume Russo" required>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensagem</button>
+          <button type="submit" class="btn btn-rose" style="width: 100%;">Enviar Solicitação</button>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- RODAPÉ / FOOTER -->
+  <!-- RODAPÉ -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#" class="logo">
-            <div class="logo-icon"><i data-lucide="zap"></i></div>
-            Vanguard
-          </a>
-          <p>Transformando presença digital em experiências memoráveis de alto impacto visual e performance.</p>
-        </div>
-
         <div>
-          <h4 class="footer-title">Navegação</h4>
-          <ul class="footer-links">
-            <li><a href="#about" class="footer-link">Sobre</a></li>
-            <li><a href="#services" class="footer-link">Serviços</a></li>
-            <li><a href="#portfolio" class="footer-link">Portfólio</a></li>
-            <li><a href="#contact" class="footer-link">Contato</a></li>
+          <a href="#" class="logo">Lumière <span>Studio</span></a>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.8rem; max-width: 280px;">Studio especializado em extensão de cílios, maquiagem e visagismo facial.</p>
+        </div>
+        <div>
+          <h4 style="font-family: var(--font-title); margin-bottom: 1rem;">Navegação</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+            <li><a href="#about" style="color: var(--text-muted); text-decoration: none;">Sobre Nós</a></li>
+            <li><a href="#services" style="color: var(--text-muted); text-decoration: none;">Procedimentos</a></li>
+            <li><a href="#gallery" style="color: var(--text-muted); text-decoration: none;">Resultados</a></li>
           </ul>
         </div>
-
         <div>
-          <h4 class="footer-title">Serviços</h4>
-          <ul class="footer-links">
-            <li><a href="#" class="footer-link">Web Design 3D</a></li>
-            <li><a href="#" class="footer-link">Desenvolvimento UI/UX</a></li>
-            <li><a href="#" class="footer-link">Otimização SEO</a></li>
-            <li><a href="#" class="footer-link">Branding Digital</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="footer-title">Redes Sociais</h4>
-          <div class="social-links">
-            <a href="#" class="social-link" aria-label="Instagram"><i data-lucide="instagram" style="width: 18px;"></i></a>
-            <a href="#" class="social-link" aria-label="LinkedIn"><i data-lucide="linkedin" style="width: 18px;"></i></a>
-            <a href="#" class="social-link" aria-label="GitHub"><i data-lucide="github" style="width: 18px;"></i></a>
+          <h4 style="font-family: var(--font-title); margin-bottom: 1rem;">Redes Sociais</h4>
+          <div style="display: flex; gap: 1rem;">
+            <a href="#" style="color: var(--rose-deep);"><i data-lucide="instagram"></i></a>
+            <a href="#" style="color: var(--rose-deep);"><i data-lucide="facebook"></i></a>
           </div>
         </div>
       </div>
-
-      <div class="footer-bottom">
-        <div>&copy; 2026 Vanguard Studio. Todos os direitos reservados. Hospedado no GitHub Pages.</div>
-        <div style="display: flex; gap: 1.5rem;">
-          <a href="#" class="footer-link">Privacidade</a>
-          <a href="#" class="footer-link">Termos de Uso</a>
-        </div>
+      <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+        &copy; 2026 Lumière Beauty Studio. Todos os direitos reservados.
       </div>
     </div>
   </footer>
 
-  <!-- ==========================================================================
-     JAVASCRIPT INTERATIVO (VANILLA JS)
-     ========================================================================== -->
+  <!-- JAVASCRIPT VANILLA -->
   <script>
-    // Inicializar Ícones do Lucide
     lucide.createIcons();
 
-    // 1. Header scroll effect
+    // Scroll Header Background
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
+      header.classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // 2. Cursor Glow Effect
+    // Cursor Glow
     const cursorGlow = document.getElementById('cursorGlow');
     window.addEventListener('mousemove', (e) => {
       cursorGlow.style.left = `${e.clientX}px`;
       cursorGlow.style.top = `${e.clientY}px`;
     });
 
-    // 3. Mobile Menu Toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    // Mobile Menu
+    const mobileBtn = document.getElementById('mobileBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileOverlay = document.getElementById('mobileOverlay');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
 
     function toggleMenu() {
       mobileMenu.classList.toggle('active');
       mobileOverlay.classList.toggle('active');
     }
-
-    mobileMenuBtn.addEventListener('click', toggleMenu);
+    mobileBtn.addEventListener('click', toggleMenu);
     mobileOverlay.addEventListener('click', toggleMenu);
-    mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', toggleMenu));
 
-    // 4. Hero Card 3D Parallax no Mouse Move
+    // Card 3D Parallax no Hero
     const heroCard = document.getElementById('heroCard');
-    if (heroCard && window.innerWidth > 1024) {
+    if (heroCard && window.innerWidth > 992) {
       document.addEventListener('mousemove', (e) => {
-        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-        heroCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        const x = (window.innerWidth / 2 - e.pageX) / 30;
+        const y = (window.innerHeight / 2 - e.pageY) / 30;
+        heroCard.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
       });
     }
 
-    // 5. Light Follower nos Cards de Serviços
-    const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach(card => {
+    // Light follower nos cards
+    document.querySelectorAll('.service-card').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
       });
     });
 
-    // 6. Intersection Observer para Animações de Scroll
-    const observerOptions = {
-      threshold: 0.15
-    };
-
-    const revealObserver = new IntersectionObserver((entries) => {
+    // Scroll Observer Animações
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
-          
-          // Se for elemento de estatística, ativa o contador
           if (entry.target.parentElement.classList.contains('stats-grid')) {
-            startCounters();
+            runCounters();
           }
         }
       });
-    }, observerOptions);
+    }, { threshold: 0.15 });
 
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // 7. Contador de Estatísticas Animado
-    let countersStarted = false;
-    function startCounters() {
-      if (countersStarted) return;
-      countersStarted = true;
-
-      const statNumbers = document.querySelectorAll('.stat-number');
-      statNumbers.forEach(stat => {
+    // Contadores
+    let started = false;
+    function runCounters() {
+      if (started) return;
+      started = true;
+      document.querySelectorAll('.stat-number').forEach(stat => {
         const target = +stat.getAttribute('data-target');
-        const prefix = stat.innerText.includes('+') ? '+' : (stat.innerText.includes('%') ? '%' : '');
-        const suffix = stat.innerText.includes('h') ? 'h' : '';
         let count = 0;
-        const speed = target / 50;
-
-        const updateCount = () => {
-          count += speed;
+        const inc = target / 40;
+        const update = () => {
+          count += inc;
           if (count < target) {
-            stat.innerText = `${prefix}${Math.ceil(count)}${suffix}`;
-            setTimeout(updateCount, 30);
+            stat.innerText = (target === 5 ? count.toFixed(1) : Math.ceil(count)) + (target === 100 ? '%' : '+');
+            setTimeout(update, 35);
           } else {
-            stat.innerText = `${prefix}${target}${suffix}`;
+            stat.innerText = target + (target === 100 ? '%' : '+');
           }
         };
-        updateCount();
+        update();
       });
     }
 
-    // 8. FAQ Accordion
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-      const button = item.querySelector('.faq-button');
-      button.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        
-        // Fecha todos
-        faqItems.forEach(i => i.classList.remove('active'));
-
-        // Se não estava ativo, abre o clicado
-        if (!isActive) {
-          item.classList.add('active');
-        }
+    // FAQ Accordion
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.querySelector('.faq-btn').addEventListener('click', () => {
+        const active = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!active) item.classList.add('active');
       });
     });
   </script>
