@@ -3,41 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Lumière Beauty Studio | Extensão de Cílios, Maquiagem & Estética</title>
+
+  <!-- FAVICON DO SITE -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
   <meta name="description" content="Studio especializado em extensão de cílios, maquiagem profissional, design de sobrancelhas e estética avançada. Agende seu horário!">
 
-  <!-- Tipografia Luxuosa (Playfair Display para títulos + Plus Jakarta Sans para corpo) -->
+  <!-- Tipografia Luxuosa -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Lucide Icons (CDN Leve) -->
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    /* ==========================================================================
-       1. VARIÁVEIS CSS (PALETA ROSA, BRANCO & DOURADO ELEGANTE)
-       ========================================================================== */
     :root {
       --bg-light: #fffafb;
       --bg-card: rgba(255, 255, 255, 0.85);
       --bg-card-hover: #ffffff;
-      
+
       --rose-primary: #e88ca5;
       --rose-deep: #d46b85;
       --rose-soft: #fcebf0;
       --rose-glow: rgba(232, 140, 165, 0.25);
-      
+
       --gold-accent: #d4af37;
       --gold-light: #f3e5ab;
-      
+
       --text-main: #2d2426;
       --text-muted: #6e5d62;
       --border-color: rgba(232, 140, 165, 0.2);
-      
+
       --font-title: 'Playfair Display', Georgia, serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
-      
+
       --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       --radius-md: 16px;
       --radius-lg: 24px;
@@ -63,19 +65,29 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Barra de rolagem delicada */
-    body::-webkit-scrollbar { width: 8px; }
-    body::-webkit-scrollbar-track { background: var(--bg-light); }
-    body::-webkit-scrollbar-thumb { background: var(--rose-primary); border-radius: 10px; }
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
 
-    /* ==========================================================================
-       2. ELEMENTOS DE BACKGROUND & BRILHO SEGUINDO CURSOR
-       ========================================================================== */
+    body::-webkit-scrollbar-track {
+      background: var(--bg-light);
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: var(--rose-primary);
+      border-radius: 10px;
+    }
+
     .cursor-glow {
       position: fixed;
       width: 350px;
       height: 350px;
-      background: radial-gradient(circle, rgba(232, 140, 165, 0.2) 0%, rgba(243, 229, 171, 0.1) 50%, transparent 70%);
+      background: radial-gradient(
+        circle,
+        rgba(232, 140, 165, 0.2) 0%,
+        rgba(243, 229, 171, 0.1) 50%,
+        transparent 70%
+      );
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
@@ -83,7 +95,11 @@
       display: none;
     }
 
-    @media (pointer: fine) { .cursor-glow { display: block; } }
+    @media (pointer: fine) {
+      .cursor-glow {
+        display: block;
+      }
+    }
 
     .bg-orb {
       position: fixed;
@@ -96,24 +112,40 @@
     }
 
     .orb-1 {
-      top: -10%; right: -5%; width: 50vw; height: 50vw;
-      background: radial-gradient(circle, var(--rose-soft) 0%, transparent 70%);
+      top: -10%;
+      right: -5%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(
+        circle,
+        var(--rose-soft) 0%,
+        transparent 70%
+      );
     }
 
     .orb-2 {
-      bottom: -10%; left: -5%; width: 45vw; height: 45vw;
-      background: radial-gradient(circle, #f8e1e7 0%, transparent 70%);
+      bottom: -10%;
+      left: -5%;
+      width: 45vw;
+      height: 45vw;
+      background: radial-gradient(
+        circle,
+        #f8e1e7 0%,
+        transparent 70%
+      );
       animation-delay: -9s;
     }
 
     @keyframes floatOrb {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(-40px, 40px) scale(1.08); }
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      100% {
+        transform: translate(-40px, 40px) scale(1.08);
+      }
     }
 
-    /* ==========================================================================
-       3. ESTRUTURA, BOTÕES E TIPOGRAFIA
-       ========================================================================== */
     .container {
       width: 100%;
       max-width: 1240px;
@@ -174,7 +206,11 @@
     }
 
     .btn-rose {
-      background: linear-gradient(135deg, var(--rose-primary), var(--rose-deep));
+      background: linear-gradient(
+        135deg,
+        var(--rose-primary),
+        var(--rose-deep)
+      );
       color: #ffffff;
     }
 
@@ -194,12 +230,13 @@
       transform: translateY(-3px);
     }
 
-    /* ==========================================================================
-       4. HEADER / NAVBAR
-       ========================================================================== */
+    /* HEADER */
+
     .header {
       position: fixed;
-      top: 0; left: 0; width: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
       z-index: 1000;
       transition: var(--transition-smooth);
       padding: 1.2rem 0;
@@ -230,7 +267,9 @@
       gap: 0.5rem;
     }
 
-    .logo span { color: var(--rose-deep); }
+    .logo span {
+      color: var(--rose-deep);
+    }
 
     .nav-links {
       display: flex;
@@ -246,7 +285,9 @@
       transition: var(--transition-smooth);
     }
 
-    .nav-link:hover { color: var(--rose-deep); }
+    .nav-link:hover {
+      color: var(--rose-deep);
+    }
 
     .mobile-toggle {
       display: none;
@@ -256,25 +297,46 @@
       cursor: pointer;
     }
 
-    /* Menu Mobile */
     .mobile-menu {
       position: fixed;
-      top: 0; right: -100%; width: 80%; max-width: 350px; height: 100vh;
-      background: #ffffff; z-index: 1001; padding: 5rem 2rem;
-      display: flex; flex-direction: column; gap: 1.5rem;
-      transition: right 0.4s ease; border-left: 1px solid var(--border-color);
+      top: 0;
+      right: -100%;
+      width: 80%;
+      max-width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      z-index: 1001;
+      padding: 5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: right 0.4s ease;
+      border-left: 1px solid var(--border-color);
       box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
     }
-    .mobile-menu.active { right: 0; }
-    .mobile-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(3px);
-      z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s;
-    }
-    .mobile-overlay.active { opacity: 1; pointer-events: auto; }
 
-    /* ==========================================================================
-       5. HERO SECTION
-       ========================================================================== */
+    .mobile-menu.active {
+      right: 0;
+    }
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(3px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    .mobile-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* HERO */
+
     .hero {
       padding: 10rem 0 6rem 0;
       min-height: 100vh;
@@ -309,7 +371,6 @@
       max-width: 520px;
     }
 
-    /* Composição 3D Hero */
     .hero-visual {
       position: relative;
       perspective: 1000px;
@@ -345,7 +406,7 @@
       border: 1px solid var(--border-color);
       padding: 0.9rem 1.4rem;
       border-radius: var(--radius-md);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
       display: flex;
       align-items: center;
       gap: 0.8rem;
@@ -354,18 +415,32 @@
       animation: floatBadge 4s infinite alternate ease-in-out;
     }
 
-    .badge-1 { top: 12%; left: -10%; }
-    .badge-2 { bottom: 10%; right: -8%; animation-delay: -2s; }
-
-    @keyframes floatBadge {
-      0% { transform: translateZ(30px) translateY(0); }
-      100% { transform: translateZ(30px) translateY(-10px); }
+    .badge-1 {
+      top: 12%;
+      left: -10%;
     }
 
-    /* ==========================================================================
-       6. SOBRE O STUDIO
-       ========================================================================== */
-    .about { padding: 7rem 0; }
+    .badge-2 {
+      bottom: 10%;
+      right: -8%;
+      animation-delay: -2s;
+    }
+
+    @keyframes floatBadge {
+      0% {
+        transform: translateZ(30px) translateY(0);
+      }
+
+      100% {
+        transform: translateZ(30px) translateY(-10px);
+      }
+    }
+
+    /* SOBRE */
+
+    .about {
+      padding: 7rem 0;
+    }
 
     .about-grid {
       display: grid;
@@ -379,7 +454,7 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       border: 1px solid var(--border-color);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
     }
 
     .about-img-frame img {
@@ -389,10 +464,12 @@
       display: block;
     }
 
-    /* ==========================================================================
-       7. SERVIÇOS (CARDS COM ILUMINAÇÃO REATIVA)
-       ========================================================================== */
-    .services { padding: 7rem 0; background: rgba(252, 235, 240, 0.3); }
+    /* SERVIÇOS */
+
+    .services {
+      padding: 7rem 0;
+      background: rgba(252, 235, 240, 0.3);
+    }
 
     .services-grid {
       display: grid;
@@ -408,22 +485,30 @@
       position: relative;
       overflow: hidden;
       transition: var(--transition-smooth);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
     }
 
     .service-card::before {
       content: '';
       position: absolute;
-      top: var(--mouse-y, 0); left: var(--mouse-x, 0);
-      width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(232, 140, 165, 0.2) 0%, transparent 70%);
+      top: var(--mouse-y, 0);
+      left: var(--mouse-x, 0);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(
+        circle,
+        rgba(232, 140, 165, 0.2) 0%,
+        transparent 70%
+      );
       transform: translate(-50%, -50%);
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.3s;
     }
 
-    .service-card:hover::before { opacity: 1; }
+    .service-card:hover::before {
+      opacity: 1;
+    }
 
     .service-card:hover {
       transform: translateY(-8px);
@@ -445,10 +530,11 @@
       margin-bottom: 0.6rem;
     }
 
-    /* ==========================================================================
-       8. GALERIA / PORTFÓLIO DE RESULTADOS
-       ========================================================================== */
-    .gallery { padding: 7rem 0; }
+    /* GALERIA */
+
+    .gallery {
+      padding: 7rem 0;
+    }
 
     .gallery-grid {
       display: grid;
@@ -461,7 +547,7 @@
       border-radius: var(--radius-md);
       overflow: hidden;
       aspect-ratio: 4/5;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     }
 
     .gallery-item img {
@@ -474,7 +560,11 @@
     .gallery-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(45, 36, 38, 0.8) 0%, transparent 60%);
+      background: linear-gradient(
+        to top,
+        rgba(45, 36, 38, 0.8) 0%,
+        transparent 60%
+      );
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -484,15 +574,23 @@
       transition: opacity 0.4s ease;
     }
 
-    .gallery-item:hover img { transform: scale(1.08); }
-    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
 
-    /* ==========================================================================
-       9. ESTATÍSTICAS
-       ========================================================================== */
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    /* ESTATÍSTICAS */
+
     .stats {
       padding: 5rem 0;
-      background: linear-gradient(135deg, var(--rose-soft), #ffffff);
+      background: linear-gradient(
+        135deg,
+        var(--rose-soft),
+        #ffffff
+      );
       border-top: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
     }
@@ -511,10 +609,11 @@
       color: var(--rose-deep);
     }
 
-    /* ==========================================================================
-       10. DEPOIMENTOS
-       ========================================================================== */
-    .testimonials { padding: 7rem 0; }
+    /* DEPOIMENTOS */
+
+    .testimonials {
+      padding: 7rem 0;
+    }
 
     .testimonials-grid {
       display: grid;
@@ -527,53 +626,109 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
     }
 
-    .stars { color: var(--gold-accent); margin-bottom: 1rem; }
+    .stars {
+      color: var(--gold-accent);
+      margin-bottom: 1rem;
+    }
 
-    /* ==========================================================================
-       11. FAQ ACCORDION
-       ========================================================================== */
-    .faq { padding: 6rem 0; background: rgba(252, 235, 240, 0.2); }
+    /* =========================================================
+       FAQ - CORRIGIDO
+       ========================================================= */
 
-    .faq-container { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+    .faq {
+      padding: 6rem 0;
+      background: rgba(252, 235, 240, 0.2);
+    }
+
+    .faq-container {
+      max-width: 750px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
     .faq-item {
       background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .faq-item.active {
+      box-shadow: 0 10px 30px rgba(232, 140, 165, 0.12);
     }
 
     .faq-btn {
-      width: 100%; padding: 1.3rem 1.5rem; text-align: left;
-      background: none; border: none; font-size: 1.05rem; font-weight: 600;
-      color: var(--text-main); display: flex; justify-content: space-between; align-items: center;
+      width: 100%;
+      padding: 1.3rem 1.5rem;
+      text-align: left;
+      background: none;
+      border: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
       cursor: pointer;
+      font-family: inherit;
+    }
+
+    .faq-btn i {
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-btn i {
+      transform: rotate(180deg);
     }
 
     .faq-content {
-      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
-      padding: 0 1.5rem; color: var(--text-muted); font-size: 0.95rem;
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      transition:
+        max-height 0.35s ease,
+        padding 0.35s ease;
     }
 
-    .faq-item.active .faq-content { max-height: 150px; padding: 0 1.5rem 1.3rem 1.5rem; }
+    .faq-item.active .faq-content {
+      padding: 0 1.5rem 1.3rem 1.5rem;
+    }
 
-    /* ==========================================================================
-       12. CTA & CONTATO
-       ========================================================================== */
-    .cta { padding: 6rem 0; text-align: center; }
+    /* CTA */
+
+    .cta {
+      padding: 6rem 0;
+      text-align: center;
+    }
 
     .cta-box {
-      background: linear-gradient(135deg, var(--rose-soft), #ffffff);
+      background: linear-gradient(
+        135deg,
+        var(--rose-soft),
+        #ffffff
+      );
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 4rem 2rem;
       box-shadow: 0 20px 40px var(--rose-glow);
     }
 
-    .contact { padding: 6rem 0; }
+    /* CONTATO */
+
+    .contact {
+      padding: 6rem 0;
+    }
 
     .contact-grid {
       display: grid;
@@ -581,18 +736,26 @@
       gap: 3.5rem;
     }
 
-    .form-input, .form-textarea {
-      width: 100%; padding: 0.9rem 1.2rem;
-      background: #ffffff; border: 1px solid var(--border-color);
-      border-radius: var(--radius-md); margin-top: 0.4rem;
-      font-family: inherit; font-size: 0.95rem; outline: none;
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      margin-top: 0.4rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
     }
 
-    .form-input:focus, .form-textarea:focus { border-color: var(--rose-deep); }
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--rose-deep);
+    }
 
-    /* ==========================================================================
-       13. FOOTER
-       ========================================================================== */
+    /* FOOTER */
+
     .footer {
       padding: 4rem 0 2rem 0;
       background: #fdf6f8;
@@ -606,470 +769,1653 @@
       margin-bottom: 3rem;
     }
 
-    /* Animações de Entrada Scroll */
-    .reveal {
-      opacity: 0; transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .reveal.active { opacity: 1; transform: translateY(0); }
+    /* ANIMAÇÕES */
 
-    /* Responsividade */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVIDADE */
+
     @media (max-width: 992px) {
-      .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .nav-links { display: none; }
-      .mobile-toggle { display: block; }
-      .footer-grid { grid-template-columns: 1fr; }
+      .hero-grid,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-toggle {
+        display: block;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 0 1rem;
+      }
+
+      .hero {
+        padding-top: 8rem;
+      }
+
+      .faq-btn {
+        font-size: 0.95rem;
+      }
+
+      .faq-content {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Glow do Cursor -->
   <div class="cursor-glow" id="cursorGlow"></div>
+
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
 
   <!-- HEADER -->
   <header class="header" id="header">
     <div class="container nav-container">
-      <a href="#" class="logo">Lumière <span>Studio</span></a>
+
+      <a href="#" class="logo">
+        Lumière <span>Studio</span>
+      </a>
 
       <ul class="nav-links">
-        <li><a href="#about" class="nav-link">Sobre</a></li>
-        <li><a href="#services" class="nav-link">Procedimentos</a></li>
-        <li><a href="#gallery" class="nav-link">Resultados</a></li>
-        <li><a href="#testimonials" class="nav-link">Depoimentos</a></li>
-        <li><a href="#faq" class="nav-link">Dúvidas</a></li>
+        <li>
+          <a href="#about" class="nav-link">Sobre</a>
+        </li>
+
+        <li>
+          <a href="#services" class="nav-link">Procedimentos</a>
+        </li>
+
+        <li>
+          <a href="#gallery" class="nav-link">Resultados</a>
+        </li>
+
+        <li>
+          <a href="#testimonials" class="nav-link">Depoimentos</a>
+        </li>
+
+        <li>
+          <a href="#faq" class="nav-link">Dúvidas</a>
+        </li>
       </ul>
 
-      <a href="#contact" class="btn btn-rose">Agendar Horário</a>
+      <a href="#contact" class="btn btn-rose">
+        Agendar Horário
+      </a>
 
-      <button class="mobile-toggle" id="mobileBtn" aria-label="Abrir Menu">
+      <button
+        class="mobile-toggle"
+        id="mobileBtn"
+        aria-label="Abrir Menu"
+      >
         <i data-lucide="menu"></i>
       </button>
+
     </div>
   </header>
 
-  <!-- Mobile Menu -->
+  <!-- MOBILE MENU -->
+
   <div class="mobile-overlay" id="mobileOverlay"></div>
+
   <nav class="mobile-menu" id="mobileMenu">
-    <a href="#about" class="nav-link mobile-link">Sobre</a>
-    <a href="#services" class="nav-link mobile-link">Procedimentos</a>
-    <a href="#gallery" class="nav-link mobile-link">Resultados</a>
-    <a href="#testimonials" class="nav-link mobile-link">Depoimentos</a>
-    <a href="#faq" class="nav-link mobile-link">Dúvidas</a>
-    <a href="#contact" class="btn btn-rose mobile-link" style="margin-top: 1rem;">Agendar Horário</a>
+
+    <a href="#about" class="nav-link mobile-link">
+      Sobre
+    </a>
+
+    <a href="#services" class="nav-link mobile-link">
+      Procedimentos
+    </a>
+
+    <a href="#gallery" class="nav-link mobile-link">
+      Resultados
+    </a>
+
+    <a href="#testimonials" class="nav-link mobile-link">
+      Depoimentos
+    </a>
+
+    <a href="#faq" class="nav-link mobile-link">
+      Dúvidas
+    </a>
+
+    <a
+      href="#contact"
+      class="btn btn-rose mobile-link"
+      style="margin-top: 1rem;"
+    >
+      Agendar Horário
+    </a>
+
   </nav>
 
-  <!-- HERO SECTION -->
+  <!-- HERO -->
+
   <section class="hero">
+
     <div class="container hero-grid">
+
       <div class="hero-content reveal">
+
         <div class="tag">
-          <i data-lucide="sparkles" style="width: 14px; color: var(--rose-deep);"></i>
+
+          <i
+            data-lucide="sparkles"
+            style="width: 14px; color: var(--rose-deep);"
+          ></i>
+
           Realce Sua Beleza Natural
+
         </div>
-        <h1 class="hero-title">Olhar marcante, presença <em>inesquecível.</em></h1>
-        <p class="hero-desc">Especialistas em extensão de cílios, maquiagem profissional e estética facial sob medida para elevar sua autoestima com sofisticação.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-          <a href="#contact" class="btn btn-rose">Agendar no WhatsApp <i data-lucide="arrow-right"></i></a>
-          <a href="#gallery" class="btn btn-outline">Ver Trabalhos</a>
+
+        <h1 class="hero-title">
+          Olhar marcante, presença
+          <em>inesquecível.</em>
+        </h1>
+
+        <p class="hero-desc">
+          Especialistas em extensão de cílios,
+          maquiagem profissional e estética facial
+          sob medida para elevar sua autoestima
+          com sofisticação.
+        </p>
+
+        <div
+          style="
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+          "
+        >
+
+          <a href="#contact" class="btn btn-rose">
+
+            Agendar no WhatsApp
+
+            <i data-lucide="arrow-right"></i>
+
+          </a>
+
+          <a href="#gallery" class="btn btn-outline">
+            Ver Trabalhos
+          </a>
+
         </div>
+
       </div>
 
-      <!-- Card 3D com Fotos de Cílios/Maquiagem Realista -->
       <div class="hero-visual reveal">
+
         <div class="hero-card-3d" id="heroCard">
+
           <div class="hero-img-box">
-            <!-- Foto real de aplicação / resultado de extensão de cílios -->
-            <img src="https://images.unsplash.com/photo-1583001809873-a1284d5f395f?auto=format&fit=crop&w=800&q=80" alt="Aplicação profissional de extensão de cílios de alta qualidade" />
+
+            <img
+              src="https://images.unsplash.com/photo-1583001809873-a1284d5f395f?auto=format&fit=crop&w=800&q=80"
+              alt="Aplicação profissional de extensão de cílios de alta qualidade"
+            >
+
           </div>
 
           <div class="badge-float badge-1">
-            <i data-lucide="heart" style="color: var(--rose-deep);"></i>
+
+            <i
+              data-lucide="heart"
+              style="color: var(--rose-deep);"
+            ></i>
+
             <div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">Satisfação</div>
-              <div style="font-weight: 700; font-size: 0.9rem;">+2.500 Clientes</div>
+
+              <div
+                style="
+                  font-size: 0.75rem;
+                  color: var(--text-muted);
+                "
+              >
+                Satisfação
+              </div>
+
+              <div
+                style="
+                  font-weight: 700;
+                  font-size: 0.9rem;
+                "
+              >
+                +2.500 Clientes
+              </div>
+
             </div>
+
           </div>
 
           <div class="badge-float badge-2">
-            <i data-lucide="star" style="color: var(--gold-accent);"></i>
+
+            <i
+              data-lucide="star"
+              style="color: var(--gold-accent);"
+            ></i>
+
             <div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">Avaliação</div>
-              <div style="font-weight: 700; font-size: 0.9rem;">5.0 Estrelas</div>
+
+              <div
+                style="
+                  font-size: 0.75rem;
+                  color: var(--text-muted);
+                "
+              >
+                Avaliação
+              </div>
+
+              <div
+                style="
+                  font-weight: 700;
+                  font-size: 0.9rem;
+                "
+              >
+                5.0 Estrelas
+              </div>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- SOBRE O STUDIO -->
+  <!-- SOBRE -->
+
   <section class="about" id="about">
+
     <div class="container about-grid">
+
       <div class="about-img-frame reveal">
-        <!-- Foto real de maquiagem / ambiente estético -->
-        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80" alt="Maquiadora profissional produzindo cliente" loading="lazy">
+
+        <img
+          src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=800&q=80"
+          alt="Maquiadora profissional produzindo cliente"
+          loading="lazy"
+        >
+
       </div>
+
       <div class="reveal">
-        <div class="tag">Sobre o Lumière Studio</div>
-        <h2 class="section-title">A arte de destacar o seu melhor</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">No Lumière Studio, acreditamos que a beleza está nos detalhes. Cada atendimento é único e personalizado, combinando técnicas avançadas de isolamento de cílios, visagismo em maquiagem e produtos de alta durabilidade.</p>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Nosso ambiente foi projetado para oferecer uma experiência relaxante, luxuosa e acolhedora do momento em que você chega até a revelação do resultado final.</p>
-        <a href="#contact" class="btn btn-rose">Conheça Nossas Especialistas</a>
+
+        <div class="tag">
+          Sobre o Lumière Studio
+        </div>
+
+        <h2 class="section-title">
+          A arte de destacar o seu melhor
+        </h2>
+
+        <p
+          style="
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+          "
+        >
+          No Lumière Studio, acreditamos que a beleza
+          está nos detalhes. Cada atendimento é único
+          e personalizado, combinando técnicas avançadas
+          de isolamento de cílios, visagismo em maquiagem
+          e produtos de alta durabilidade.
+        </p>
+
+        <p
+          style="
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+          "
+        >
+          Nosso ambiente foi projetado para oferecer
+          uma experiência relaxante, luxuosa e acolhedora
+          do momento em que você chega até a revelação
+          do resultado final.
+        </p>
+
+        <a href="#contact" class="btn btn-rose">
+          Conheça Nossas Especialistas
+        </a>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- PROCEDIMENTOS / SERVIÇOS -->
+  <!-- SERVIÇOS -->
+
   <section class="services" id="services">
+
     <div class="container">
+
       <div class="section-header reveal">
-        <div class="tag">Nossos Procedimentos</div>
-        <h2 class="section-title">Especialidades exclusivas</h2>
-        <p class="section-subtitle">Técnicas modernas desenvolvidas para valorizar os traços do seu rosto com naturalidade.</p>
+
+        <div class="tag">
+          Nossos Procedimentos
+        </div>
+
+        <h2 class="section-title">
+          Especialidades exclusivas
+        </h2>
+
+        <p class="section-subtitle">
+          Técnicas modernas desenvolvidas para
+          valorizar os traços do seu rosto com naturalidade.
+        </p>
+
       </div>
 
       <div class="services-grid">
-        <!-- Serviço 1: Cílios -->
+
         <div class="service-card reveal">
-          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=600&q=80" alt="Extensão de Cílios Volume Russo e Fio a Fio" class="service-img-preview" />
-          <h3 class="service-title">Extensão de Cílios</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Técnicas de Fio a Fio, Volume Russo e Lash Lifting com acoplagem perfeita, sem pesar nos olhos e com durabilidade prolongada.</p>
-          <a href="#contact" style="color: var(--rose-deep); text-decoration: none; font-weight: 600;">Saiba mais &rarr;</a>
+
+          <img
+            src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=600&q=80"
+            alt="Extensão de Cílios Volume Russo e Fio a Fio"
+            class="service-img-preview"
+          >
+
+          <h3 class="service-title">
+            Extensão de Cílios
+          </h3>
+
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 0.95rem;
+              margin-bottom: 1rem;
+            "
+          >
+            Técnicas de Fio a Fio, Volume Russo e
+            Lash Lifting com acoplagem perfeita,
+            sem pesar nos olhos e com durabilidade prolongada.
+          </p>
+
+          <a
+            href="#contact"
+            style="
+              color: var(--rose-deep);
+              text-decoration: none;
+              font-weight: 600;
+            "
+          >
+            Saiba mais &rarr;
+          </a>
+
         </div>
 
-        <!-- Serviço 2: Maquiagem -->
         <div class="service-card reveal">
-          <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80" alt="Maquiagem Profissional para Noivas e Eventos" class="service-img-preview" />
-          <h3 class="service-title">Maquiagem Profissional</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Produção social, festas, formaturas e Dia da Noiva. Pele blindada de alta resistência com acabamento glow radiante.</p>
-          <a href="#contact" style="color: var(--rose-deep); text-decoration: none; font-weight: 600;">Saiba mais &rarr;</a>
+
+          <img
+            src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80"
+            alt="Maquiagem Profissional para Noivas e Eventos"
+            class="service-img-preview"
+          >
+
+          <h3 class="service-title">
+            Maquiagem Profissional
+          </h3>
+
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 0.95rem;
+              margin-bottom: 1rem;
+            "
+          >
+            Produção social, festas, formaturas e
+            Dia da Noiva. Pele blindada de alta resistência
+            com acabamento glow radiante.
+          </p>
+
+          <a
+            href="#contact"
+            style="
+              color: var(--rose-deep);
+              text-decoration: none;
+              font-weight: 600;
+            "
+          >
+            Saiba mais &rarr;
+          </a>
+
         </div>
 
-        <!-- Serviço 3: Sobrancelhas & Estética -->
         <div class="service-card reveal">
-          <img src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=600&q=80" alt="Design de Sobrancelhas e Brow Lamination" class="service-img-preview" />
-          <h3 class="service-title">Design & Brow Lamination</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Mapeamento facial com visagismo, Henna orgânica, Brow Lamination e alinhamento de fios para um olhar harmônico.</p>
-          <a href="#contact" style="color: var(--rose-deep); text-decoration: none; font-weight: 600;">Saiba mais &rarr;</a>
+
+          <img
+            src="https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&w=600&q=80"
+            alt="Design de Sobrancelhas e Brow Lamination"
+            class="service-img-preview"
+          >
+
+          <h3 class="service-title">
+            Design & Brow Lamination
+          </h3>
+
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 0.95rem;
+              margin-bottom: 1rem;
+            "
+          >
+            Mapeamento facial com visagismo, Henna
+            orgânica, Brow Lamination e alinhamento
+            de fios para um olhar harmônico.
+          </p>
+
+          <a
+            href="#contact"
+            style="
+              color: var(--rose-deep);
+              text-decoration: none;
+              font-weight: 600;
+            "
+          >
+            Saiba mais &rarr;
+          </a>
+
         </div>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- GALERIA / PORTFÓLIO DE RESULTADOS -->
+  <!-- GALERIA -->
+
   <section class="gallery" id="gallery">
+
     <div class="container">
+
       <div class="section-header reveal">
-        <div class="tag">Resultados Reais</div>
-        <h2 class="section-title">Galeria de Transformações</h2>
-        <p class="section-subtitle">Confira o acabamento delicado e a precisão em nossos atendimentos diários.</p>
+
+        <div class="tag">
+          Resultados Reais
+        </div>
+
+        <h2 class="section-title">
+          Galeria de Transformações
+        </h2>
+
+        <p class="section-subtitle">
+          Confira o acabamento delicado e a precisão
+          em nossos atendimentos diários.
+        </p>
+
       </div>
 
       <div class="gallery-grid">
+
         <div class="gallery-item reveal">
-          <img src="https://images.unsplash.com/photo-1583001809873-a1284d5f395f?auto=format&fit=crop&w=600&q=80" alt="Efeito Extensão Cílios Detalhe" loading="lazy">
+
+          <img
+            src="https://images.unsplash.com/photo-1583001809873-a1284d5f395f?auto=format&fit=crop&w=600&q=80"
+            alt="Efeito Extensão Cílios Detalhe"
+            loading="lazy"
+          >
+
           <div class="gallery-overlay">
-            <h4>Volume Híbrido</h4>
-            <p style="font-size: 0.85rem;">Olhar marcante com curvatura personalizável.</p>
+
+            <h4>
+              Volume Híbrido
+            </h4>
+
+            <p style="font-size: 0.85rem;">
+              Olhar marcante com curvatura personalizável.
+            </p>
+
           </div>
+
         </div>
 
         <div class="gallery-item reveal">
-          <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=600&q=80" alt="Maquiagem Profissional Perto do Rosto" loading="lazy">
+
+          <img
+            src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=600&q=80"
+            alt="Maquiagem Profissional Perto do Rosto"
+            loading="lazy"
+          >
+
           <div class="gallery-overlay">
-            <h4>Make Social Glow</h4>
-            <p style="font-size: 0.85rem;">Pele técnica blindada e esfumado clássico.</p>
+
+            <h4>
+              Make Social Glow
+            </h4>
+
+            <p style="font-size: 0.85rem;">
+              Pele técnica blindada e esfumado clássico.
+            </p>
+
           </div>
+
         </div>
 
         <div class="gallery-item reveal">
-          <img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=600&q=80" alt="Procedimento Estético de Cuidados Faciais" loading="lazy">
+
+          <img
+            src="https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=600&q=80"
+            alt="Procedimento Estético de Cuidados Faciais"
+            loading="lazy"
+          >
+
           <div class="gallery-overlay">
-            <h4>Lash Lifting & Nutrição</h4>
-            <p style="font-size: 0.85rem;">Curvatura natural dos próprios fios.</p>
+
+            <h4>
+              Lash Lifting & Nutrição
+            </h4>
+
+            <p style="font-size: 0.85rem;">
+              Curvatura natural dos próprios fios.
+            </p>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </section>
 
   <!-- ESTATÍSTICAS -->
+
   <section class="stats">
+
     <div class="container stats-grid">
+
       <div class="reveal">
-        <div class="stat-number" data-target="3500">+0</div>
-        <div style="color: var(--text-muted); font-size: 0.9rem;">Cílios Aplicados</div>
+
+        <div
+          class="stat-number"
+          data-target="3500"
+        >
+          +0
+        </div>
+
+        <div
+          style="
+            color: var(--text-muted);
+            font-size: 0.9rem;
+          "
+        >
+          Cílios Aplicados
+        </div>
+
       </div>
+
       <div class="reveal">
-        <div class="stat-number" data-target="1200">+0</div>
-        <div style="color: var(--text-muted); font-size: 0.9rem;">Makes Realizadas</div>
+
+        <div
+          class="stat-number"
+          data-target="1200"
+        >
+          +0
+        </div>
+
+        <div
+          style="
+            color: var(--text-muted);
+            font-size: 0.9rem;
+          "
+        >
+          Makes Realizadas
+        </div>
+
       </div>
+
       <div class="reveal">
-        <div class="stat-number" data-target="100">%0</div>
-        <div style="color: var(--text-muted); font-size: 0.9rem;">Biossegurança & Higiene</div>
+
+        <div
+          class="stat-number"
+          data-target="100"
+        >
+          %0
+        </div>
+
+        <div
+          style="
+            color: var(--text-muted);
+            font-size: 0.9rem;
+          "
+        >
+          Biossegurança & Higiene
+        </div>
+
       </div>
+
       <div class="reveal">
-        <div class="stat-number" data-target="5">0.0</div>
-        <div style="color: var(--text-muted); font-size: 0.9rem;">Nota das Clientes no Google</div>
+
+        <div
+          class="stat-number"
+          data-target="5"
+        >
+          0.0
+        </div>
+
+        <div
+          style="
+            color: var(--text-muted);
+            font-size: 0.9rem;
+          "
+        >
+          Nota das Clientes no Google
+        </div>
+
       </div>
+
     </div>
+
   </section>
 
   <!-- DEPOIMENTOS -->
+
   <section class="testimonials" id="testimonials">
+
     <div class="container">
+
       <div class="section-header reveal">
-        <div class="tag">Depoimentos</div>
-        <h2 class="section-title">O carinho de quem se ama aqui</h2>
+
+        <div class="tag">
+          Depoimentos
+        </div>
+
+        <h2 class="section-title">
+          O carinho de quem se ama aqui
+        </h2>
+
       </div>
 
       <div class="testimonials-grid">
+
         <div class="testimonial-card reveal">
-          <div class="stars">★★★★★</div>
-          <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.2rem;">"A extensão de cílios mais leve e confortável que já fiz na vida! Não sinto nada pesar e acordo pronta todos os dias. Recomendo de olhos fechados."</p>
-          <div style="font-weight: 700;">Juliana Paes</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Cliente Lash Frequente</div>
+
+          <div class="stars">
+            ★★★★★
+          </div>
+
+          <p
+            style="
+              color: var(--text-muted);
+              font-style: italic;
+              margin-bottom: 1.2rem;
+            "
+          >
+            "A extensão de cílios mais leve e confortável
+            que já fiz na vida! Não sinto nada pesar e
+            acordo pronta todos os dias. Recomendo de
+            olhos fechados."
+          </p>
+
+          <div style="font-weight: 700;">
+            Juliana Paes
+          </div>
+
+          <div
+            style="
+              font-size: 0.8rem;
+              color: var(--text-muted);
+            "
+          >
+            Cliente Lash Frequente
+          </div>
+
         </div>
 
         <div class="testimonial-card reveal">
-          <div class="stars">★★★★★</div>
-          <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.2rem;">"Fiz minha make de noiva no Lumière e durou a festa inteira impecável, mesmo depois de chorar horrores na cerimônia! Atendimento maravilhoso."</p>
-          <div style="font-weight: 700;">Beatriz Lins</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Noiva Lumière</div>
+
+          <div class="stars">
+            ★★★★★
+          </div>
+
+          <p
+            style="
+              color: var(--text-muted);
+              font-style: italic;
+              margin-bottom: 1.2rem;
+            "
+          >
+            "Fiz minha make de noiva no Lumière e durou
+            a festa inteira impecável, mesmo depois de
+            chorar horrores na cerimônia! Atendimento maravilhoso."
+          </p>
+
+          <div style="font-weight: 700;">
+            Beatriz Lins
+          </div>
+
+          <div
+            style="
+              font-size: 0.8rem;
+              color: var(--text-muted);
+            "
+          >
+            Noiva Lumière
+          </div>
+
         </div>
 
         <div class="testimonial-card reveal">
-          <div class="stars">★★★★★</div>
-          <p style="color: var(--text-muted); font-style: italic; margin-bottom: 1.2rem;">"O estúdio é lindo, cheiroso e super limpo. As meninas são extremamente atenciosas e o resultado da Brow Lamination ficou perfeito!"</p>
-          <div style="font-weight: 700;">Carolina Rossi</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Cliente Sobrancelhas</div>
+
+          <div class="stars">
+            ★★★★★
+          </div>
+
+          <p
+            style="
+              color: var(--text-muted);
+              font-style: italic;
+              margin-bottom: 1.2rem;
+            "
+          >
+            "O estúdio é lindo, cheiroso e super limpo.
+            As meninas são extremamente atenciosas e
+            o resultado da Brow Lamination ficou perfeito!"
+          </p>
+
+          <div style="font-weight: 700;">
+            Carolina Rossi
+          </div>
+
+          <div
+            style="
+              font-size: 0.8rem;
+              color: var(--text-muted);
+            "
+          >
+            Cliente Sobrancelhas
+          </div>
+
         </div>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- FAQ -->
+  <!-- =====================================================
+       FAQ
+       ===================================================== -->
+
   <section class="faq" id="faq">
+
     <div class="container">
+
       <div class="section-header reveal">
-        <div class="tag">Dúvidas Frequentes</div>
-        <h2 class="section-title">Perguntas comuns</h2>
+
+        <div class="tag">
+          Dúvidas Frequentes
+        </div>
+
+        <h2 class="section-title">
+          Perguntas comuns
+        </h2>
+
       </div>
 
       <div class="faq-container">
+
         <div class="faq-item reveal">
-          <button class="faq-btn">
-            Quanto tempo dura a extensão de cílios?
+
+          <button
+            class="faq-btn"
+            type="button"
+            aria-expanded="false"
+          >
+
+            <span>
+              Quanto tempo dura a extensão de cílios?
+            </span>
+
             <i data-lucide="chevron-down"></i>
+
           </button>
+
           <div class="faq-content">
-            A extensão acompanha o ciclo natural de crescimento dos seus fios. Recomendamos a manutenção entre 15 a 21 dias para manter o volume perfeito.
+
+            A extensão acompanha o ciclo natural de
+            crescimento dos seus fios. Recomendamos a
+            manutenção entre 15 a 21 dias para manter
+            o volume perfeito.
+
           </div>
+
         </div>
 
         <div class="faq-item reveal">
-          <button class="faq-btn">
-            A extensão de cílios prejudica meus fios naturais?
+
+          <button
+            class="faq-btn"
+            type="button"
+            aria-expanded="false"
+          >
+
+            <span>
+              A extensão de cílios prejudica meus fios naturais?
+            </span>
+
             <i data-lucide="chevron-down"></i>
+
           </button>
+
           <div class="faq-content">
-            Não! Utilizamos isolamento correto, peso adequado para cada fio natural e cola hipoalergênica certificada. Seus fios continuam saudáveis.
+
+            Não! Utilizamos isolamento correto, peso
+            adequado para cada fio natural e cola
+            hipoalergênica certificada. Seus fios
+            continuam saudáveis.
+
           </div>
+
         </div>
 
         <div class="faq-item reveal">
-          <button class="faq-btn">
-            Como funciona o agendamento?
+
+          <button
+            class="faq-btn"
+            type="button"
+            aria-expanded="false"
+          >
+
+            <span>
+              Como funciona o agendamento?
+            </span>
+
             <i data-lucide="chevron-down"></i>
+
           </button>
+
           <div class="faq-content">
-            Você pode clicar no botão de agendamento aqui no site para conversar direto pelo nosso WhatsApp, escolher o procedimento e selecionar o melhor horário disponível.
+
+            Você pode clicar no botão de agendamento
+            aqui no site para conversar direto pelo
+            nosso WhatsApp, escolher o procedimento
+            e selecionar o melhor horário disponível.
+
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </section>
 
-  <!-- CALL TO ACTION -->
+  <!-- CTA -->
+
   <section class="cta">
+
     <div class="container">
+
       <div class="cta-box reveal">
-        <h2 class="section-title">Sua jornada de beleza começa aqui</h2>
-        <p style="color: var(--text-muted); max-width: 550px; margin: 0 auto 2rem auto;">Agende seu atendimento exclusivo e garanta um momento relaxante pensado especialmente para você.</p>
-        <a href="#contact" class="btn btn-rose">Agendar Meu Horário Agora</a>
+
+        <h2 class="section-title">
+          Sua jornada de beleza começa aqui
+        </h2>
+
+        <p
+          style="
+            color: var(--text-muted);
+            max-width: 550px;
+            margin: 0 auto 2rem auto;
+          "
+        >
+          Agende seu atendimento exclusivo e garanta
+          um momento relaxante pensado especialmente para você.
+        </p>
+
+        <a href="#contact" class="btn btn-rose">
+          Agendar Meu Horário Agora
+        </a>
+
       </div>
+
     </div>
+
   </section>
 
   <!-- CONTATO -->
+
   <section class="contact" id="contact">
+
     <div class="container">
+
       <div class="section-header reveal">
-        <div class="tag">Atendimento</div>
-        <h2 class="section-title">Entre em contato</h2>
+
+        <div class="tag">
+          Atendimento
+        </div>
+
+        <h2 class="section-title">
+          Entre em contato
+        </h2>
+
       </div>
 
       <div class="contact-grid">
+
         <div class="reveal">
+
           <div style="margin-bottom: 2rem;">
-            <h4 style="font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 0.5rem;">Localização do Studio</h4>
-            <p style="color: var(--text-muted);">PERSONALIZAÇÃO DESEJADA</p>
+
+            <h4
+              style="
+                font-family: var(--font-title);
+                font-size: 1.3rem;
+                margin-bottom: 0.5rem;
+              "
+            >
+              Localização do Studio
+            </h4>
+
+            <p style="color: var(--text-muted);">
+              PERSONALIZAÇÃO DESEJADA
+            </p>
+
           </div>
+
           <div style="margin-bottom: 2rem;">
-            <h4 style="font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 0.5rem;">Horário de Funcionamento</h4>
-            <p style="color: var(--text-muted);">PERSONALIZAÇÃO DO SEU<br>GOSTO</p>
+
+            <h4
+              style="
+                font-family: var(--font-title);
+                font-size: 1.3rem;
+                margin-bottom: 0.5rem;
+              "
+            >
+              Horário de Funcionamento
+            </h4>
+
+            <p style="color: var(--text-muted);">
+              PERSONALIZAÇÃO DO SEU<br>
+              GOSTO
+            </p>
+
           </div>
+
           <div>
-            <h4 style="font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 0.5rem;">WhatsApp Direct</h4>
-            <p style="color: var(--rose-deep); font-weight: 700;">+SEU NUMERO</p>
+
+            <h4
+              style="
+                font-family: var(--font-title);
+                font-size: 1.3rem;
+                margin-bottom: 0.5rem;
+              "
+            >
+              WhatsApp Direct
+            </h4>
+
+            <p
+              style="
+                color: var(--rose-deep);
+                font-weight: 700;
+              "
+            >
+              +SEU NUMERO
+            </p>
+
           </div>
+
         </div>
 
-        <form class="reveal" style="background: #ffffff; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-color);" onsubmit="event.preventDefault(); alert('Solicitação enviada com sucesso! Responderemos no seu WhatsApp.');">
+        <form
+          class="reveal"
+          style="
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+          "
+          onsubmit="
+            event.preventDefault();
+            alert('Solicitação enviada com sucesso! Responderemos no seu WhatsApp.');
+          "
+        >
+
           <div style="margin-bottom: 1rem;">
-            <label style="font-size: 0.85rem; font-weight: 600;">Seu Nome</label>
-            <input type="text" class="form-input" placeholder="Ex: Maria Oliveira" required>
+
+            <label
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              Seu Nome
+            </label>
+
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Ex: Maria Oliveira"
+              required
+            >
+
           </div>
+
           <div style="margin-bottom: 1rem;">
-            <label style="font-size: 0.85rem; font-weight: 600;">Seu WhatsApp</label>
-            <input type="tel" class="form-input" placeholder="(11) 99999-9999" required>
+
+            <label
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              Seu WhatsApp
+            </label>
+
+            <input
+              type="tel"
+              class="form-input"
+              placeholder="(11) 99999-9999"
+              required
+            >
+
           </div>
+
           <div style="margin-bottom: 1.5rem;">
-            <label style="font-size: 0.85rem; font-weight: 600;">Procedimento Desejado</label>
-            <input type="text" class="form-input" placeholder="Ex: Extensão de Cílios Volume Russo" required>
+
+            <label
+              style="
+                font-size: 0.85rem;
+                font-weight: 600;
+              "
+            >
+              Procedimento Desejado
+            </label>
+
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Ex: Extensão de Cílios Volume Russo"
+              required
+            >
+
           </div>
-          <button type="submit" class="btn btn-rose" style="width: 100%;">Enviar Solicitação</button>
+
+          <button
+            type="submit"
+            class="btn btn-rose"
+            style="width: 100%;"
+          >
+            Enviar Solicitação
+          </button>
+
         </form>
+
       </div>
+
     </div>
+
   </section>
 
   <!-- RODAPÉ -->
+
   <footer class="footer">
+
     <div class="container">
+
       <div class="footer-grid">
+
         <div>
-          <a href="#" class="logo">Lumière <span>Studio</span></a>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.8rem; max-width: 280px;">Studio especializado em extensão de cílios, maquiagem e visagismo facial.</p>
+
+          <a href="#" class="logo">
+            Lumière <span>Studio</span>
+          </a>
+
+          <p
+            style="
+              color: var(--text-muted);
+              font-size: 0.9rem;
+              margin-top: 0.8rem;
+              max-width: 280px;
+            "
+          >
+            Studio especializado em extensão de cílios,
+            maquiagem e visagismo facial.
+          </p>
+
         </div>
+
         <div>
-          <h4 style="font-family: var(--font-title); margin-bottom: 1rem;">Navegação</h4>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
-            <li><a href="#about" style="color: var(--text-muted); text-decoration: none;">Sobre Nós</a></li>
-            <li><a href="#services" style="color: var(--text-muted); text-decoration: none;">Procedimentos</a></li>
-            <li><a href="#gallery" style="color: var(--text-muted); text-decoration: none;">Resultados</a></li>
+
+          <h4
+            style="
+              font-family: var(--font-title);
+              margin-bottom: 1rem;
+            "
+          >
+            Navegação
+          </h4>
+
+          <ul
+            style="
+              list-style: none;
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+              font-size: 0.9rem;
+            "
+          >
+
+            <li>
+              <a
+                href="#about"
+                style="
+                  color: var(--text-muted);
+                  text-decoration: none;
+                "
+              >
+                Sobre Nós
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="#services"
+                style="
+                  color: var(--text-muted);
+                  text-decoration: none;
+                "
+              >
+                Procedimentos
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="#gallery"
+                style="
+                  color: var(--text-muted);
+                  text-decoration: none;
+                "
+              >
+                Resultados
+              </a>
+            </li>
+
           </ul>
+
         </div>
+
         <div>
-          <h4 style="font-family: var(--font-title); margin-bottom: 1rem;">Redes Sociais</h4>
+
+          <h4
+            style="
+              font-family: var(--font-title);
+              margin-bottom: 1rem;
+            "
+          >
+            Redes Sociais
+          </h4>
+
           <div style="display: flex; gap: 1rem;">
-            <a href="#" style="color: var(--rose-deep);"><i data-lucide="instagram"></i></a>
-            <a href="#" style="color: var(--rose-deep);"><i data-lucide="facebook"></i></a>
+
+            <a
+              href="#"
+              style="color: var(--rose-deep);"
+            >
+              <i data-lucide="instagram"></i>
+            </a>
+
+            <a
+              href="#"
+              style="color: var(--rose-deep);"
+            >
+              <i data-lucide="facebook"></i>
+            </a>
+
           </div>
+
         </div>
+
       </div>
-      <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
-        &copy; 2026 Lumière Beauty Studio. Todos os direitos reservados.
+
+      <div
+        style="
+          text-align: center;
+          color: var(--text-muted);
+          font-size: 0.85rem;
+          border-top: 1px solid var(--border-color);
+          padding-top: 1.5rem;
+        "
+      >
+        &copy; 2026 Lumière Beauty Studio.
+        Todos os direitos reservados.
       </div>
+
     </div>
+
   </footer>
 
-  <!-- JAVASCRIPT VANILLA -->
+  <!-- JAVASCRIPT -->
+
   <script>
+
+    /* ÍCONES */
     lucide.createIcons();
 
-    // Scroll Header Background
+
+    /* HEADER */
+
     const header = document.getElementById('header');
+
     window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 40);
+
+      header.classList.toggle(
+        'scrolled',
+        window.scrollY > 40
+      );
+
     });
 
-    // Cursor Glow
-    const cursorGlow = document.getElementById('cursorGlow');
+
+    /* CURSOR GLOW */
+
+    const cursorGlow =
+      document.getElementById('cursorGlow');
+
     window.addEventListener('mousemove', (e) => {
-      cursorGlow.style.left = `${e.clientX}px`;
-      cursorGlow.style.top = `${e.clientY}px`;
+
+      cursorGlow.style.left =
+        `${e.clientX}px`;
+
+      cursorGlow.style.top =
+        `${e.clientY}px`;
+
     });
 
-    // Mobile Menu
-    const mobileBtn = document.getElementById('mobileBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    /* MENU MOBILE */
+
+    const mobileBtn =
+      document.getElementById('mobileBtn');
+
+    const mobileMenu =
+      document.getElementById('mobileMenu');
+
+    const mobileOverlay =
+      document.getElementById('mobileOverlay');
+
 
     function toggleMenu() {
+
       mobileMenu.classList.toggle('active');
+
       mobileOverlay.classList.toggle('active');
-    }
-    mobileBtn.addEventListener('click', toggleMenu);
-    mobileOverlay.addEventListener('click', toggleMenu);
-    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', toggleMenu));
 
-    // Card 3D Parallax no Hero
-    const heroCard = document.getElementById('heroCard');
-    if (heroCard && window.innerWidth > 992) {
-      document.addEventListener('mousemove', (e) => {
-        const x = (window.innerWidth / 2 - e.pageX) / 30;
-        const y = (window.innerHeight / 2 - e.pageY) / 30;
-        heroCard.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-      });
     }
 
-    // Light follower nos cards
-    document.querySelectorAll('.service-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-      });
-    });
 
-    // Scroll Observer Animações
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          if (entry.target.parentElement.classList.contains('stats-grid')) {
-            runCounters();
+    mobileBtn.addEventListener(
+      'click',
+      toggleMenu
+    );
+
+
+    mobileOverlay.addEventListener(
+      'click',
+      toggleMenu
+    );
+
+
+    document
+      .querySelectorAll('.mobile-link')
+      .forEach(link => {
+
+        link.addEventListener(
+          'click',
+          () => {
+
+            mobileMenu.classList.remove('active');
+
+            mobileOverlay.classList.remove('active');
+
           }
+        );
+
+      });
+
+
+    /* CARD 3D */
+
+    const heroCard =
+      document.getElementById('heroCard');
+
+    if (
+      heroCard &&
+      window.innerWidth > 992
+    ) {
+
+      document.addEventListener(
+        'mousemove',
+        (e) => {
+
+          const x =
+            (window.innerWidth / 2 - e.pageX) / 30;
+
+          const y =
+            (window.innerHeight / 2 - e.pageY) / 30;
+
+          heroCard.style.transform =
+            `rotateY(${x}deg) rotateX(${y}deg)`;
+
         }
-      });
-    }, { threshold: 0.15 });
+      );
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Contadores
-    let started = false;
-    function runCounters() {
-      if (started) return;
-      started = true;
-      document.querySelectorAll('.stat-number').forEach(stat => {
-        const target = +stat.getAttribute('data-target');
-        let count = 0;
-        const inc = target / 40;
-        const update = () => {
-          count += inc;
-          if (count < target) {
-            stat.innerText = (target === 5 ? count.toFixed(1) : Math.ceil(count)) + (target === 100 ? '%' : '+');
-            setTimeout(update, 35);
-          } else {
-            stat.innerText = target + (target === 100 ? '%' : '+');
-          }
-        };
-        update();
-      });
     }
 
-    // FAQ Accordion
-    document.querySelectorAll('.faq-item').forEach(item => {
-      item.querySelector('.faq-btn').addEventListener('click', () => {
-        const active = item.classList.contains('active');
-        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-        if (!active) item.classList.add('active');
+
+    /* LUZ DOS CARDS */
+
+    document
+      .querySelectorAll('.service-card')
+      .forEach(card => {
+
+        card.addEventListener(
+          'mousemove',
+          (e) => {
+
+            const rect =
+              card.getBoundingClientRect();
+
+            card.style.setProperty(
+              '--mouse-x',
+              `${e.clientX - rect.left}px`
+            );
+
+            card.style.setProperty(
+              '--mouse-y',
+              `${e.clientY - rect.top}px`
+            );
+
+          }
+        );
+
       });
-    });
+
+
+    /* ANIMAÇÕES AO ROLAR */
+
+    const observer =
+      new IntersectionObserver(
+        (entries) => {
+
+          entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add('active');
+
+              if (
+                entry.target.parentElement &&
+                entry.target.parentElement.classList.contains(
+                  'stats-grid'
+                )
+              ) {
+
+                runCounters();
+
+              }
+
+            }
+
+          });
+
+        },
+        {
+          threshold: 0.15
+        }
+      );
+
+
+    document
+      .querySelectorAll('.reveal')
+      .forEach(el => {
+
+        observer.observe(el);
+
+      });
+
+
+    /* CONTADORES */
+
+    let started = false;
+
+
+    function runCounters() {
+
+      if (started) return;
+
+      started = true;
+
+
+      document
+        .querySelectorAll('.stat-number')
+        .forEach(stat => {
+
+          const target =
+            +stat.getAttribute('data-target');
+
+          let count = 0;
+
+          const inc =
+            target / 40;
+
+
+          const update = () => {
+
+            count += inc;
+
+
+            if (count < target) {
+
+              stat.innerText =
+                (
+                  target === 5
+                    ? count.toFixed(1)
+                    : Math.ceil(count)
+                )
+                +
+                (
+                  target === 100
+                    ? '%'
+                    : '+'
+                );
+
+              setTimeout(
+                update,
+                35
+              );
+
+            } else {
+
+              stat.innerText =
+                target
+                +
+                (
+                  target === 100
+                    ? '%'
+                    : '+'
+                );
+
+            }
+
+          };
+
+
+          update();
+
+        });
+
+    }
+
+
+    /* =========================================================
+       FAQ CORRIGIDO
+       ========================================================= */
+
+    document
+      .querySelectorAll('.faq-item')
+      .forEach(item => {
+
+        const button =
+          item.querySelector('.faq-btn');
+
+        const content =
+          item.querySelector('.faq-content');
+
+
+        button.addEventListener(
+          'click',
+          () => {
+
+            const isOpen =
+              item.classList.contains('active');
+
+
+            /*
+              Fecha todas as perguntas
+            */
+
+            document
+              .querySelectorAll('.faq-item')
+              .forEach(otherItem => {
+
+                const otherContent =
+                  otherItem.querySelector(
+                    '.faq-content'
+                  );
+
+                const otherButton =
+                  otherItem.querySelector(
+                    '.faq-btn'
+                  );
+
+
+                otherItem.classList.remove(
+                  'active'
+                );
+
+
+                otherButton.setAttribute(
+                  'aria-expanded',
+                  'false'
+                );
+
+
+                otherContent.style.maxHeight =
+                  '0px';
+
+              });
+
+
+            /*
+              Se estava fechada,
+              abre a pergunta clicada.
+            */
+
+            if (!isOpen) {
+
+              item.classList.add(
+                'active'
+              );
+
+
+              button.setAttribute(
+                'aria-expanded',
+                'true'
+              );
+
+
+              /*
+                Aqui está a correção principal.
+
+                Em vez de usar uma altura fixa,
+                o código mede exatamente o tamanho
+                da resposta.
+              */
+
+              content.style.maxHeight =
+                content.scrollHeight + 'px';
+
+            }
+
+          }
+        );
+
+      });
+
+
+    /*
+      Se a tela mudar de tamanho,
+      recalcula a altura do FAQ aberto.
+    */
+
+    window.addEventListener(
+      'resize',
+      () => {
+
+        const openItem =
+          document.querySelector(
+            '.faq-item.active'
+          );
+
+
+        if (openItem) {
+
+          const content =
+            openItem.querySelector(
+              '.faq-content'
+            );
+
+
+          content.style.maxHeight =
+            content.scrollHeight + 'px';
+
+        }
+
+      }
+    );
+
   </script>
+
 </body>
 </html>
