@@ -1,52 +1,86 @@
 ```html
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Web BedWars</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
 
-    body {
-        margin: 0;
-        overflow: hidden;
-        background: #111;
-        font-family: Arial, sans-serif;
-        color: white;
-        cursor: crosshair;
-    }
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+}
 
-    canvas {
-        display: block;
-        background: #55a84f;
-    }
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #111;
+    font-family: Arial, sans-serif;
+    color: white;
+}
 
-    #ui {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 10;
-        background: rgba(0,0,0,.65);
-        padding: 12px;
-        border-radius: 10px;
-        font-size: 15px;
-    }
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
 
-    #info {
-        position: fixed;
-        bottom: 15px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0,0,0,.65);
-        padding: 10px 18px;
-        border-radius: 10px;
-        white-space: nowrap;
-    }
+#ui {
+
+    position: fixed;
+
+    top: 15px;
+    left: 15px;
+
+    z-index: 10;
+
+    background: rgba(0,0,0,.65);
+
+    padding: 12px 15px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    pointer-events: none;
+
+}
+
+#info {
+
+    position: fixed;
+
+    bottom: 15px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: rgba(0,0,0,.65);
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    white-space: nowrap;
+
+    font-size: 14px;
+
+    pointer-events: none;
+
+}
+
 </style>
+
 </head>
 
 <body>
@@ -54,128 +88,300 @@
 <canvas id="game"></canvas>
 
 <div id="ui">
-    ❤️ Vida: <span id="hp">100</span><br>
-    ⚔️ Combo: <span id="combo">0</span><br>
-    👾 Inimigos: <span id="enemies">0</span>
+
+❤️ Vida:
+<span id="hp">100</span>
+
+<br>
+
+⚔️ Combo:
+<span id="combo">0</span>
+
+<br>
+
+👾 Inimigos:
+<span id="enemies">0</span>
+
 </div>
 
 <div id="info">
-    WASD = mover &nbsp; | &nbsp; Mouse = mirar &nbsp; | &nbsp; Clique = atacar
+
+WASD = mover
+&nbsp; | &nbsp;
+Mouse = mirar
+&nbsp; | &nbsp;
+Clique = atacar
+
 </div>
+
 
 <script>
 
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
 const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-
-const keys = {};
-
-document.addEventListener("keydown", e => {
-    keys[e.key.toLowerCase()] = true;
-});
-
-document.addEventListener("keyup", e => {
-    keys[e.key.toLowerCase()] = false;
+const ctx = canvas.getContext("2d", {
+    alpha: false
 });
 
 
-/* =========================
-   MIRA
-========================= */
+/*
+   Resolução interna limitada.
+
+   Isso evita que monitores 2K/4K
+   façam o jogo desenhar milhões
+   de pixels desnecessariamente.
+*/
+
+let width = 0;
+let height = 0;
+
+
+function resize() {
+
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    /*
+       Se o jogador redimensionar a janela,
+       mantém o jogador dentro da tela.
+    */
+
+    player.x = Math.max(
+        25,
+        Math.min(width - 25, player.x)
+    );
+
+    player.y = Math.max(
+        25,
+        Math.min(height - 25, player.y)
+    );
+
+}
+
+
+window.addEventListener("resize", resize);
+
+
+/* =========================================================
+   CONTROLES
+========================================================= */
+
+const keys = Object.create(null);
+
+
+window.addEventListener("keydown", e => {
+
+    const key = e.key.toLowerCase();
+
+    if (
+        key === "w" ||
+        key === "a" ||
+        key === "s" ||
+        key === "d"
+    ) {
+
+        keys[key] = true;
+
+        e.preventDefault();
+
+    }
+
+});
+
+
+window.addEventListener("keyup", e => {
+
+    const key = e.key.toLowerCase();
+
+    if (
+        key === "w" ||
+        key === "a" ||
+        key === "s" ||
+        key === "d"
+    ) {
+
+        keys[key] = false;
+
+        e.preventDefault();
+
+    }
+
+});
+
+
+/* =========================================================
+   MOUSE / MIRA
+========================================================= */
 
 const mouse = {
-    x: canvas.width / 2,
-    y: canvas.height / 2
+
+    x: 0,
+    y: 0
+
 };
 
-document.addEventListener("mousemove", e => {
+
+canvas.addEventListener("mousemove", e => {
+
+    /*
+       Atualização direta.
+
+       Não usamos animação,
+       interpolação ou setTimeout.
+
+       Resultado:
+       mira praticamente instantânea.
+    */
+
     mouse.x = e.clientX;
     mouse.y = e.clientY;
+
 });
 
 
-/* =========================
+/*
+   Impede ações do navegador.
+*/
+
+canvas.addEventListener("contextmenu", e => {
+
+    e.preventDefault();
+
+});
+
+
+canvas.addEventListener("selectstart", e => {
+
+    e.preventDefault();
+
+});
+
+
+canvas.addEventListener("dragstart", e => {
+
+    e.preventDefault();
+
+});
+
+
+canvas.addEventListener("auxclick", e => {
+
+    e.preventDefault();
+
+});
+
+
+/* =========================================================
    PLAYER
-========================= */
+========================================================= */
 
 const player = {
 
-    x: canvas.width / 2,
-    y: canvas.height / 2,
+    x: 0,
+    y: 0,
 
     size: 25,
-    speed: 4,
+
+    speed: 260,
 
     hp: 100,
+
     combo: 0,
 
     attackCooldown: 0,
-    comboTimer: null
+
+    attackAnimation: 0,
+
+    comboTimer: 0
 
 };
 
 
-/* =========================
-   INIMIGOS
-========================= */
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
 
-let enemies = [];
+resize();
+
+player.x = width / 2;
+player.y = height / 2;
+
+mouse.x = width / 2;
+mouse.y = height / 2;
 
 
-/* MENOS NPCs */
+/* =========================================================
+   NPCs
+========================================================= */
+
+const enemies = [];
+
+const MAX_ENEMIES = 5;
+
+
+/*
+   Cria NPC.
+*/
 
 function spawnEnemy() {
 
-    // Limite máximo de NPCs
-    if(enemies.length >= 6)
+    if (enemies.length >= MAX_ENEMIES)
         return;
 
-    let side = Math.floor(Math.random() * 4);
+
+    const side = Math.floor(Math.random() * 4);
 
     let x;
     let y;
 
-    if(side === 0) {
 
-        x = Math.random() * canvas.width;
-        y = -40;
+    if (side === 0) {
 
-    }
-
-    if(side === 1) {
-
-        x = canvas.width + 40;
-        y = Math.random() * canvas.height;
+        x = Math.random() * width;
+        y = -50;
 
     }
 
-    if(side === 2) {
+    else if (side === 1) {
 
-        x = Math.random() * canvas.width;
-        y = canvas.height + 40;
+        x = width + 50;
+        y = Math.random() * height;
+
+    }
+
+    else if (side === 2) {
+
+        x = Math.random() * width;
+        y = height + 50;
 
     }
 
-    if(side === 3) {
+    else {
 
-        x = -40;
-        y = Math.random() * canvas.height;
+        x = -50;
+        y = Math.random() * height;
 
     }
+
 
     enemies.push({
 
-        x,
-        y,
+        x: x,
+        y: y,
 
         size: 25,
 
         hp: 100,
 
-        speed: 1.2,
+        speed: 75,
 
         knockX: 0,
         knockY: 0,
@@ -187,139 +393,170 @@ function spawnEnemy() {
 }
 
 
-/* NPC aparece a cada 3,5 segundos */
+/*
+   Spawn mais espaçado.
 
-setInterval(spawnEnemy, 3500);
+   Primeiro NPC depois de 2 segundos.
+   Depois aproximadamente a cada 3 segundos.
+*/
+
+let spawnTimer = 2;
+
+spawnEnemy();
 
 
-/* =========================
+/* =========================================================
    ATAQUE
-========================= */
+========================================================= */
 
-document.addEventListener("mousedown", attack);
+canvas.addEventListener("mousedown", e => {
+
+    /*
+       Bloqueia o navegador.
+
+       Isso é importante para evitar
+       comportamentos estranhos do clique.
+    */
+
+    e.preventDefault();
+
+
+    /*
+       Somente botão esquerdo.
+    */
+
+    if (e.button !== 0)
+        return;
+
+
+    attack();
+
+});
 
 
 function attack() {
 
-    if(player.attackCooldown > 0)
+    if (player.attackCooldown > 0)
         return;
 
 
-    player.attackCooldown = 18;
+    /*
+       Cooldown pequeno.
+    */
+
+    player.attackCooldown = 0.16;
+
+    player.attackAnimation = 0.12;
+
+
+    /*
+       Direção do mouse.
+    */
+
+    let dx = mouse.x - player.x;
+    let dy = mouse.y - player.y;
+
+
+    const distance =
+        Math.sqrt(dx * dx + dy * dy);
+
+
+    if (distance < 0.001)
+        return;
+
+
+    const dirX = dx / distance;
+    const dirY = dy / distance;
 
 
     let hit = false;
 
 
     /*
-        DIREÇÃO DA MIRA
+       Percorre os NPCs.
     */
 
-    let dx = mouse.x - player.x;
-    let dy = mouse.y - player.y;
+    for (let i = 0; i < enemies.length; i++) {
 
-    let distanceMouse =
-        Math.sqrt(dx * dx + dy * dy);
+        const enemy = enemies[i];
 
 
-    if(distanceMouse === 0)
-        return;
+        let ex =
+            enemy.x - player.x;
+
+        let ey =
+            enemy.y - player.y;
 
 
-    let dirX = dx / distanceMouse;
-    let dirY = dy / distanceMouse;
-
-
-    enemies.forEach(enemy => {
-
-        let ex = enemy.x - player.x;
-        let ey = enemy.y - player.y;
-
-        let distance =
+        const enemyDistance =
             Math.sqrt(ex * ex + ey * ey);
 
 
         /*
-            DISTÂNCIA DO ATAQUE
+           Alcance.
         */
 
-        if(distance > 75)
-            return;
+        if (enemyDistance > 75)
+            continue;
 
 
         /*
-            NORMALIZA DIREÇÃO DO NPC
+           Direção até o inimigo.
         */
 
-        let enemyDirX = ex / distance;
-        let enemyDirY = ey / distance;
+        ex /= enemyDistance;
+        ey /= enemyDistance;
 
 
         /*
-            PRODUTO ESCALAR
+           Verifica se está na frente.
 
-            Isso verifica se o NPC
-            está na frente do jogador.
-
-            1 = exatamente na direção
-            0 = lateral
-            -1 = atrás
+           0.45 permite um cone de ataque.
         */
 
-        let dot =
-            dirX * enemyDirX +
-            dirY * enemyDirY;
+        const dot =
+            dirX * ex +
+            dirY * ey;
+
+
+        if (dot < 0.45)
+            continue;
 
 
         /*
-            0.45 = aproximadamente
-            um cone de ataque de ~63°
-        */
-
-        if(dot < 0.45)
-            return;
-
-
-        /*
-            ACERTOU
+           HIT
         */
 
         hit = true;
 
         enemy.hp -= 25;
 
-        enemy.hitTimer = 8;
+        enemy.hitTimer = 0.10;
 
 
         /*
-            KNOCKBACK NA DIREÇÃO
-            DO ATAQUE
+           Knockback.
         */
 
-        enemy.knockX = dirX * 14;
-        enemy.knockY = dirY * 14;
+        enemy.knockX =
+            dirX * 360;
+
+        enemy.knockY =
+            dirY * 360;
 
 
         /*
-            COMBO
+           Combo.
         */
 
         player.combo++;
 
+        player.comboTimer = 0.9;
 
-        clearTimeout(player.comboTimer);
-
-
-        player.comboTimer = setTimeout(() => {
-
-            player.combo = 0;
-
-        }, 900);
-
-    });
+    }
 
 
-    if(!hit) {
+    if (!hit) {
 
         player.combo = 0;
 
@@ -328,200 +565,305 @@ function attack() {
 }
 
 
-/* =========================
+/* =========================================================
    UPDATE
-========================= */
+========================================================= */
 
-function update() {
-
-
-    /* MOVIMENTO */
-
-    if(keys["w"])
-        player.y -= player.speed;
-
-    if(keys["s"])
-        player.y += player.speed;
-
-    if(keys["a"])
-        player.x -= player.speed;
-
-    if(keys["d"])
-        player.x += player.speed;
+function update(dt) {
 
 
-    /* LIMITES */
+    /*
+       Evita problemas caso o navegador
+       trave por algum motivo.
+    */
 
-    player.x =
-        Math.max(
-            20,
-            Math.min(canvas.width - 20, player.x)
-        );
-
-    player.y =
-        Math.max(
-            20,
-            Math.min(canvas.height - 20, player.y)
-        );
+    dt = Math.min(dt, 0.05);
 
 
-    /* COOLDOWN */
+    /* --------------------------------
+       MOVIMENTO
+    -------------------------------- */
 
-    if(player.attackCooldown > 0)
-        player.attackCooldown--;
-
-
-    /* NPCs */
-
-    enemies.forEach(enemy => {
+    let moveX = 0;
+    let moveY = 0;
 
 
-        /* KNOCKBACK */
+    if (keys["w"])
+        moveY -= 1;
 
-        enemy.x += enemy.knockX;
-        enemy.y += enemy.knockY;
+    if (keys["s"])
+        moveY += 1;
+
+    if (keys["a"])
+        moveX -= 1;
+
+    if (keys["d"])
+        moveX += 1;
 
 
-        enemy.knockX *= 0.82;
-        enemy.knockY *= 0.82;
+    /*
+       Movimento diagonal não fica
+       mais rápido que o normal.
+    */
+
+    if (moveX !== 0 || moveY !== 0) {
+
+        const length =
+            Math.sqrt(
+                moveX * moveX +
+                moveY * moveY
+            );
 
 
-        if(enemy.hitTimer > 0)
-            enemy.hitTimer--;
+        moveX /= length;
+        moveY /= length;
 
 
-        /* IA */
+        player.x +=
+            moveX *
+            player.speed *
+            dt;
 
-        let dx =
+
+        player.y +=
+            moveY *
+            player.speed *
+            dt;
+
+    }
+
+
+    /* --------------------------------
+       LIMITES
+    -------------------------------- */
+
+    player.x = Math.max(
+        15,
+        Math.min(width - 15, player.x)
+    );
+
+
+    player.y = Math.max(
+        15,
+        Math.min(height - 15, player.y)
+    );
+
+
+    /* --------------------------------
+       ATAQUE
+    -------------------------------- */
+
+    if (player.attackCooldown > 0)
+        player.attackCooldown -= dt;
+
+
+    if (player.attackAnimation > 0)
+        player.attackAnimation -= dt;
+
+
+    /* --------------------------------
+       COMBO
+    -------------------------------- */
+
+    if (player.comboTimer > 0) {
+
+        player.comboTimer -= dt;
+
+    }
+    else {
+
+        player.combo = 0;
+
+    }
+
+
+    /* --------------------------------
+       SPAWN
+    -------------------------------- */
+
+    spawnTimer -= dt;
+
+
+    if (spawnTimer <= 0) {
+
+        spawnEnemy();
+
+        spawnTimer = 3;
+
+    }
+
+
+    /* --------------------------------
+       NPCs
+    -------------------------------- */
+
+    for (let i = enemies.length - 1; i >= 0; i--) {
+
+        const enemy = enemies[i];
+
+
+        /* Knockback */
+
+        enemy.x +=
+            enemy.knockX * dt;
+
+        enemy.y +=
+            enemy.knockY * dt;
+
+
+        /*
+           Fricção do knockback.
+        */
+
+        enemy.knockX *=
+            Math.pow(0.02, dt);
+
+        enemy.knockY *=
+            Math.pow(0.02, dt);
+
+
+        /* Hit timer */
+
+        if (enemy.hitTimer > 0)
+            enemy.hitTimer -= dt;
+
+
+        /*
+           IA.
+        */
+
+        const dx =
             player.x - enemy.x;
 
-        let dy =
+        const dy =
             player.y - enemy.y;
 
 
-        let distance =
+        const distance =
             Math.sqrt(dx * dx + dy * dy);
 
 
-        if(distance > 35) {
+        if (distance > 38) {
 
             enemy.x +=
                 (dx / distance) *
-                enemy.speed;
+                enemy.speed *
+                dt;
+
 
             enemy.y +=
                 (dy / distance) *
-                enemy.speed;
+                enemy.speed *
+                dt;
 
         }
         else {
 
-            /* DANO */
+            /*
+               Dano reduzido e baseado
+               no tempo.
+            */
 
-            player.hp -= 0.15;
+            player.hp -=
+                9 * dt;
 
         }
 
-    });
 
+        /*
+           Remove morto.
+        */
 
-    /* REMOVE NPC MORTO */
+        if (enemy.hp <= 0) {
 
-    enemies =
-        enemies.filter(enemy => enemy.hp > 0);
+            enemies.splice(i, 1);
 
-
-    /* MORTE */
-
-    if(player.hp <= 0) {
-
-        player.hp = 100;
-
-        enemies = [];
-
-        player.combo = 0;
-
-        alert("Você morreu! 😭");
+        }
 
     }
 
 
-    /* UI */
+    /* --------------------------------
+       MORTE
+    -------------------------------- */
 
-    document.getElementById("hp").textContent =
-        Math.floor(player.hp);
+    if (player.hp <= 0) {
 
-    document.getElementById("combo").textContent =
-        player.combo;
+        player.hp = 100;
 
-    document.getElementById("enemies").textContent =
-        enemies.length;
+        enemies.length = 0;
+
+        player.combo = 0;
+
+        player.comboTimer = 0;
+
+    }
 
 }
 
 
-/* =========================
-   DRAW
-========================= */
+/* =========================================================
+   DESENHO
+========================================================= */
 
 function draw() {
 
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    /* GRAMA */
+    /*
+       Fundo.
+    */
 
     ctx.fillStyle = "#55a84f";
 
     ctx.fillRect(
         0,
         0,
-        canvas.width,
-        canvas.height
+        width,
+        height
     );
 
 
-    /* ILHA */
+    /* --------------------------------
+       ILHA
+    -------------------------------- */
 
     ctx.fillStyle = "#c9a66b";
 
     ctx.fillRect(
 
-        canvas.width / 2 - 180,
+        width / 2 - 180,
 
-        canvas.height / 2 - 130,
+        height / 2 - 130,
 
         360,
+
         260
 
     );
 
 
-    /* CAMA */
+    /* --------------------------------
+       CAMA
+    -------------------------------- */
 
     ctx.fillStyle = "#e53935";
 
     ctx.fillRect(
 
-        canvas.width / 2 - 45,
+        width / 2 - 45,
 
-        canvas.height / 2 - 20,
+        height / 2 - 20,
 
         90,
+
         40
 
     );
 
 
-    /* =========================
+    /* --------------------------------
        DIREÇÃO DA MIRA
-    ========================= */
+    -------------------------------- */
 
     let dx =
         mouse.x - player.x;
@@ -530,56 +872,64 @@ function draw() {
         mouse.y - player.y;
 
 
-    let distance =
+    const distance =
         Math.sqrt(dx * dx + dy * dy);
 
 
-    if(distance > 0) {
-
-        let dirX = dx / distance;
-        let dirY = dy / distance;
+    let dirX = 0;
+    let dirY = 0;
 
 
-        /*
-            LINHA DA ESPADA
-        */
+    if (distance > 0) {
 
-        ctx.strokeStyle =
-            "rgba(255,255,255,0.25)";
-
-        ctx.lineWidth = 2;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            player.x,
-            player.y
-        );
-
-        ctx.lineTo(
-
-            player.x + dirX * 60,
-
-            player.y + dirY * 60
-
-        );
-
-        ctx.stroke();
+        dirX = dx / distance;
+        dirY = dy / distance;
 
     }
 
 
-    /* =========================
+    /*
+       Linha de mira bem discreta.
+    */
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,0.18)";
+
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        player.x,
+        player.y
+    );
+
+    ctx.lineTo(
+
+        player.x +
+        dirX * 55,
+
+        player.y +
+        dirY * 55
+
+    );
+
+    ctx.stroke();
+
+
+    /* --------------------------------
        PLAYER
-    ========================= */
+    -------------------------------- */
 
     ctx.fillStyle = "#3498db";
 
     ctx.fillRect(
 
-        player.x - player.size / 2,
+        player.x -
+        player.size / 2,
 
-        player.y - player.size / 2,
+        player.y -
+        player.size / 2,
 
         player.size,
 
@@ -588,80 +938,82 @@ function draw() {
     );
 
 
-    /* =========================
+    /* --------------------------------
        ESPADA
-    ========================= */
+    -------------------------------- */
 
-    if(player.attackCooldown > 10) {
+    if (player.attackAnimation > 0) {
 
-        let dx =
-            mouse.x - player.x;
+        /*
+           A espada fica maior
+           durante o golpe.
+        */
 
-        let dy =
-            mouse.y - player.y;
+        const swordLength = 52;
 
-        let distance =
-            Math.sqrt(dx * dx + dy * dy);
+        ctx.strokeStyle = "white";
 
+        ctx.lineWidth = 7;
 
-        if(distance > 0) {
-
-            let dirX = dx / distance;
-            let dirY = dy / distance;
+        ctx.lineCap = "round";
 
 
-            ctx.strokeStyle = "white";
+        ctx.beginPath();
 
-            ctx.lineWidth = 7;
+        ctx.moveTo(
 
-            ctx.lineCap = "round";
+            player.x,
 
+            player.y
 
-            ctx.beginPath();
-
-            ctx.moveTo(
-
-                player.x,
-
-                player.y
-
-            );
+        );
 
 
-            ctx.lineTo(
+        ctx.lineTo(
 
-                player.x + dirX * 48,
+            player.x +
+            dirX * swordLength,
 
-                player.y + dirY * 48
+            player.y +
+            dirY * swordLength
 
-            );
+        );
 
 
-            ctx.stroke();
+        ctx.stroke();
 
-        }
+
+        ctx.lineCap = "butt";
 
     }
 
 
-    /* =========================
+    /* --------------------------------
        NPCs
-    ========================= */
+    -------------------------------- */
 
-    enemies.forEach(enemy => {
+    for (let i = 0; i < enemies.length; i++) {
 
+        const enemy = enemies[i];
+
+
+        /*
+           NPC.
+        */
 
         ctx.fillStyle =
             enemy.hitTimer > 0
-            ? "white"
+            ? "#ffffff"
             : "#e74c3c";
 
 
         ctx.fillRect(
 
-            enemy.x - enemy.size / 2,
+            enemy.x -
+            enemy.size / 2,
 
-            enemy.y - enemy.size / 2,
+            enemy.y -
+            enemy.size / 2,
 
             enemy.size,
 
@@ -670,9 +1022,11 @@ function draw() {
         );
 
 
-        /* BARRA DE VIDA */
+        /*
+           Barra preta.
+        */
 
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "#111";
 
         ctx.fillRect(
 
@@ -687,6 +1041,10 @@ function draw() {
         );
 
 
+        /*
+           Vida.
+        */
+
         ctx.fillStyle = "#2ecc71";
 
         ctx.fillRect(
@@ -695,36 +1053,138 @@ function draw() {
 
             enemy.y - 25,
 
-            40 * (enemy.hp / 100),
+            40 *
+            Math.max(
+                0,
+                enemy.hp / 100
+            ),
 
             5
 
         );
 
-    });
-
+    }
 
 }
 
 
-/* =========================
+/* =========================================================
+   UI
+========================================================= */
+
+const hpElement =
+    document.getElementById("hp");
+
+const comboElement =
+    document.getElementById("combo");
+
+const enemiesElement =
+    document.getElementById("enemies");
+
+
+let lastHP = -1;
+let lastCombo = -1;
+let lastEnemies = -1;
+
+
+function updateUI() {
+
+
+    const hp =
+        Math.floor(player.hp);
+
+
+    const combo =
+        player.combo;
+
+
+    const enemyCount =
+        enemies.length;
+
+
+    /*
+       Só altera o HTML quando
+       o valor realmente mudou.
+    */
+
+    if (hp !== lastHP) {
+
+        hpElement.textContent = hp;
+
+        lastHP = hp;
+
+    }
+
+
+    if (combo !== lastCombo) {
+
+        comboElement.textContent = combo;
+
+        lastCombo = combo;
+
+    }
+
+
+    if (enemyCount !== lastEnemies) {
+
+        enemiesElement.textContent =
+            enemyCount;
+
+        lastEnemies = enemyCount;
+
+    }
+
+}
+
+
+/* =========================================================
    GAME LOOP
-========================= */
+========================================================= */
 
-function gameLoop() {
+let lastTime = performance.now();
 
-    update();
+
+function gameLoop(currentTime) {
+
+
+    /*
+       Tempo entre frames.
+    */
+
+    let dt =
+        (currentTime - lastTime) / 1000;
+
+
+    lastTime = currentTime;
+
+
+    /*
+       Limite de segurança.
+    */
+
+    dt = Math.min(dt, 0.05);
+
+
+    update(dt);
 
     draw();
+
+    updateUI();
+
 
     requestAnimationFrame(gameLoop);
 
 }
 
 
-gameLoop();
+/* =========================================================
+   INICIAR
+========================================================= */
+
+requestAnimationFrame(gameLoop);
 
 </script>
 
 </body>
 </html>
+```
