@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,6 +17,7 @@
         background: #111;
         font-family: Arial, sans-serif;
         color: white;
+        cursor: crosshair;
     }
 
     canvas {
@@ -31,6 +33,7 @@
         background: rgba(0,0,0,.65);
         padding: 12px;
         border-radius: 10px;
+        font-size: 15px;
     }
 
     #info {
@@ -41,6 +44,7 @@
         background: rgba(0,0,0,.65);
         padding: 10px 18px;
         border-radius: 10px;
+        white-space: nowrap;
     }
 </style>
 </head>
@@ -56,7 +60,7 @@
 </div>
 
 <div id="info">
-    WASD = mover &nbsp; | &nbsp; Clique = atacar
+    WASD = mover &nbsp; | &nbsp; Mouse = mirar &nbsp; | &nbsp; Clique = atacar
 </div>
 
 <script>
@@ -77,159 +81,372 @@ document.addEventListener("keyup", e => {
     keys[e.key.toLowerCase()] = false;
 });
 
+
+/* =========================
+   MIRA
+========================= */
+
+const mouse = {
+    x: canvas.width / 2,
+    y: canvas.height / 2
+};
+
+document.addEventListener("mousemove", e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+
+/* =========================
+   PLAYER
+========================= */
+
 const player = {
+
     x: canvas.width / 2,
     y: canvas.height / 2,
+
     size: 25,
     speed: 4,
+
     hp: 100,
     combo: 0,
-    attackCooldown: 0
+
+    attackCooldown: 0,
+    comboTimer: null
+
 };
+
+
+/* =========================
+   INIMIGOS
+========================= */
 
 let enemies = [];
 
+
+/* MENOS NPCs */
+
 function spawnEnemy() {
 
+    // Limite máximo de NPCs
+    if(enemies.length >= 6)
+        return;
+
     let side = Math.floor(Math.random() * 4);
-    let x, y;
+
+    let x;
+    let y;
 
     if(side === 0) {
+
         x = Math.random() * canvas.width;
         y = -40;
+
     }
 
     if(side === 1) {
+
         x = canvas.width + 40;
         y = Math.random() * canvas.height;
+
     }
 
     if(side === 2) {
+
         x = Math.random() * canvas.width;
         y = canvas.height + 40;
+
     }
 
     if(side === 3) {
+
         x = -40;
         y = Math.random() * canvas.height;
+
     }
 
     enemies.push({
+
         x,
         y,
+
         size: 25,
+
         hp: 100,
+
         speed: 1.2,
+
         knockX: 0,
         knockY: 0,
+
         hitTimer: 0
+
     });
+
 }
 
-setInterval(spawnEnemy, 1500);
+
+/* NPC aparece a cada 3,5 segundos */
+
+setInterval(spawnEnemy, 3500);
+
+
+/* =========================
+   ATAQUE
+========================= */
 
 document.addEventListener("mousedown", attack);
 
+
 function attack() {
 
-    if(player.attackCooldown > 0) return;
+    if(player.attackCooldown > 0)
+        return;
+
 
     player.attackCooldown = 18;
 
+
     let hit = false;
+
+
+    /*
+        DIREÇÃO DA MIRA
+    */
+
+    let dx = mouse.x - player.x;
+    let dy = mouse.y - player.y;
+
+    let distanceMouse =
+        Math.sqrt(dx * dx + dy * dy);
+
+
+    if(distanceMouse === 0)
+        return;
+
+
+    let dirX = dx / distanceMouse;
+    let dirY = dy / distanceMouse;
+
 
     enemies.forEach(enemy => {
 
-        let dx = enemy.x - player.x;
-        let dy = enemy.y - player.y;
+        let ex = enemy.x - player.x;
+        let ey = enemy.y - player.y;
 
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        let distance =
+            Math.sqrt(ex * ex + ey * ey);
 
-        if(distance < 65) {
 
-            hit = true;
+        /*
+            DISTÂNCIA DO ATAQUE
+        */
 
-            enemy.hp -= 25;
-            enemy.hitTimer = 8;
+        if(distance > 75)
+            return;
 
-            // KNOCKBACK
-            let angle = Math.atan2(dy, dx);
 
-            enemy.knockX = Math.cos(angle) * 14;
-            enemy.knockY = Math.sin(angle) * 14;
+        /*
+            NORMALIZA DIREÇÃO DO NPC
+        */
 
-            player.combo++;
+        let enemyDirX = ex / distance;
+        let enemyDirY = ey / distance;
 
-            // combo reseta depois de um tempo
-            clearTimeout(player.comboTimer);
 
-            player.comboTimer = setTimeout(() => {
-                player.combo = 0;
-            }, 900);
-        }
+        /*
+            PRODUTO ESCALAR
+
+            Isso verifica se o NPC
+            está na frente do jogador.
+
+            1 = exatamente na direção
+            0 = lateral
+            -1 = atrás
+        */
+
+        let dot =
+            dirX * enemyDirX +
+            dirY * enemyDirY;
+
+
+        /*
+            0.45 = aproximadamente
+            um cone de ataque de ~63°
+        */
+
+        if(dot < 0.45)
+            return;
+
+
+        /*
+            ACERTOU
+        */
+
+        hit = true;
+
+        enemy.hp -= 25;
+
+        enemy.hitTimer = 8;
+
+
+        /*
+            KNOCKBACK NA DIREÇÃO
+            DO ATAQUE
+        */
+
+        enemy.knockX = dirX * 14;
+        enemy.knockY = dirY * 14;
+
+
+        /*
+            COMBO
+        */
+
+        player.combo++;
+
+
+        clearTimeout(player.comboTimer);
+
+
+        player.comboTimer = setTimeout(() => {
+
+            player.combo = 0;
+
+        }, 900);
+
     });
 
+
     if(!hit) {
+
         player.combo = 0;
+
     }
+
 }
+
+
+/* =========================
+   UPDATE
+========================= */
 
 function update() {
 
-    // Movimento
-    if(keys["w"]) player.y -= player.speed;
-    if(keys["s"]) player.y += player.speed;
-    if(keys["a"]) player.x -= player.speed;
-    if(keys["d"]) player.x += player.speed;
 
-    // Limites
-    player.x = Math.max(20, Math.min(canvas.width - 20, player.x));
-    player.y = Math.max(20, Math.min(canvas.height - 20, player.y));
+    /* MOVIMENTO */
+
+    if(keys["w"])
+        player.y -= player.speed;
+
+    if(keys["s"])
+        player.y += player.speed;
+
+    if(keys["a"])
+        player.x -= player.speed;
+
+    if(keys["d"])
+        player.x += player.speed;
+
+
+    /* LIMITES */
+
+    player.x =
+        Math.max(
+            20,
+            Math.min(canvas.width - 20, player.x)
+        );
+
+    player.y =
+        Math.max(
+            20,
+            Math.min(canvas.height - 20, player.y)
+        );
+
+
+    /* COOLDOWN */
 
     if(player.attackCooldown > 0)
         player.attackCooldown--;
 
+
+    /* NPCs */
+
     enemies.forEach(enemy => {
 
-        // Knockback
+
+        /* KNOCKBACK */
+
         enemy.x += enemy.knockX;
         enemy.y += enemy.knockY;
+
 
         enemy.knockX *= 0.82;
         enemy.knockY *= 0.82;
 
+
         if(enemy.hitTimer > 0)
             enemy.hitTimer--;
 
-        // IA simples: vem atrás do jogador
-        let dx = player.x - enemy.x;
-        let dy = player.y - enemy.y;
 
-        let distance = Math.sqrt(dx * dx + dy * dy);
+        /* IA */
+
+        let dx =
+            player.x - enemy.x;
+
+        let dy =
+            player.y - enemy.y;
+
+
+        let distance =
+            Math.sqrt(dx * dx + dy * dy);
+
 
         if(distance > 35) {
 
-            enemy.x += (dx / distance) * enemy.speed;
-            enemy.y += (dy / distance) * enemy.speed;
+            enemy.x +=
+                (dx / distance) *
+                enemy.speed;
 
-        } else {
+            enemy.y +=
+                (dy / distance) *
+                enemy.speed;
 
-            // inimigo bate no jogador
+        }
+        else {
+
+            /* DANO */
+
             player.hp -= 0.15;
 
         }
 
     });
 
-    // Remove inimigos mortos
-    enemies = enemies.filter(enemy => enemy.hp > 0);
+
+    /* REMOVE NPC MORTO */
+
+    enemies =
+        enemies.filter(enemy => enemy.hp > 0);
+
+
+    /* MORTE */
 
     if(player.hp <= 0) {
+
         player.hp = 100;
+
         enemies = [];
+
         player.combo = 0;
+
         alert("Você morreu! 😭");
+
     }
+
+
+    /* UI */
 
     document.getElementById("hp").textContent =
         Math.floor(player.hp);
@@ -239,103 +456,271 @@ function update() {
 
     document.getElementById("enemies").textContent =
         enemies.length;
+
 }
+
+
+/* =========================
+   DRAW
+========================= */
 
 function draw() {
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // GRAMA
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /* GRAMA */
+
     ctx.fillStyle = "#55a84f";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Ilha central
-    ctx.fillStyle = "#c9a66b";
     ctx.fillRect(
-        canvas.width/2 - 180,
-        canvas.height/2 - 130,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /* ILHA */
+
+    ctx.fillStyle = "#c9a66b";
+
+    ctx.fillRect(
+
+        canvas.width / 2 - 180,
+
+        canvas.height / 2 - 130,
+
         360,
         260
+
     );
 
-    // cama
+
+    /* CAMA */
+
     ctx.fillStyle = "#e53935";
+
     ctx.fillRect(
-        canvas.width/2 - 45,
-        canvas.height/2 - 20,
+
+        canvas.width / 2 - 45,
+
+        canvas.height / 2 - 20,
+
         90,
         40
+
     );
 
-    // PLAYER
-    ctx.fillStyle = "#3498db";
 
-    ctx.fillRect(
-        player.x - player.size/2,
-        player.y - player.size/2,
-        player.size,
-        player.size
-    );
+    /* =========================
+       DIREÇÃO DA MIRA
+    ========================= */
 
-    // espada
-    if(player.attackCooldown > 10) {
+    let dx =
+        mouse.x - player.x;
 
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 6;
+    let dy =
+        mouse.y - player.y;
+
+
+    let distance =
+        Math.sqrt(dx * dx + dy * dy);
+
+
+    if(distance > 0) {
+
+        let dirX = dx / distance;
+        let dirY = dy / distance;
+
+
+        /*
+            LINHA DA ESPADA
+        */
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,0.25)";
+
+        ctx.lineWidth = 2;
 
         ctx.beginPath();
 
-        ctx.moveTo(player.x, player.y);
+        ctx.moveTo(
+            player.x,
+            player.y
+        );
 
         ctx.lineTo(
-            player.x + 40,
-            player.y - 25
+
+            player.x + dirX * 60,
+
+            player.y + dirY * 60
+
         );
 
         ctx.stroke();
+
     }
 
-    // INIMIGOS
+
+    /* =========================
+       PLAYER
+    ========================= */
+
+    ctx.fillStyle = "#3498db";
+
+    ctx.fillRect(
+
+        player.x - player.size / 2,
+
+        player.y - player.size / 2,
+
+        player.size,
+
+        player.size
+
+    );
+
+
+    /* =========================
+       ESPADA
+    ========================= */
+
+    if(player.attackCooldown > 10) {
+
+        let dx =
+            mouse.x - player.x;
+
+        let dy =
+            mouse.y - player.y;
+
+        let distance =
+            Math.sqrt(dx * dx + dy * dy);
+
+
+        if(distance > 0) {
+
+            let dirX = dx / distance;
+            let dirY = dy / distance;
+
+
+            ctx.strokeStyle = "white";
+
+            ctx.lineWidth = 7;
+
+            ctx.lineCap = "round";
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+
+                player.x,
+
+                player.y
+
+            );
+
+
+            ctx.lineTo(
+
+                player.x + dirX * 48,
+
+                player.y + dirY * 48
+
+            );
+
+
+            ctx.stroke();
+
+        }
+
+    }
+
+
+    /* =========================
+       NPCs
+    ========================= */
+
     enemies.forEach(enemy => {
 
+
         ctx.fillStyle =
-            enemy.hitTimer > 0 ? "white" : "#e74c3c";
+            enemy.hitTimer > 0
+            ? "white"
+            : "#e74c3c";
+
 
         ctx.fillRect(
-            enemy.x - enemy.size/2,
-            enemy.y - enemy.size/2,
+
+            enemy.x - enemy.size / 2,
+
+            enemy.y - enemy.size / 2,
+
             enemy.size,
+
             enemy.size
+
         );
 
-        // barra de vida
+
+        /* BARRA DE VIDA */
+
         ctx.fillStyle = "black";
 
         ctx.fillRect(
+
             enemy.x - 20,
+
             enemy.y - 25,
+
             40,
+
             5
+
         );
+
 
         ctx.fillStyle = "#2ecc71";
 
         ctx.fillRect(
+
             enemy.x - 20,
+
             enemy.y - 25,
+
             40 * (enemy.hp / 100),
+
             5
+
         );
+
     });
+
+
 }
+
+
+/* =========================
+   GAME LOOP
+========================= */
 
 function gameLoop() {
 
     update();
+
     draw();
 
     requestAnimationFrame(gameLoop);
+
 }
+
 
 gameLoop();
 
