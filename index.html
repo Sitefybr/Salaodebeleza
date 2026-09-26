@@ -1,1190 +1,1163 @@
-```html
 <!DOCTYPE html>
-<html lang="pt-BR">
-
+<html lang="pt-BR" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORNO & BRASA — Pizza Artesanal Extraordinary</title>
+    <meta name="description" content="Pizza artesanal assada no forno a lenha, com ingredientes selecionados e massa de fermentação natural. Peça online agora!">
+    
+    <!-- Open Graph SEO -->
+    <meta property="og:title" content="FORNO & BRASA — Pizza Artesanal Extraordinary">
+    <meta property="og:description" content="Sinta o verdadeiro sabor da pizza artesanal. Fermentação natural e forno de alta temperatura.">
+    <meta property="og:type" content="website">
 
-<title>Web BedWars</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-* {
-    box-sizing: border-box;
-    user-select: none;
-    -webkit-user-select: none;
-}
+    <!-- Custom Design Tokens & CSS Animations -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#090606',
+                            card: '#140F0E',
+                            border: '#2A1F1C',
+                            red: '#E63946',
+                            darkRed: '#9B1D27',
+                            gold: '#FFB703',
+                            cream: '#F8F5F0',
+                            muted: '#A39995'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Outfit', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #111;
-    font-family: Arial, sans-serif;
-    color: white;
-}
+    <style>
+        :root {
+            --bg-dark: #090606;
+            --accent-red: #E63946;
+            --accent-gold: #FFB703;
+            --text-cream: #F8F5F0;
+        }
 
-canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    cursor: crosshair;
-}
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-cream);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-#ui {
+        /* Glassmorphism Styles */
+        .glass-header {
+            background: rgba(15, 10, 9, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 183, 3, 0.1);
+        }
 
-    position: fixed;
+        .glass-card {
+            background: linear-gradient(145deg, rgba(26, 18, 16, 0.8) 0%, rgba(15, 10, 9, 0.9) 100%);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
 
-    top: 15px;
-    left: 15px;
+        .glass-card:hover {
+            border-color: rgba(230, 57, 70, 0.4);
+            box-shadow: 0 20px 40px -15px rgba(230, 57, 70, 0.25);
+        }
 
-    z-index: 10;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090606;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2A1F1C;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E63946;
+        }
 
-    background: rgba(0,0,0,.65);
+        /* Hero Glow Effect */
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(230, 57, 70, 0.18) 0%, rgba(255, 183, 3, 0.05) 40%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    padding: 12px 15px;
+        /* Card Hover Animations */
+        .pizza-img-zoom {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover .pizza-img-zoom {
+            transform: scale(1.08) rotate(3deg);
+        }
 
-    border-radius: 10px;
+        /* Drawer Overlay Animation */
+        .drawer-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .drawer-content {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    font-size: 15px;
-
-    pointer-events: none;
-
-}
-
-#info {
-
-    position: fixed;
-
-    bottom: 15px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    background: rgba(0,0,0,.65);
-
-    padding: 10px 18px;
-
-    border-radius: 10px;
-
-    white-space: nowrap;
-
-    font-size: 14px;
-
-    pointer-events: none;
-
-}
-
-</style>
-
+        /* Reduced Motion Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
 </head>
-
-<body>
-
-<canvas id="game"></canvas>
-
-<div id="ui">
-
-❤️ Vida:
-<span id="hp">100</span>
-
-<br>
-
-⚔️ Combo:
-<span id="combo">0</span>
-
-<br>
-
-👾 Inimigos:
-<span id="enemies">0</span>
-
-</div>
-
-<div id="info">
-
-WASD = mover
-&nbsp; | &nbsp;
-Mouse = mirar
-&nbsp; | &nbsp;
-Clique = atacar
-
-</div>
-
-
-<script>
-
-
-/* =========================================================
-   CANVAS
-========================================================= */
-
-const canvas = document.getElementById("game");
-
-const ctx = canvas.getContext("2d", {
-    alpha: false
-});
-
-
-/*
-   Resolução interna limitada.
-
-   Isso evita que monitores 2K/4K
-   façam o jogo desenhar milhões
-   de pixels desnecessariamente.
-*/
-
-let width = 0;
-let height = 0;
-
-
-function resize() {
-
-    width = window.innerWidth;
-    height = window.innerHeight;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    /*
-       Se o jogador redimensionar a janela,
-       mantém o jogador dentro da tela.
-    */
-
-    player.x = Math.max(
-        25,
-        Math.min(width - 25, player.x)
-    );
-
-    player.y = Math.max(
-        25,
-        Math.min(height - 25, player.y)
-    );
-
-}
-
-
-window.addEventListener("resize", resize);
-
-
-/* =========================================================
-   CONTROLES
-========================================================= */
-
-const keys = Object.create(null);
-
-
-window.addEventListener("keydown", e => {
-
-    const key = e.key.toLowerCase();
-
-    if (
-        key === "w" ||
-        key === "a" ||
-        key === "s" ||
-        key === "d"
-    ) {
-
-        keys[key] = true;
-
-        e.preventDefault();
-
-    }
-
-});
-
-
-window.addEventListener("keyup", e => {
-
-    const key = e.key.toLowerCase();
-
-    if (
-        key === "w" ||
-        key === "a" ||
-        key === "s" ||
-        key === "d"
-    ) {
-
-        keys[key] = false;
-
-        e.preventDefault();
-
-    }
-
-});
-
-
-/* =========================================================
-   MOUSE / MIRA
-========================================================= */
-
-const mouse = {
-
-    x: 0,
-    y: 0
-
-};
-
-
-canvas.addEventListener("mousemove", e => {
-
-    /*
-       Atualização direta.
-
-       Não usamos animação,
-       interpolação ou setTimeout.
-
-       Resultado:
-       mira praticamente instantânea.
-    */
-
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-
-});
-
-
-/*
-   Impede ações do navegador.
-*/
-
-canvas.addEventListener("contextmenu", e => {
-
-    e.preventDefault();
-
-});
-
-
-canvas.addEventListener("selectstart", e => {
-
-    e.preventDefault();
-
-});
-
-
-canvas.addEventListener("dragstart", e => {
-
-    e.preventDefault();
-
-});
-
-
-canvas.addEventListener("auxclick", e => {
-
-    e.preventDefault();
-
-});
-
-
-/* =========================================================
-   PLAYER
-========================================================= */
-
-const player = {
-
-    x: 0,
-    y: 0,
-
-    size: 25,
-
-    speed: 260,
-
-    hp: 100,
-
-    combo: 0,
-
-    attackCooldown: 0,
-
-    attackAnimation: 0,
-
-    comboTimer: 0
-
-};
-
-
-/* =========================================================
-   INICIALIZAÇÃO
-========================================================= */
-
-resize();
-
-player.x = width / 2;
-player.y = height / 2;
-
-mouse.x = width / 2;
-mouse.y = height / 2;
-
-
-/* =========================================================
-   NPCs
-========================================================= */
-
-const enemies = [];
-
-const MAX_ENEMIES = 5;
-
-
-/*
-   Cria NPC.
-*/
-
-function spawnEnemy() {
-
-    if (enemies.length >= MAX_ENEMIES)
-        return;
-
-
-    const side = Math.floor(Math.random() * 4);
-
-    let x;
-    let y;
-
-
-    if (side === 0) {
-
-        x = Math.random() * width;
-        y = -50;
-
-    }
-
-    else if (side === 1) {
-
-        x = width + 50;
-        y = Math.random() * height;
-
-    }
-
-    else if (side === 2) {
-
-        x = Math.random() * width;
-        y = height + 50;
-
-    }
-
-    else {
-
-        x = -50;
-        y = Math.random() * height;
-
-    }
-
-
-    enemies.push({
-
-        x: x,
-        y: y,
-
-        size: 25,
-
-        hp: 100,
-
-        speed: 75,
-
-        knockX: 0,
-        knockY: 0,
-
-        hitTimer: 0
-
-    });
-
-}
-
-
-/*
-   Spawn mais espaçado.
-
-   Primeiro NPC depois de 2 segundos.
-   Depois aproximadamente a cada 3 segundos.
-*/
-
-let spawnTimer = 2;
-
-spawnEnemy();
-
-
-/* =========================================================
-   ATAQUE
-========================================================= */
-
-canvas.addEventListener("mousedown", e => {
-
-    /*
-       Bloqueia o navegador.
-
-       Isso é importante para evitar
-       comportamentos estranhos do clique.
-    */
-
-    e.preventDefault();
-
-
-    /*
-       Somente botão esquerdo.
-    */
-
-    if (e.button !== 0)
-        return;
-
-
-    attack();
-
-});
-
-
-function attack() {
-
-    if (player.attackCooldown > 0)
-        return;
-
-
-    /*
-       Cooldown pequeno.
-    */
-
-    player.attackCooldown = 0.16;
-
-    player.attackAnimation = 0.12;
-
-
-    /*
-       Direção do mouse.
-    */
-
-    let dx = mouse.x - player.x;
-    let dy = mouse.y - player.y;
-
-
-    const distance =
-        Math.sqrt(dx * dx + dy * dy);
-
-
-    if (distance < 0.001)
-        return;
-
-
-    const dirX = dx / distance;
-    const dirY = dy / distance;
-
-
-    let hit = false;
-
-
-    /*
-       Percorre os NPCs.
-    */
-
-    for (let i = 0; i < enemies.length; i++) {
-
-        const enemy = enemies[i];
-
-
-        let ex =
-            enemy.x - player.x;
-
-        let ey =
-            enemy.y - player.y;
-
-
-        const enemyDistance =
-            Math.sqrt(ex * ex + ey * ey);
-
-
-        /*
-           Alcance.
-        */
-
-        if (enemyDistance > 75)
-            continue;
-
-
-        /*
-           Direção até o inimigo.
-        */
-
-        ex /= enemyDistance;
-        ey /= enemyDistance;
-
-
-        /*
-           Verifica se está na frente.
-
-           0.45 permite um cone de ataque.
-        */
-
-        const dot =
-            dirX * ex +
-            dirY * ey;
-
-
-        if (dot < 0.45)
-            continue;
-
-
-        /*
-           HIT
-        */
-
-        hit = true;
-
-        enemy.hp -= 25;
-
-        enemy.hitTimer = 0.10;
-
-
-        /*
-           Knockback.
-        */
-
-        enemy.knockX =
-            dirX * 360;
-
-        enemy.knockY =
-            dirY * 360;
-
-
-        /*
-           Combo.
-        */
-
-        player.combo++;
-
-        player.comboTimer = 0.9;
-
-    }
-
-
-    if (!hit) {
-
-        player.combo = 0;
-
-    }
-
-}
-
-
-/* =========================================================
-   UPDATE
-========================================================= */
-
-function update(dt) {
-
-
-    /*
-       Evita problemas caso o navegador
-       trave por algum motivo.
-    */
-
-    dt = Math.min(dt, 0.05);
-
-
-    /* --------------------------------
-       MOVIMENTO
-    -------------------------------- */
-
-    let moveX = 0;
-    let moveY = 0;
-
-
-    if (keys["w"])
-        moveY -= 1;
-
-    if (keys["s"])
-        moveY += 1;
-
-    if (keys["a"])
-        moveX -= 1;
-
-    if (keys["d"])
-        moveX += 1;
-
-
-    /*
-       Movimento diagonal não fica
-       mais rápido que o normal.
-    */
-
-    if (moveX !== 0 || moveY !== 0) {
-
-        const length =
-            Math.sqrt(
-                moveX * moveX +
-                moveY * moveY
-            );
-
-
-        moveX /= length;
-        moveY /= length;
-
-
-        player.x +=
-            moveX *
-            player.speed *
-            dt;
-
-
-        player.y +=
-            moveY *
-            player.speed *
-            dt;
-
-    }
-
-
-    /* --------------------------------
-       LIMITES
-    -------------------------------- */
-
-    player.x = Math.max(
-        15,
-        Math.min(width - 15, player.x)
-    );
-
-
-    player.y = Math.max(
-        15,
-        Math.min(height - 15, player.y)
-    );
-
-
-    /* --------------------------------
-       ATAQUE
-    -------------------------------- */
-
-    if (player.attackCooldown > 0)
-        player.attackCooldown -= dt;
-
-
-    if (player.attackAnimation > 0)
-        player.attackAnimation -= dt;
-
-
-    /* --------------------------------
-       COMBO
-    -------------------------------- */
-
-    if (player.comboTimer > 0) {
-
-        player.comboTimer -= dt;
-
-    }
-    else {
-
-        player.combo = 0;
-
-    }
-
-
-    /* --------------------------------
-       SPAWN
-    -------------------------------- */
-
-    spawnTimer -= dt;
-
-
-    if (spawnTimer <= 0) {
-
-        spawnEnemy();
-
-        spawnTimer = 3;
-
-    }
-
-
-    /* --------------------------------
-       NPCs
-    -------------------------------- */
-
-    for (let i = enemies.length - 1; i >= 0; i--) {
-
-        const enemy = enemies[i];
-
-
-        /* Knockback */
-
-        enemy.x +=
-            enemy.knockX * dt;
-
-        enemy.y +=
-            enemy.knockY * dt;
-
-
-        /*
-           Fricção do knockback.
-        */
-
-        enemy.knockX *=
-            Math.pow(0.02, dt);
-
-        enemy.knockY *=
-            Math.pow(0.02, dt);
-
-
-        /* Hit timer */
-
-        if (enemy.hitTimer > 0)
-            enemy.hitTimer -= dt;
-
-
-        /*
-           IA.
-        */
-
-        const dx =
-            player.x - enemy.x;
-
-        const dy =
-            player.y - enemy.y;
-
-
-        const distance =
-            Math.sqrt(dx * dx + dy * dy);
-
-
-        if (distance > 38) {
-
-            enemy.x +=
-                (dx / distance) *
-                enemy.speed *
-                dt;
-
-
-            enemy.y +=
-                (dy / distance) *
-                enemy.speed *
-                dt;
-
+<body class="antialiased selection:bg-brand-red selection:text-white">
+
+    <!-- Ambient Lighting FX -->
+    <div class="ambient-glow top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="ambient-glow top-[40%] -right-48 opacity-60"></div>
+
+    <!-- MAIN HEADER -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-40 glass-header transition-all duration-300 py-4 px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-brand-gold rounded-lg p-1">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-red to-brand-gold flex items-center justify-center text-brand-bg font-extrabold text-xl shadow-lg shadow-brand-red/30 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-fire text-white text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-heading font-black text-xl sm:text-2xl tracking-wider text-white leading-none">FORNO <span class="text-brand-red">&amp;</span> BRASA</span>
+                    <span class="text-[9px] uppercase tracking-[0.25em] text-brand-gold font-bold">Pizza Artesanal</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide text-brand-muted">
+                <a href="#inicio" class="hover:text-brand-gold transition-colors active:text-brand-red">Início</a>
+                <a href="#cardapio" class="hover:text-brand-gold transition-colors active:text-brand-red">Cardápio</a>
+                <a href="#diferenciais" class="hover:text-brand-gold transition-colors active:text-brand-red">Diferenciais</a>
+                <a href="#sobre" class="hover:text-brand-gold transition-colors active:text-brand-red">Sobre Nós</a>
+                <a href="#avaliacoes" class="hover:text-brand-gold transition-colors active:text-brand-red">Avaliações</a>
+            </nav>
+
+            <!-- Actions Header -->
+            <div class="flex items-center gap-4">
+                <!-- Cart Button Trigger -->
+                <button id="open-cart-btn" aria-label="Abrir Carrinho" class="relative p-3 rounded-xl bg-brand-card border border-brand-border hover:border-brand-gold/50 text-white transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-brand-gold">
+                    <i class="fa-solid fa-basket-shopping text-lg text-brand-gold"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-red text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg transform scale-0 transition-transform">0</span>
+                </button>
+
+                <!-- CTA Button -->
+                <a href="#cardapio" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-darkRed text-white font-heading font-bold text-sm tracking-wider shadow-lg shadow-brand-red/25 hover:shadow-brand-red/40 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    PEDIR AGORA
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" aria-label="Abrir Menu Nav" class="md:hidden p-3 rounded-xl bg-brand-card border border-brand-border text-white hover:text-brand-gold focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu Overlay -->
+        <div id="mobile-menu" class="hidden md:hidden pt-4 pb-6 px-2 border-t border-brand-border/50 mt-3 flex flex-col gap-4 text-center font-heading font-bold text-lg">
+            <a href="#inicio" class="mobile-nav-link py-2 hover:text-brand-gold">Início</a>
+            <a href="#cardapio" class="mobile-nav-link py-2 hover:text-brand-gold">Cardápio</a>
+            <a href="#diferenciais" class="mobile-nav-link py-2 hover:text-brand-gold">Diferenciais</a>
+            <a href="#sobre" class="mobile-nav-link py-2 hover:text-brand-gold">Sobre Nós</a>
+            <a href="#avaliacoes" class="mobile-nav-link py-2 hover:text-brand-gold">Avaliações</a>
+            <a href="#cardapio" class="mobile-nav-link py-3 rounded-xl bg-brand-red text-white mt-2">PEDIR AGORA</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION CONTAINER -->
+    <section id="inicio" class="relative min-h-screen w-full flex flex-col items-center justify-center pt-24 pb-12 px-4 overflow-hidden">
+        
+        <!-- Interactive Canvas Pizza Viewport -->
+        <div id="hero-canvas-container" class="sticky top-20 z-20 w-full max-w-[500px] sm:max-w-[580px] lg:max-w-[640px] aspect-square flex items-center justify-center transition-transform duration-75 ease-out pointer-events-none">
+            <canvas id="pizza-canvas" class="w-full h-full drop-shadow-[0_25px_35px_rgba(0,0,0,0.8)]"></canvas>
+        </div>
+
+        <!-- Hero Editorial Text Content -->
+        <div id="hero-text-content" class="relative z-30 max-w-4xl text-center mt-6 transition-all duration-300">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-red/10 border border-brand-red/30 text-brand-gold text-xs sm:text-sm font-bold tracking-widest uppercase mb-6 animate-pulse">
+                <i class="fa-solid fa-fire-flame-curved text-brand-red"></i> Forno a Lenha Natural • 48h Fermentação
+            </div>
+
+            <h1 class="font-heading font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[0.95] text-white uppercase mb-6">
+                UMA PIZZA QUE<br>
+                <span class="bg-gradient-to-r from-brand-red via-brand-gold to-brand-cream bg-clip-text text-transparent">VOCÊ NÃO ESQUECE</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-brand-muted text-base sm:text-lg md:text-xl font-normal leading-relaxed mb-8 px-4">
+                Massa artesanal de altíssima hidratação, molho de tomate pelati italiano e queijos nobres derretidos no ponto exato da perfeição.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 px-4">
+                <a href="#cardapio" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-red to-brand-darkRed text-white font-heading font-black text-base tracking-wider uppercase shadow-xl shadow-brand-red/30 hover:scale-105 active:scale-95 transition-all text-center">
+                    <i class="fa-solid fa-utensils mr-2"></i> PEDIR AGORA
+                </a>
+                <a href="#cardapio" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-card/80 border border-brand-border text-white font-heading font-bold text-base tracking-wider hover:bg-brand-border/40 hover:scale-105 active:scale-95 transition-all text-center">
+                    VER CARDÁPIO
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator Hint -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-brand-muted/60 text-xs tracking-widest uppercase font-semibold">
+            <span>ROLE PARA DESCOBRIR</span>
+            <i class="fa-solid fa-chevron-down animate-bounce text-brand-gold"></i>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="cardapio" class="relative z-30 py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-brand-red font-bold text-sm tracking-widest uppercase">Cardápio Premium</span>
+            <h2 class="font-heading font-black text-3xl sm:text-5xl text-white uppercase mt-2 mb-4">ESCOLHA SEU SABOR</h2>
+            <p class="text-brand-muted text-base sm:text-lg">Feita na hora com ingredientes frescos, assada a 450°C e recheada com gerenerosidade irresistível.</p>
+        </div>
+
+        <!-- Pizza Cards Grid -->
+        <div id="pizza-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamic JS injected pizza cards -->
+        </div>
+    </section>
+
+    <!-- WHY OUR PIZZA / DIFFERENTIALS -->
+    <section id="diferenciais" class="relative z-30 py-20 px-4 sm:px-8 bg-brand-card/40 border-y border-brand-border/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-gold font-bold text-sm tracking-widest uppercase">Qualidade Incomparável</span>
+                <h2 class="font-heading font-black text-3xl sm:text-4xl text-white uppercase mt-2">POR QUE A NOSSA PIZZA?</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col items-start transition-all hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-2xl mb-6">
+                        <i class="fa-solid fa-wheat-awn"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">Massa Artesanal</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Fermentação natural de 48h. Extremamente leve, crocante por fora e macia por dentro.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col items-start transition-all hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6">
+                        <i class="fa-solid fa-cheese"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">Ingredientes Selecionados</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Laticínios nobres, tomatería italiana selecionada e embutidos artesanais de alta qualidade.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col items-start transition-all hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-red/10 border border-brand-red/30 flex items-center justify-center text-brand-red text-2xl mb-6">
+                        <i class="fa-solid fa-fire-burner"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">Forno a 450°C</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Assada no ponto exato em menos de 3 minutos, mantendo a suculência e o aroma defumado.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col items-start transition-all hover:-translate-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-2xl mb-6">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">Feita com Cuidado</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Cada pizza é aberta manualmente pelos nossos mestres pizzaiolos com paixão única.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="sobre" class="relative z-30 py-24 px-4 sm:px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Info -->
+            <div>
+                <span class="text-brand-red font-bold text-sm tracking-widest uppercase">Nossa História</span>
+                <h2 class="font-heading font-black text-3xl sm:text-5xl text-white uppercase mt-2 mb-6 leading-tight">
+                    MAIS QUE PIZZA.<br>
+                    <span class="text-brand-gold">UMA EXPERIÊNCIA.</span>
+                </h2>
+                <p class="text-brand-muted text-base sm:text-lg leading-relaxed mb-6">
+                    A FORNO &amp; BRASA nasceu do desejo ardente de redefinir o conceito de pizza artesanal na cidade. Não usamos atalhos: nossa massa descansa por 48 horas e cada molho é reduzido lentamente com ervas frescas.
+                </p>
+                <p class="text-brand-muted text-base sm:text-lg leading-relaxed mb-8">
+                    Unimos a tradição secular das pizzarias clássicas italianas com técnicas contemporâneas de gastronomia para levar até você uma explosão memorável de sabor.
+                </p>
+
+                <!-- Animated Stats Grid -->
+                <div class="grid grid-cols-3 gap-4 border-t border-brand-border pt-6">
+                    <div>
+                        <div class="font-heading font-black text-3xl sm:text-4xl text-brand-gold font-mono" data-target="10">0</div>
+                        <div class="text-xs text-brand-muted uppercase tracking-wider font-semibold">Anos de História</div>
+                    </div>
+                    <div>
+                        <div class="font-heading font-black text-3xl sm:text-4xl text-brand-red font-mono" data-target="50">0</div>
+                        <div class="text-xs text-brand-muted uppercase tracking-wider font-semibold">Mil Pizzas Entregues</div>
+                    </div>
+                    <div>
+                        <div class="font-heading font-black text-3xl sm:text-4xl text-white font-mono">4.9★</div>
+                        <div class="text-xs text-brand-muted uppercase tracking-wider font-semibold">Avaliação Média</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Visual Banner -->
+            <div class="relative">
+                <div class="relative rounded-3xl overflow-hidden border border-brand-border shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=1000&q=80" alt="Pizzaiolo preparando pizza artesanal" class="w-full h-[450px] object-cover hover:scale-105 transition-transform duration-700" loading="lazy" onerror="this.src='https://placehold.co/800x600/140F0E/F8F5F0?text=FORNO+%26+BRASA'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-bg via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 p-6 glass-card rounded-2xl">
+                        <p class="text-white font-heading font-bold text-lg mb-1">"O segredo está no tempo e no respeito aos ingredientes."</p>
+                        <span class="text-brand-gold text-xs font-semibold uppercase tracking-wider">— Chef Mestre Pizzaiolo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS / TESTIMONIALS -->
+    <section id="avaliacoes" class="relative z-30 py-20 px-4 sm:px-8 bg-brand-card/30 border-t border-brand-border/40">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-red font-bold text-sm tracking-widest uppercase">Depoimentos Reais</span>
+                <h2 class="font-heading font-black text-3xl sm:text-4xl text-white uppercase mt-2">QUEM PROVOU, VOLTOU</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-brand-gold text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-cream/90 text-sm leading-relaxed italic mb-6">"Chegou quentinha e a de Catupiry com frango é simplesmente absurda de boa. A massa é leve e não pesa. Já virou meu pedido oficial dos finais de semana!"</p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-brand-border/40 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-red/20 border border-brand-red text-brand-red font-bold flex items-center justify-center text-sm">RL</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-white">Rafael Lima</h4>
+                            <span class="text-xs text-brand-muted">Cliente Fiel</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-brand-gold text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-cream/90 text-sm leading-relaxed italic mb-6">"Experiência incrível. O recheio é super abundante e a borda recheada derrete na boca. Entrega super rápida no bairro!"</p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-brand-border/40 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-gold/20 border border-brand-gold text-brand-gold font-bold flex items-center justify-center text-sm">MS</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-white">Mariana Silva</h4>
+                            <span class="text-xs text-brand-muted">Google Review</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-brand-gold text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-cream/90 text-sm leading-relaxed italic mb-6">"Pedimos a de Carne Seca com Catupiry e a de Quatro Queijos. Impecáveis. O molho de tomate faz toda a diferença. Nota 10!"</p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-brand-border/40 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-red/20 border border-brand-red text-brand-red font-bold flex items-center justify-center text-sm">CA</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-white">Carlos Almeida</h4>
+                            <span class="text-xs text-brand-muted">iFood User</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-brand-gold text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-cream/90 text-sm leading-relaxed italic mb-6">"Melhor pizzaria artesanal da região sem dúvidas. Embalagem que mantém a pizza crocante até em casa."</p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-brand-border/40 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-gold/20 border border-brand-gold text-brand-gold font-bold flex items-center justify-center text-sm">FB</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-white">Fernanda Barbosa</h4>
+                            <span class="text-xs text-brand-muted">Cliente Fiel</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 5 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-brand-gold text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-cream/90 text-sm leading-relaxed italic mb-6">"A pizza Especial da Casa é divina. Dá para notar o frescor dos ingredientes logo na primeira mordida."</p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-brand-border/40 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-red/20 border border-brand-red text-brand-red font-bold flex items-center justify-center text-sm">GM</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-white">Gustavo Mendez</h4>
+                            <span class="text-xs text-brand-muted">Google Review</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 6 -->
+                <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex text-brand-gold text-sm gap-1 mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-brand-cream/90 text-sm leading-relaxed italic mb-6">"Atendimento impecável via WhatsApp e a pizza chega parecendo que acabou de sair do forno na mesa!"</p>
+                    </div>
+                    <div class="flex items-center gap-3 border-t border-brand-border/40 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-brand-gold/20 border border-brand-gold text-brand-gold font-bold flex items-center justify-center text-sm">PR</div>
+                        <div>
+                            <h4 class="font-heading font-bold text-sm text-white">Patricia Rocha</h4>
+                            <span class="text-xs text-brand-muted">Instagram User</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRE-FOOTER CTA SECTION -->
+    <section class="relative z-30 py-20 px-4 sm:px-8 max-w-7xl mx-auto my-12">
+        <div class="relative rounded-3xl overflow-hidden p-8 sm:p-16 border border-brand-red/40 text-center bg-gradient-to-r from-brand-card via-brand-bg to-brand-card shadow-2xl">
+            <div class="ambient-glow -top-32 left-1/2 -translate-x-1/2"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <span class="text-brand-gold font-bold text-sm tracking-widest uppercase">Bateu aquela fome?</span>
+                <h2 class="font-heading font-black text-4xl sm:text-6xl text-white uppercase mt-2 mb-6 leading-tight">HOJE MERECE UMA PIZZA.</h2>
+                <p class="text-brand-muted text-base sm:text-lg mb-8">Escolha seu sabor favorito, monte seu pedido em poucos cliques e receba quentinha na sua porta.</p>
+                <a href="#cardapio" class="inline-flex items-center justify-center px-10 py-5 rounded-2xl bg-gradient-to-r from-brand-red to-brand-darkRed text-white font-heading font-black text-lg tracking-wider uppercase shadow-2xl shadow-brand-red/50 hover:scale-105 active:scale-95 transition-all">
+                    <i class="fa-solid fa-pizza-slice mr-3 text-brand-gold"></i> PEDIR AGORA MESMO
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="relative z-30 bg-brand-card border-t border-brand-border pt-16 pb-8 px-4 sm:px-8">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <!-- Brand Info -->
+            <div>
+                <a href="#" class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-brand-red flex items-center justify-center text-white font-bold text-xl">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <span class="font-heading font-black text-xl text-white">FORNO &amp; BRASA</span>
+                </a>
+                <p class="text-brand-muted text-sm leading-relaxed mb-6">Pizza artesanal feita com fermentação natural de 48h, molho italiano e paixão em cada pedaço.</p>
+                <div class="flex gap-4 text-brand-muted text-lg">
+                    <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-lg bg-brand-bg border border-brand-border flex items-center justify-center hover:text-brand-gold hover:border-brand-gold transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-lg bg-brand-bg border border-brand-border flex items-center justify-center hover:text-brand-gold hover:border-brand-gold transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="WhatsApp" class="w-9 h-9 rounded-lg bg-brand-bg border border-brand-border flex items-center justify-center hover:text-brand-gold hover:border-brand-gold transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="font-heading font-bold text-white text-base uppercase mb-4 tracking-wider">Links Rápidos</h4>
+                <ul class="space-y-2 text-sm text-brand-muted">
+                    <li><a href="#inicio" class="hover:text-brand-gold transition-colors">Início</a></li>
+                    <li><a href="#cardapio" class="hover:text-brand-gold transition-colors">Cardápio Completo</a></li>
+                    <li><a href="#diferenciais" class="hover:text-brand-gold transition-colors">Nossos Diferenciais</a></li>
+                    <li><a href="#sobre" class="hover:text-brand-gold transition-colors">Sobre a Pizzaria</a></li>
+                    <li><a href="#avaliacoes" class="hover:text-brand-gold transition-colors">Avaliações dos Clientes</a></li>
+                </ul>
+            </div>
+
+            <!-- Opening Hours -->
+            <div>
+                <h4 class="font-heading font-bold text-white text-base uppercase mb-4 tracking-wider">Horário de Funcionamento</h4>
+                <ul class="space-y-2 text-sm text-brand-muted">
+                    <li class="flex justify-between"><span class="text-white">Terça a Quinta:</span> 18h às 23h</li>
+                    <li class="flex justify-between"><span class="text-white">Sexta a Domingo:</span> 18h às 00h</li>
+                    <li class="flex justify-between"><span class="text-brand-red font-semibold">Segunda-feira:</span> Fechado</li>
+                </ul>
+            </div>
+
+            <!-- Location & Contact -->
+            <div>
+                <h4 class="font-heading font-bold text-white text-base uppercase mb-4 tracking-wider">Contato &amp; Endereço</h4>
+                <ul class="space-y-3 text-sm text-brand-muted">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-location-dot text-brand-red mt-1"></i>
+                        <span>Av. Gastronômica, 1000 — Bairro Gourmet, Cidade/UF</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-brand-gold"></i>
+                        <span>(11) 99999-8888</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-envelope text-brand-gold"></i>
+                        <span>contato@fornoebrasa.com.br</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-brand-border/60 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-brand-muted gap-4">
+            <p>&copy; 2026 FORNO &amp; BRASA Pizzaria Artesanal. Todos os direitos reservados.</p>
+            <p>Design Premium &amp; Performance Otimizada</p>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OVER SHOPPING CART DRAWER -->
+    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/70 z-50 opacity-0 pointer-events-none drawer-backdrop">
+        <div id="cart-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-md bg-brand-card border-l border-brand-border shadow-2xl flex flex-col translate-x-full drawer-content">
+            <!-- Drawer Header -->
+            <div class="p-6 border-b border-brand-border flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-basket-shopping text-brand-gold text-xl"></i>
+                    <h3 class="font-heading font-bold text-xl text-white">Seu Pedido</h3>
+                </div>
+                <button id="close-cart-btn" aria-label="Fechar Carrinho" class="w-9 h-9 rounded-lg bg-brand-bg border border-brand-border text-brand-muted hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Drawer Items Body -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Cart items rendered here -->
+            </div>
+
+            <!-- Drawer Footer Summary -->
+            <div class="p-6 border-t border-brand-border bg-brand-bg/50 space-y-4">
+                <div class="flex justify-between items-center text-sm text-brand-muted">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal" class="text-white font-semibold">R$ 0,00</span>
+                </div>
+                <div class="flex justify-between items-center text-sm text-brand-muted">
+                    <span>Taxa de Entrega</span>
+                    <span class="text-brand-gold font-semibold">Grátis</span>
+                </div>
+                <div class="flex justify-between items-center text-lg font-heading font-bold text-white border-t border-brand-border pt-3">
+                    <span>Total</span>
+                    <span id="cart-total" class="text-brand-gold font-mono text-xl">R$ 0,00</span>
+                </div>
+
+                <button id="checkout-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-red to-brand-darkRed text-white font-heading font-black text-base tracking-wider uppercase shadow-xl shadow-brand-red/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> FINALIZAR VIA WHATSAPP
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-brand-card border border-brand-gold text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="w-8 h-8 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center font-bold">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <span id="toast-message" class="text-sm font-semibold">Item adicionado com sucesso!</span>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT LOGIC -->
+    <script>
+        // =========================================================================
+        // 1. CONFIGURATION & STATE
+        // =========================================================================
+        const WHATSAPP_NUMBER = "5511999998888"; // EDITABLE WHATSAPP TARGET
+
+        const PIZZA_DATA = [
+            {
+                id: "catupiry",
+                name: "1. Catupiry",
+                description: "Frango desfiado temperado, catupiry cremoso original, muçarela nobre e orégano fresco.",
+                price: 68.90,
+                ingredients: ["Frango Desfiado", "Catupiry Original", "Muçarela", "Orégano"],
+                image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "frango-cheddar",
+                name: "2. Frango com Cheddar",
+                description: "Frango temperado da casa, cheddar cremoso derretido, muçarela e toque especial.",
+                price: 72.90,
+                ingredients: ["Frango", "Cheddar Melt", "Muçarela", "Molho da Casa"],
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "calabresa",
+                name: "3. Calabresa",
+                description: "Calabresa artesanal fatiada, cebola roxa caramelizada, muçarela e azeitonas pretas.",
+                price: 59.90,
+                ingredients: ["Calabresa Fatiada", "Cebola Roxa", "Muçarela", "Azeitonas"],
+                image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "quatro-queijos",
+                name: "4. Quatro Queijos",
+                description: "Harmonia perfeita entre muçarela, catupiry, provolone defumado e parmesão ralado.",
+                price: 74.90,
+                ingredients: ["Muçarela", "Catupiry", "Provolone", "Parmesão"],
+                image: "https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "portuguesa",
+                name: "5. Portuguesa",
+                description: "Presunto cozido, ovos cozidos, cebola fresca, ervilhas, muçarela e azeitonas verdes.",
+                price: 66.90,
+                ingredients: ["Presunto", "Ovos", "Cebola", "Ervilha", "Azeitonas"],
+                image: "https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "bacon",
+                name: "6. Bacon",
+                description: "Cubes de bacon crocante assado, muçarela abundante, cebola roxa e molho barbecue.",
+                price: 69.90,
+                ingredients: ["Bacon Crocante", "Muçarela", "Cebola Caramelizada", "Molho Especial"],
+                image: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "margherita",
+                name: "7. Margherita",
+                description: "Molho de tomate pelati, muçarela de búfala, rodelas de tomate fresco e manjericão.",
+                price: 62.90,
+                ingredients: ["Molho Pelati", "Muçarela Búfala", "Tomate Fresh", "Manjericão"],
+                image: "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "carne-seca",
+                name: "8. Carne Seca",
+                description: "Carne seca artesanal desfiada, catupiry gratinado, cebola roxa e muçarela.",
+                price: 78.90,
+                ingredients: ["Carne Seca Desfiada", "Catupiry", "Cebola", "Muçarela"],
+                image: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: "casa",
+                name: "9. Especial Forno & Brasa",
+                description: "A receita secreta da casa: pepperoni premium, bacon, muçarela, gorgonzola e mel pimentado.",
+                price: 84.90,
+                ingredients: ["Pepperoni", "Bacon", "Gorgonzola", "Mel Pimentado"],
+                image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+
+        let cart = [];
+
+        // =========================================================================
+        // 2. ULTRA-OPTIMIZED 2D CANVAS PIZZA ENGINE (60FPS Smooth Rendering)
+        // =========================================================================
+        class PizzaCanvasEngine {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.rotation = 0;
+                this.steamParticles = [];
+                this.initCanvasSize();
+                this.initSteam();
+                
+                window.addEventListener('resize', () => this.initCanvasSize(), { passive: true });
+            }
+
+            initCanvasSize() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = this.canvas.getBoundingClientRect();
+                this.width = rect.width || 450;
+                this.height = rect.height || 450;
+                this.canvas.width = this.width * dpr;
+                this.canvas.height = this.height * dpr;
+                this.ctx.scale(dpr, dpr);
+            }
+
+            initSteam() {
+                this.steamParticles = [];
+                for(let i = 0; i < 25; i++) {
+                    this.steamParticles.push({
+                        x: (Math.random() - 0.5) * (this.width * 0.6),
+                        y: (Math.random() - 0.5) * (this.height * 0.6),
+                        size: Math.random() * 15 + 10,
+                        alpha: Math.random() * 0.4 + 0.1,
+                        speedY: Math.random() * 0.6 + 0.3,
+                        speedX: (Math.random() - 0.5) * 0.2
+                    });
+                }
+            }
+
+            drawPizza() {
+                const ctx = this.ctx;
+                const cx = this.width / 2;
+                const cy = this.height / 2;
+                const radius = Math.min(this.width, this.height) * 0.42;
+
+                ctx.clearRect(0, 0, this.width, this.height);
+
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(this.rotation);
+
+                // 1. Pizza Shadow
+                ctx.beginPath();
+                ctx.arc(0, 15, radius + 5, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                ctx.filter = 'blur(15px)';
+                ctx.fill();
+                ctx.filter = 'none';
+
+                // 2. Outer Crust (Border)
+                ctx.beginPath();
+                ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                const crustGrad = ctx.createRadialGradient(0, 0, radius * 0.7, 0, 0, radius);
+                crustGrad.addColorStop(0, '#C26A23');
+                crustGrad.addColorStop(0.7, '#96480F');
+                crustGrad.addColorStop(1, '#5E2B06');
+                ctx.fillStyle = crustGrad;
+                ctx.fill();
+
+                // Crust Char Details
+                for(let i = 0; i < 12; i++) {
+                    const angle = (i * Math.PI) / 6;
+                    const bx = Math.cos(angle) * (radius - 8);
+                    const by = Math.sin(angle) * (radius - 8);
+                    ctx.beginPath();
+                    ctx.arc(bx, by, 6, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(20, 10, 5, 0.6)';
+                    ctx.fill();
+                }
+
+                // 3. Cheese Surface
+                ctx.beginPath();
+                ctx.arc(0, 0, radius * 0.82, 0, Math.PI * 2);
+                const cheeseGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 0.82);
+                cheeseGrad.addColorStop(0, '#FFE893');
+                cheeseGrad.addColorStop(0.6, '#FFC83B');
+                cheeseGrad.addColorStop(1, '#E69500');
+                ctx.fillStyle = cheeseGrad;
+                ctx.fill();
+
+                // 4. Pepperonis & Toppings
+                const pepperoniPositions = [
+                    {r: 0, a: 0},
+                    {r: radius * 0.4, a: 0.5},
+                    {r: radius * 0.4, a: 2.1},
+                    {r: radius * 0.4, a: 3.8},
+                    {r: radius * 0.4, a: 5.2},
+                    {r: radius * 0.62, a: 1.1},
+                    {r: radius * 0.62, a: 2.7},
+                    {r: radius * 0.62, a: 4.3},
+                    {r: radius * 0.62, a: 5.8}
+                ];
+
+                pepperoniPositions.forEach(pos => {
+                    const px = Math.cos(pos.a) * pos.r;
+                    const py = Math.sin(pos.a) * pos.r;
+                    const pradius = radius * 0.14;
+
+                    ctx.beginPath();
+                    ctx.arc(px, py, pradius, 0, Math.PI * 2);
+                    const pepGrad = ctx.createRadialGradient(px - 2, py - 2, 2, px, py, pradius);
+                    pepGrad.addColorStop(0, '#E63946');
+                    pepGrad.addColorStop(0.8, '#A81824');
+                    pepGrad.addColorStop(1, '#660B12');
+                    ctx.fillStyle = pepGrad;
+                    ctx.fill();
+
+                    // Pepperoni shine highlight
+                    ctx.beginPath();
+                    ctx.arc(px - pradius * 0.3, py - pradius * 0.3, pradius * 0.25, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+                    ctx.fill();
+                });
+
+                // 5. Herbs / Basil Flakes
+                for(let i = 0; i < 30; i++) {
+                    const hAngle = i * 0.7;
+                    const hDist = (i % 5) * (radius * 0.15);
+                    const hx = Math.cos(hAngle) * hDist;
+                    const hy = Math.sin(hAngle) * hDist;
+
+                    ctx.beginPath();
+                    ctx.arc(hx, hy, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = '#2A7B37';
+                    ctx.fill();
+                }
+
+                ctx.restore();
+
+                // 6. Draw Steam FX Overlay
+                this.drawSteam(cx, cy);
+
+                // Update Spin
+                this.rotation += 0.002;
+            }
+
+            drawSteam(cx, cy) {
+                const ctx = this.ctx;
+                ctx.fillStyle = 'rgba(255, 245, 230, 0.15)';
+
+                this.steamParticles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(cx + p.x, cy + p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(248, 245, 240, ${p.alpha})`;
+                    ctx.fill();
+
+                    // Move Steam UP
+                    p.y -= p.speedY;
+                    p.x += p.speedX;
+                    p.alpha -= 0.003;
+
+                    if(p.alpha <= 0 || p.y < -this.height * 0.4) {
+                        p.y = (Math.random() - 0.2) * (this.height * 0.2);
+                        p.x = (Math.random() - 0.5) * (this.width * 0.5);
+                        p.alpha = Math.random() * 0.3 + 0.1;
+                    }
+                });
+            }
+
+            render() {
+                this.drawPizza();
+                requestAnimationFrame(() => this.render());
+            }
         }
-        else {
 
-            /*
-               Dano reduzido e baseado
-               no tempo.
-            */
+        // =========================================================================
+        // 3. SCROLL-DRIVEN TRANSFORMATIONS & PARALLAX ENGINE
+        // =========================================================================
+        function initScrollAnimations() {
+            const canvasContainer = document.getElementById('hero-canvas-container');
+            const heroText = document.getElementById('hero-text-content');
+            let lastScrollY = window.scrollY;
 
-            player.hp -=
-                9 * dt;
+            function updateScrollPhysics() {
+                const scrollY = window.scrollY;
+                const maxScroll = window.innerHeight;
+                const scrollRatio = Math.min(scrollY / maxScroll, 1);
 
+                // Transform Hero Pizza: Scale Down & Translate Up/Offset
+                if(canvasContainer) {
+                    const scale = 1 - (scrollRatio * 0.4);
+                    const translateY = scrollY * 0.2;
+                    const rotate = scrollRatio * 20;
+
+                    canvasContainer.style.transform = `translate3d(0, ${translateY}px, 0) scale(${scale}) rotate(${rotate}deg)`;
+                    canvasContainer.style.opacity = `${1 - scrollRatio * 0.3}`;
+                }
+
+                // Fade Hero Text
+                if(heroText) {
+                    heroText.style.opacity = `${Math.max(1 - scrollRatio * 1.5, 0)}`;
+                    heroText.style.transform = `translate3d(0, ${scrollY * 0.3}px, 0)`;
+                }
+
+                lastScrollY = scrollY;
+                requestAnimationFrame(updateScrollPhysics);
+            }
+
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(updateScrollPhysics);
+            }, { passive: true });
         }
 
+        // =========================================================================
+        // 4. UI RENDERERS & CARDS INJECTION
+        // =========================================================================
+        function renderPizzaCards() {
+            const grid = document.getElementById('pizza-grid');
+            if(!grid) return;
 
-        /*
-           Remove morto.
-        */
+            grid.innerHTML = PIZZA_DATA.map(pizza => `
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group transition-all duration-300">
+                    <div>
+                        <!-- Pizza Image Container -->
+                        <div class="relative h-56 overflow-hidden bg-brand-bg">
+                            <img src="${pizza.image}" 
+                                 alt="${pizza.name}" 
+                                 class="w-full h-full object-cover pizza-img-zoom" 
+                                 loading="lazy" 
+                                 onerror="this.src='https://placehold.co/600x400/140F0E/F8F5F0?text=FORNO+%26+BRASA'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-transparent"></div>
+                            <span class="absolute top-4 right-4 bg-brand-bg/90 backdrop-blur-md border border-brand-gold/40 text-brand-gold font-mono font-extrabold text-sm px-3 py-1 rounded-full shadow-lg">
+                                R$ ${pizza.price.toFixed(2).replace('.', ',')}
+                            </span>
+                        </div>
 
-        if (enemy.hp <= 0) {
+                        <!-- Card Info -->
+                        <div class="p-6">
+                            <h3 class="font-heading font-black text-xl text-white mb-2 group-hover:text-brand-gold transition-colors">${pizza.name}</h3>
+                            <p class="text-brand-muted text-sm leading-relaxed mb-4">${pizza.description}</p>
+                            
+                            <!-- Ingredients Tag List -->
+                            <div class="flex flex-wrap gap-1.5 mb-6">
+                                ${pizza.ingredients.map(ing => `
+                                    <span class="text-[11px] font-semibold bg-brand-bg/80 border border-brand-border text-brand-cream/80 px-2.5 py-0.5 rounded-md">
+                                        ${ing}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
 
-            enemies.splice(i, 1);
-
+                    <!-- Card CTA Button -->
+                    <div class="px-6 pb-6">
+                        <button onclick="addToCart('${pizza.id}')" class="w-full py-3 rounded-xl bg-brand-card border border-brand-red/50 text-white font-heading font-bold text-sm tracking-wider uppercase hover:bg-brand-red hover:border-brand-red active:scale-95 transition-all flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-brand-red/20">
+                            <i class="fa-solid fa-plus text-brand-gold group-hover:text-white transition-colors"></i> ADICIONAR
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-    }
-
-
-    /* --------------------------------
-       MORTE
-    -------------------------------- */
-
-    if (player.hp <= 0) {
-
-        player.hp = 100;
-
-        enemies.length = 0;
-
-        player.combo = 0;
-
-        player.comboTimer = 0;
-
-    }
-
-}
-
-
-/* =========================================================
-   DESENHO
-========================================================= */
-
-function draw() {
-
-
-    /*
-       Fundo.
-    */
-
-    ctx.fillStyle = "#55a84f";
-
-    ctx.fillRect(
-        0,
-        0,
-        width,
-        height
-    );
-
-
-    /* --------------------------------
-       ILHA
-    -------------------------------- */
-
-    ctx.fillStyle = "#c9a66b";
-
-    ctx.fillRect(
-
-        width / 2 - 180,
-
-        height / 2 - 130,
-
-        360,
-
-        260
-
-    );
-
-
-    /* --------------------------------
-       CAMA
-    -------------------------------- */
-
-    ctx.fillStyle = "#e53935";
-
-    ctx.fillRect(
-
-        width / 2 - 45,
-
-        height / 2 - 20,
-
-        90,
-
-        40
-
-    );
-
-
-    /* --------------------------------
-       DIREÇÃO DA MIRA
-    -------------------------------- */
-
-    let dx =
-        mouse.x - player.x;
-
-    let dy =
-        mouse.y - player.y;
-
-
-    const distance =
-        Math.sqrt(dx * dx + dy * dy);
-
-
-    let dirX = 0;
-    let dirY = 0;
-
-
-    if (distance > 0) {
-
-        dirX = dx / distance;
-        dirY = dy / distance;
-
-    }
-
-
-    /*
-       Linha de mira bem discreta.
-    */
-
-    ctx.strokeStyle =
-        "rgba(255,255,255,0.18)";
-
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        player.x,
-        player.y
-    );
-
-    ctx.lineTo(
-
-        player.x +
-        dirX * 55,
-
-        player.y +
-        dirY * 55
-
-    );
-
-    ctx.stroke();
-
-
-    /* --------------------------------
-       PLAYER
-    -------------------------------- */
-
-    ctx.fillStyle = "#3498db";
-
-    ctx.fillRect(
-
-        player.x -
-        player.size / 2,
-
-        player.y -
-        player.size / 2,
-
-        player.size,
-
-        player.size
-
-    );
-
-
-    /* --------------------------------
-       ESPADA
-    -------------------------------- */
-
-    if (player.attackAnimation > 0) {
-
-        /*
-           A espada fica maior
-           durante o golpe.
-        */
-
-        const swordLength = 52;
-
-        ctx.strokeStyle = "white";
-
-        ctx.lineWidth = 7;
-
-        ctx.lineCap = "round";
-
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-
-            player.x,
-
-            player.y
-
-        );
-
-
-        ctx.lineTo(
-
-            player.x +
-            dirX * swordLength,
-
-            player.y +
-            dirY * swordLength
-
-        );
-
-
-        ctx.stroke();
-
-
-        ctx.lineCap = "butt";
-
-    }
-
-
-    /* --------------------------------
-       NPCs
-    -------------------------------- */
-
-    for (let i = 0; i < enemies.length; i++) {
-
-        const enemy = enemies[i];
-
-
-        /*
-           NPC.
-        */
-
-        ctx.fillStyle =
-            enemy.hitTimer > 0
-            ? "#ffffff"
-            : "#e74c3c";
-
-
-        ctx.fillRect(
-
-            enemy.x -
-            enemy.size / 2,
-
-            enemy.y -
-            enemy.size / 2,
-
-            enemy.size,
-
-            enemy.size
-
-        );
-
-
-        /*
-           Barra preta.
-        */
-
-        ctx.fillStyle = "#111";
-
-        ctx.fillRect(
-
-            enemy.x - 20,
-
-            enemy.y - 25,
-
-            40,
-
-            5
-
-        );
-
-
-        /*
-           Vida.
-        */
-
-        ctx.fillStyle = "#2ecc71";
-
-        ctx.fillRect(
-
-            enemy.x - 20,
-
-            enemy.y - 25,
-
-            40 *
-            Math.max(
-                0,
-                enemy.hp / 100
-            ),
-
-            5
-
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   UI
-========================================================= */
-
-const hpElement =
-    document.getElementById("hp");
-
-const comboElement =
-    document.getElementById("combo");
-
-const enemiesElement =
-    document.getElementById("enemies");
-
-
-let lastHP = -1;
-let lastCombo = -1;
-let lastEnemies = -1;
-
-
-function updateUI() {
-
-
-    const hp =
-        Math.floor(player.hp);
-
-
-    const combo =
-        player.combo;
-
-
-    const enemyCount =
-        enemies.length;
-
-
-    /*
-       Só altera o HTML quando
-       o valor realmente mudou.
-    */
-
-    if (hp !== lastHP) {
-
-        hpElement.textContent = hp;
-
-        lastHP = hp;
-
-    }
-
-
-    if (combo !== lastCombo) {
-
-        comboElement.textContent = combo;
-
-        lastCombo = combo;
-
-    }
-
-
-    if (enemyCount !== lastEnemies) {
-
-        enemiesElement.textContent =
-            enemyCount;
-
-        lastEnemies = enemyCount;
-
-    }
-
-}
-
-
-/* =========================================================
-   GAME LOOP
-========================================================= */
-
-let lastTime = performance.now();
-
-
-function gameLoop(currentTime) {
-
-
-    /*
-       Tempo entre frames.
-    */
-
-    let dt =
-        (currentTime - lastTime) / 1000;
-
-
-    lastTime = currentTime;
-
-
-    /*
-       Limite de segurança.
-    */
-
-    dt = Math.min(dt, 0.05);
-
-
-    update(dt);
-
-    draw();
-
-    updateUI();
-
-
-    requestAnimationFrame(gameLoop);
-
-}
-
-
-/* =========================================================
-   INICIAR
-========================================================= */
-
-requestAnimationFrame(gameLoop);
-
-</script>
-
+        // =========================================================================
+        // 5. SHOPPING CART SYSTEM & WHATSAPP GENERATOR
+        // =========================================================================
+        function addToCart(pizzaId) {
+            const item = PIZZA_DATA.find(p => p.id === pizzaId);
+            if(!item) return;
+
+            const existing = cart.find(ci => ci.id === pizzaId);
+            if(existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`✓ ${item.name} adicionada ao pedido`);
+        }
+
+        function removeFromCart(pizzaId) {
+            cart = cart.filter(ci => ci.id !== pizzaId);
+            updateCartUI();
+        }
+
+        function changeQuantity(pizzaId, delta) {
+            const item = cart.find(ci => ci.id === pizzaId);
+            if(!item) return;
+
+            item.quantity += delta;
+            if(item.quantity <= 0) {
+                removeFromCart(pizzaId);
+            } else {
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const cartBadge = document.getElementById('cart-badge');
+            const container = document.getElementById('cart-items-container');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const totalEl = document.getElementById('cart-total');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // Badge Scale Animation
+            if(cartBadge) {
+                cartBadge.innerText = totalItems;
+                if(totalItems > 0) {
+                    cartBadge.classList.remove('scale-0');
+                    cartBadge.classList.add('scale-100');
+                } else {
+                    cartBadge.classList.remove('scale-100');
+                    cartBadge.classList.add('scale-0');
+                }
+            }
+
+            // Render Drawer Items
+            if(container) {
+                if(cart.length === 0) {
+                    container.innerHTML = `
+                        <div class="h-full flex flex-col items-center justify-center text-center py-12 text-brand-muted">
+                            <i class="fa-solid fa-basket-shopping text-5xl mb-4 opacity-30"></i>
+                            <p class="font-heading font-bold text-lg text-white mb-1">Seu carrinho está vazio</p>
+                            <p class="text-sm">Adicione algumas de nossas saborosas pizzas artesanais!</p>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = cart.map(item => `
+                        <div class="p-4 rounded-xl bg-brand-bg/80 border border-brand-border flex items-center gap-4">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-lg object-cover">
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-heading font-bold text-sm text-white truncate">${item.name}</h4>
+                                <p class="text-xs text-brand-gold font-mono font-semibold">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</p>
+                                
+                                <div class="flex items-center gap-3 mt-2">
+                                    <button onclick="changeQuantity('${item.id}', -1)" class="w-6 h-6 rounded bg-brand-card border border-brand-border text-white text-xs flex items-center justify-center hover:bg-brand-red">-</button>
+                                    <span class="text-xs font-mono font-bold text-white">${item.quantity}</span>
+                                    <button onclick="changeQuantity('${item.id}', 1)" class="w-6 h-6 rounded bg-brand-card border border-brand-border text-white text-xs flex items-center justify-center hover:bg-brand-red">+</button>
+                                </div>
+                            </div>
+                            <button onclick="removeFromCart('${item.id}')" aria-label="Remover item" class="text-brand-muted hover:text-brand-red p-2">
+                                <i class="fa-solid fa-trash-can text-sm"></i>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            if(subtotalEl) subtotalEl.innerText = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+            if(totalEl) totalEl.innerText = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+        }
+
+        function handleCheckout() {
+            if(cart.length === 0) {
+                showToast("Adicione pelo menos uma pizza ao carrinho!");
+                return;
+            }
+
+            let message = "🔥 *NOVO PEDIDO - FORNO & BRASA* 🔥\n\n";
+            message += "*Itens do Pedido:*\n";
+
+            cart.forEach(item => {
+                message += `• ${item.quantity}x ${item.name} — R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}\n`;
+            });
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\n*Total:* R$ ${total.toFixed(2).replace('.', ',')}\n`;
+            message += `*Taxa de Entrega:* GRÁTIS\n\n`;
+            message += "Gostaria de confirmar meu pedido e informar o endereço de entrega!";
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            if(!toast || !toastMsg) return;
+
+            toastMsg.innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // =========================================================================
+        // 6. INTERSECTION OBSERVER FOR STAT COUNTERS
+        // =========================================================================
+        function initStatCounters() {
+            const counters = document.querySelectorAll('[data-target]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const target = parseInt(entry.target.getAttribute('data-target'));
+                        let count = 0;
+                        const increment = Math.ceil(target / 40);
+                        const timer = setInterval(() => {
+                            count += increment;
+                            if(count >= target) {
+                                entry.target.innerText = target + "+";
+                                clearInterval(timer);
+                            } else {
+                                entry.target.innerText = count;
+                            }
+                        }, 40);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(c => observer.observe(c));
+        }
+
+        // =========================================================================
+        // 7. INITIALIZATION & EVENT LISTENERS
+        // =========================================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initialize 2D Canvas Pizza
+            const pizzaEngine = new PizzaCanvasEngine('pizza-canvas');
+            pizzaEngine.render();
+
+            // Render Pizza Menu Cards
+            renderPizzaCards();
+
+            // Initialize Scroll Parallax Physics
+            initScrollAnimations();
+
+            // Initialize Number Counters
+            initStatCounters();
+
+            // Drawer Handlers
+            const openCartBtn = document.getElementById('open-cart-btn');
+            const closeCartBtn = document.getElementById('close-cart-btn');
+            const cartBackdrop = document.getElementById('cart-drawer-backdrop');
+            const cartDrawer = document.getElementById('cart-drawer');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            function toggleDrawer(open) {
+                if(open) {
+                    cartBackdrop.classList.remove('pointer-events-none', 'opacity-0');
+                    cartBackdrop.classList.add('opacity-100');
+                    cartDrawer.classList.remove('translate-x-full');
+                    cartDrawer.classList.add('translate-x-0');
+                } else {
+                    cartBackdrop.classList.remove('opacity-100');
+                    cartBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                    cartDrawer.classList.remove('translate-x-0');
+                    cartDrawer.classList.add('translate-x-full');
+                }
+            }
+
+            if(openCartBtn) openCartBtn.addEventListener('click', () => toggleDrawer(true));
+            if(closeCartBtn) closeCartBtn.addEventListener('click', () => toggleDrawer(false));
+            if(cartBackdrop) cartBackdrop.addEventListener('click', (e) => {
+                if(e.target === cartBackdrop) toggleDrawer(false);
+            });
+            if(checkoutBtn) checkoutBtn.addEventListener('click', handleCheckout);
+
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+            if(mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
-```
